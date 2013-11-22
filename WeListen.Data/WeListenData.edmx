@@ -1,0 +1,764 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="WeListenModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityContainer Name="WeListenModelStoreContainer">
+          <EntitySet Name="Album" EntityType="WeListenModel.Store.Album" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Artist" EntityType="WeListenModel.Store.Artist" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="FavoriteSong" EntityType="WeListenModel.Store.FavoriteSong" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Genre" EntityType="WeListenModel.Store.Genre" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Location" EntityType="WeListenModel.Store.Location" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="LocationCatalog" EntityType="WeListenModel.Store.LocationCatalog" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="LocationPlaylist" EntityType="WeListenModel.Store.LocationPlaylist" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Role" EntityType="WeListenModel.Store.Role" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Song" EntityType="WeListenModel.Store.Song" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="User" EntityType="WeListenModel.Store.User" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="UserRole" EntityType="WeListenModel.Store.UserRole" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_FavoriteSong_Song" Association="WeListenModel.Store.FK_FavoriteSong_Song">
+            <End Role="Song" EntitySet="Song" />
+            <End Role="FavoriteSong" EntitySet="FavoriteSong" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FavoriteSong_User" Association="WeListenModel.Store.FK_FavoriteSong_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="FavoriteSong" EntitySet="FavoriteSong" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LocationCatalog_Location" Association="WeListenModel.Store.FK_LocationCatalog_Location">
+            <End Role="Location" EntitySet="Location" />
+            <End Role="LocationCatalog" EntitySet="LocationCatalog" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LocationCatalog_Song" Association="WeListenModel.Store.FK_LocationCatalog_Song">
+            <End Role="Song" EntitySet="Song" />
+            <End Role="LocationCatalog" EntitySet="LocationCatalog" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LocationPlaylist_LocationCatalog" Association="WeListenModel.Store.FK_LocationPlaylist_LocationCatalog">
+            <End Role="LocationCatalog" EntitySet="LocationCatalog" />
+            <End Role="LocationPlaylist" EntitySet="LocationPlaylist" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LocationPlaylist_User" Association="WeListenModel.Store.FK_LocationPlaylist_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="LocationPlaylist" EntitySet="LocationPlaylist" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Song_Album" Association="WeListenModel.Store.FK_Song_Album">
+            <End Role="Album" EntitySet="Album" />
+            <End Role="Song" EntitySet="Song" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Song_Artist" Association="WeListenModel.Store.FK_Song_Artist">
+            <End Role="Artist" EntitySet="Artist" />
+            <End Role="Song" EntitySet="Song" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Song_Genre" Association="WeListenModel.Store.FK_Song_Genre">
+            <End Role="Genre" EntitySet="Genre" />
+            <End Role="Song" EntitySet="Song" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Song_User" Association="WeListenModel.Store.FK_Song_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Song" EntitySet="Song" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserRole_Role" Association="WeListenModel.Store.FK_UserRole_Role">
+            <End Role="Role" EntitySet="Role" />
+            <End Role="UserRole" EntitySet="UserRole" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserRole_User" Association="WeListenModel.Store.FK_UserRole_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="UserRole" EntitySet="UserRole" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Album">
+          <Key>
+            <PropertyRef Name="AlbumId" />
+          </Key>
+          <Property Name="AlbumId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="ReleaseDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Artist">
+          <Key>
+            <PropertyRef Name="ArtistId" />
+          </Key>
+          <Property Name="ArtistId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="varchar" Nullable="false" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="FavoriteSong">
+          <Key>
+            <PropertyRef Name="FavoriteSongId" />
+          </Key>
+          <Property Name="FavoriteSongId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="SongId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Genre">
+          <Key>
+            <PropertyRef Name="GenreId" />
+          </Key>
+          <Property Name="GenreId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Genre" Type="varchar" Nullable="false" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Location">
+          <Key>
+            <PropertyRef Name="LocationId" />
+          </Key>
+          <Property Name="LocationId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="varchar" Nullable="false" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="LocationCatalog">
+          <Key>
+            <PropertyRef Name="LocationCatalogId" />
+          </Key>
+          <Property Name="LocationCatalogId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="SongId" Type="int" Nullable="false" />
+          <Property Name="LocationId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="LocationPlaylist">
+          <Key>
+            <PropertyRef Name="LocationPlaylistId" />
+          </Key>
+          <Property Name="LocationPlaylistId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="LocationCatalogId" Type="int" Nullable="false" />
+          <Property Name="RequestedDateTime" Type="datetime" Nullable="false" />
+          <Property Name="PlayedDateTime" Type="datetime" />
+          <Property Name="RequestedByUserId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="RoleId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="varchar" Nullable="false" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Song">
+          <Key>
+            <PropertyRef Name="SongId" />
+          </Key>
+          <Property Name="SongId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="GenreId" Type="int" Nullable="false" />
+          <Property Name="ArtistId" Type="int" Nullable="false" />
+          <Property Name="AlbumId" Type="int" Nullable="false" />
+          <Property Name="FilePath" Type="varchar" Nullable="false" MaxLength="255" />
+          <Property Name="PurchasedByUserId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="FirstName" Type="varchar" MaxLength="50" />
+          <Property Name="LastName" Type="varchar" MaxLength="50" />
+          <Property Name="Email" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="Password" Type="text" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserRole">
+          <Key>
+            <PropertyRef Name="UserRoleId" />
+          </Key>
+          <Property Name="UserRoleId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="RoleId" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_FavoriteSong_Song">
+          <End Role="Song" Type="WeListenModel.Store.Song" Multiplicity="1" />
+          <End Role="FavoriteSong" Type="WeListenModel.Store.FavoriteSong" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Song">
+              <PropertyRef Name="SongId" />
+            </Principal>
+            <Dependent Role="FavoriteSong">
+              <PropertyRef Name="SongId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FavoriteSong_User">
+          <End Role="User" Type="WeListenModel.Store.User" Multiplicity="1" />
+          <End Role="FavoriteSong" Type="WeListenModel.Store.FavoriteSong" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="FavoriteSong">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LocationCatalog_Location">
+          <End Role="Location" Type="WeListenModel.Store.Location" Multiplicity="1" />
+          <End Role="LocationCatalog" Type="WeListenModel.Store.LocationCatalog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="LocationId" />
+            </Principal>
+            <Dependent Role="LocationCatalog">
+              <PropertyRef Name="LocationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LocationCatalog_Song">
+          <End Role="Song" Type="WeListenModel.Store.Song" Multiplicity="1" />
+          <End Role="LocationCatalog" Type="WeListenModel.Store.LocationCatalog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Song">
+              <PropertyRef Name="SongId" />
+            </Principal>
+            <Dependent Role="LocationCatalog">
+              <PropertyRef Name="SongId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LocationPlaylist_LocationCatalog">
+          <End Role="LocationCatalog" Type="WeListenModel.Store.LocationCatalog" Multiplicity="1" />
+          <End Role="LocationPlaylist" Type="WeListenModel.Store.LocationPlaylist" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LocationCatalog">
+              <PropertyRef Name="LocationCatalogId" />
+            </Principal>
+            <Dependent Role="LocationPlaylist">
+              <PropertyRef Name="LocationCatalogId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LocationPlaylist_User">
+          <End Role="User" Type="WeListenModel.Store.User" Multiplicity="1" />
+          <End Role="LocationPlaylist" Type="WeListenModel.Store.LocationPlaylist" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="LocationPlaylist">
+              <PropertyRef Name="RequestedByUserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Song_Album">
+          <End Role="Album" Type="WeListenModel.Store.Album" Multiplicity="1" />
+          <End Role="Song" Type="WeListenModel.Store.Song" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Album">
+              <PropertyRef Name="AlbumId" />
+            </Principal>
+            <Dependent Role="Song">
+              <PropertyRef Name="AlbumId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Song_Artist">
+          <End Role="Artist" Type="WeListenModel.Store.Artist" Multiplicity="1" />
+          <End Role="Song" Type="WeListenModel.Store.Song" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Artist">
+              <PropertyRef Name="ArtistId" />
+            </Principal>
+            <Dependent Role="Song">
+              <PropertyRef Name="ArtistId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Song_Genre">
+          <End Role="Genre" Type="WeListenModel.Store.Genre" Multiplicity="1" />
+          <End Role="Song" Type="WeListenModel.Store.Song" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Genre">
+              <PropertyRef Name="GenreId" />
+            </Principal>
+            <Dependent Role="Song">
+              <PropertyRef Name="GenreId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Song_User">
+          <End Role="User" Type="WeListenModel.Store.User" Multiplicity="1" />
+          <End Role="Song" Type="WeListenModel.Store.Song" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Song">
+              <PropertyRef Name="PurchasedByUserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserRole_Role">
+          <End Role="Role" Type="WeListenModel.Store.Role" Multiplicity="1" />
+          <End Role="UserRole" Type="WeListenModel.Store.UserRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="RoleId" />
+            </Principal>
+            <Dependent Role="UserRole">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserRole_User">
+          <End Role="User" Type="WeListenModel.Store.User" Multiplicity="1" />
+          <End Role="UserRole" Type="WeListenModel.Store.UserRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="UserRole">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="WeListen.Data.Model" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="WeListenEntityModel" p1:LazyLoadingEnabled="true" >
+          <EntitySet Name="Albums" EntityType="WeListen.Data.Model.Album" />
+          <EntitySet Name="Artists" EntityType="WeListen.Data.Model.Artist" />
+          <EntitySet Name="FavoriteSongs" EntityType="WeListen.Data.Model.FavoriteSong" />
+          <EntitySet Name="Genres" EntityType="WeListen.Data.Model.Genre" />
+          <EntitySet Name="Locations" EntityType="WeListen.Data.Model.Location" />
+          <EntitySet Name="LocationCatalogs" EntityType="WeListen.Data.Model.LocationCatalog" />
+          <EntitySet Name="LocationPlaylists" EntityType="WeListen.Data.Model.LocationPlaylist" />
+          <EntitySet Name="Roles" EntityType="WeListen.Data.Model.Role" />
+          <EntitySet Name="Songs" EntityType="WeListen.Data.Model.Song" />
+          <EntitySet Name="Users" EntityType="WeListen.Data.Model.User" />
+          <EntitySet Name="UserRoles" EntityType="WeListen.Data.Model.UserRole" />
+          <AssociationSet Name="FK_Song_Album" Association="WeListen.Data.Model.FK_Song_Album">
+            <End Role="Album" EntitySet="Albums" />
+            <End Role="Song" EntitySet="Songs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Song_Artist" Association="WeListen.Data.Model.FK_Song_Artist">
+            <End Role="Artist" EntitySet="Artists" />
+            <End Role="Song" EntitySet="Songs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FavoriteSong_Song" Association="WeListen.Data.Model.FK_FavoriteSong_Song">
+            <End Role="Song" EntitySet="Songs" />
+            <End Role="FavoriteSong" EntitySet="FavoriteSongs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FavoriteSong_User" Association="WeListen.Data.Model.FK_FavoriteSong_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="FavoriteSong" EntitySet="FavoriteSongs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Song_Genre" Association="WeListen.Data.Model.FK_Song_Genre">
+            <End Role="Genre" EntitySet="Genres" />
+            <End Role="Song" EntitySet="Songs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LocationCatalog_Location" Association="WeListen.Data.Model.FK_LocationCatalog_Location">
+            <End Role="Location" EntitySet="Locations" />
+            <End Role="LocationCatalog" EntitySet="LocationCatalogs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LocationCatalog_Song" Association="WeListen.Data.Model.FK_LocationCatalog_Song">
+            <End Role="Song" EntitySet="Songs" />
+            <End Role="LocationCatalog" EntitySet="LocationCatalogs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LocationPlaylist_LocationCatalog" Association="WeListen.Data.Model.FK_LocationPlaylist_LocationCatalog">
+            <End Role="LocationCatalog" EntitySet="LocationCatalogs" />
+            <End Role="LocationPlaylist" EntitySet="LocationPlaylists" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LocationPlaylist_User" Association="WeListen.Data.Model.FK_LocationPlaylist_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="LocationPlaylist" EntitySet="LocationPlaylists" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserRole_Role" Association="WeListen.Data.Model.FK_UserRole_Role">
+            <End Role="Role" EntitySet="Roles" />
+            <End Role="UserRole" EntitySet="UserRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Song_User" Association="WeListen.Data.Model.FK_Song_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Song" EntitySet="Songs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserRole_User" Association="WeListen.Data.Model.FK_UserRole_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="UserRole" EntitySet="UserRoles" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Album">
+          <Key>
+            <PropertyRef Name="AlbumId" />
+          </Key>
+          <Property Type="Int32" Name="AlbumId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Title" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="ReleaseDate" Precision="3" />
+          <NavigationProperty Name="Songs" Relationship="WeListen.Data.Model.FK_Song_Album" FromRole="Album" ToRole="Song" />
+        </EntityType>
+        <EntityType Name="Artist">
+          <Key>
+            <PropertyRef Name="ArtistId" />
+          </Key>
+          <Property Type="Int32" Name="ArtistId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Songs" Relationship="WeListen.Data.Model.FK_Song_Artist" FromRole="Artist" ToRole="Song" />
+        </EntityType>
+        <EntityType Name="FavoriteSong">
+          <Key>
+            <PropertyRef Name="FavoriteSongId" />
+          </Key>
+          <Property Type="Int32" Name="FavoriteSongId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="UserId" Nullable="false" />
+          <Property Type="Int32" Name="SongId" Nullable="false" />
+          <NavigationProperty Name="Song" Relationship="WeListen.Data.Model.FK_FavoriteSong_Song" FromRole="FavoriteSong" ToRole="Song" />
+          <NavigationProperty Name="User" Relationship="WeListen.Data.Model.FK_FavoriteSong_User" FromRole="FavoriteSong" ToRole="User" />
+        </EntityType>
+        <EntityType Name="Genre">
+          <Key>
+            <PropertyRef Name="GenreId" />
+          </Key>
+          <Property Type="Int32" Name="GenreId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Genre1" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Songs" Relationship="WeListen.Data.Model.FK_Song_Genre" FromRole="Genre" ToRole="Song" />
+        </EntityType>
+        <EntityType Name="Location">
+          <Key>
+            <PropertyRef Name="LocationId" />
+          </Key>
+          <Property Type="Int32" Name="LocationId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="LocationCatalogs" Relationship="WeListen.Data.Model.FK_LocationCatalog_Location" FromRole="Location" ToRole="LocationCatalog" />
+        </EntityType>
+        <EntityType Name="LocationCatalog">
+          <Key>
+            <PropertyRef Name="LocationCatalogId" />
+          </Key>
+          <Property Type="Int32" Name="LocationCatalogId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="SongId" Nullable="false" />
+          <Property Type="Int32" Name="LocationId" Nullable="false" />
+          <NavigationProperty Name="Location" Relationship="WeListen.Data.Model.FK_LocationCatalog_Location" FromRole="LocationCatalog" ToRole="Location" />
+          <NavigationProperty Name="Song" Relationship="WeListen.Data.Model.FK_LocationCatalog_Song" FromRole="LocationCatalog" ToRole="Song" />
+          <NavigationProperty Name="LocationPlaylists" Relationship="WeListen.Data.Model.FK_LocationPlaylist_LocationCatalog" FromRole="LocationCatalog" ToRole="LocationPlaylist" />
+        </EntityType>
+        <EntityType Name="LocationPlaylist">
+          <Key>
+            <PropertyRef Name="LocationPlaylistId" />
+          </Key>
+          <Property Type="Int32" Name="LocationPlaylistId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="LocationCatalogId" Nullable="false" />
+          <Property Type="DateTime" Name="RequestedDateTime" Nullable="false" Precision="3" />
+          <Property Type="DateTime" Name="PlayedDateTime" Precision="3" />
+          <Property Type="Int32" Name="RequestedByUserId" Nullable="false" />
+          <NavigationProperty Name="LocationCatalog" Relationship="WeListen.Data.Model.FK_LocationPlaylist_LocationCatalog" FromRole="LocationPlaylist" ToRole="LocationCatalog" />
+          <NavigationProperty Name="User" Relationship="WeListen.Data.Model.FK_LocationPlaylist_User" FromRole="LocationPlaylist" ToRole="User" />
+        </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Type="Int32" Name="RoleId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="UserRoles" Relationship="WeListen.Data.Model.FK_UserRole_Role" FromRole="Role" ToRole="UserRole" />
+        </EntityType>
+        <EntityType Name="Song">
+          <Key>
+            <PropertyRef Name="SongId" />
+          </Key>
+          <Property Type="Int32" Name="SongId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Title" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="GenreId" Nullable="false" />
+          <Property Type="Int32" Name="ArtistId" Nullable="false" />
+          <Property Type="Int32" Name="AlbumId" Nullable="false" />
+          <Property Type="String" Name="FilePath" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="PurchasedByUserId" Nullable="false" />
+          <NavigationProperty Name="Album" Relationship="WeListen.Data.Model.FK_Song_Album" FromRole="Song" ToRole="Album" />
+          <NavigationProperty Name="Artist" Relationship="WeListen.Data.Model.FK_Song_Artist" FromRole="Song" ToRole="Artist" />
+          <NavigationProperty Name="FavoriteSongs" Relationship="WeListen.Data.Model.FK_FavoriteSong_Song" FromRole="Song" ToRole="FavoriteSong" />
+          <NavigationProperty Name="Genre" Relationship="WeListen.Data.Model.FK_Song_Genre" FromRole="Song" ToRole="Genre" />
+          <NavigationProperty Name="LocationCatalogs" Relationship="WeListen.Data.Model.FK_LocationCatalog_Song" FromRole="Song" ToRole="LocationCatalog" />
+          <NavigationProperty Name="User" Relationship="WeListen.Data.Model.FK_Song_User" FromRole="Song" ToRole="User" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Type="Int32" Name="UserId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="UserName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="FirstName" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="LastName" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Email" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Password" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="FavoriteSongs" Relationship="WeListen.Data.Model.FK_FavoriteSong_User" FromRole="User" ToRole="FavoriteSong" />
+          <NavigationProperty Name="LocationPlaylists" Relationship="WeListen.Data.Model.FK_LocationPlaylist_User" FromRole="User" ToRole="LocationPlaylist" />
+          <NavigationProperty Name="Songs" Relationship="WeListen.Data.Model.FK_Song_User" FromRole="User" ToRole="Song" />
+          <NavigationProperty Name="UserRoles" Relationship="WeListen.Data.Model.FK_UserRole_User" FromRole="User" ToRole="UserRole" />
+        </EntityType>
+        <EntityType Name="UserRole">
+          <Key>
+            <PropertyRef Name="UserRoleId" />
+          </Key>
+          <Property Type="Int32" Name="UserRoleId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="UserId" Nullable="false" />
+          <Property Type="Int32" Name="RoleId" Nullable="false" />
+          <NavigationProperty Name="Role" Relationship="WeListen.Data.Model.FK_UserRole_Role" FromRole="UserRole" ToRole="Role" />
+          <NavigationProperty Name="User" Relationship="WeListen.Data.Model.FK_UserRole_User" FromRole="UserRole" ToRole="User" />
+        </EntityType>
+        <Association Name="FK_Song_Album">
+          <End Type="WeListen.Data.Model.Album" Role="Album" Multiplicity="1" />
+          <End Type="WeListen.Data.Model.Song" Role="Song" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Album">
+              <PropertyRef Name="AlbumId" />
+            </Principal>
+            <Dependent Role="Song">
+              <PropertyRef Name="AlbumId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Song_Artist">
+          <End Type="WeListen.Data.Model.Artist" Role="Artist" Multiplicity="1" />
+          <End Type="WeListen.Data.Model.Song" Role="Song" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Artist">
+              <PropertyRef Name="ArtistId" />
+            </Principal>
+            <Dependent Role="Song">
+              <PropertyRef Name="ArtistId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FavoriteSong_Song">
+          <End Type="WeListen.Data.Model.Song" Role="Song" Multiplicity="1" />
+          <End Type="WeListen.Data.Model.FavoriteSong" Role="FavoriteSong" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Song">
+              <PropertyRef Name="SongId" />
+            </Principal>
+            <Dependent Role="FavoriteSong">
+              <PropertyRef Name="SongId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FavoriteSong_User">
+          <End Type="WeListen.Data.Model.User" Role="User" Multiplicity="1" />
+          <End Type="WeListen.Data.Model.FavoriteSong" Role="FavoriteSong" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="FavoriteSong">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Song_Genre">
+          <End Type="WeListen.Data.Model.Genre" Role="Genre" Multiplicity="1" />
+          <End Type="WeListen.Data.Model.Song" Role="Song" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Genre">
+              <PropertyRef Name="GenreId" />
+            </Principal>
+            <Dependent Role="Song">
+              <PropertyRef Name="GenreId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LocationCatalog_Location">
+          <End Type="WeListen.Data.Model.Location" Role="Location" Multiplicity="1" />
+          <End Type="WeListen.Data.Model.LocationCatalog" Role="LocationCatalog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="LocationId" />
+            </Principal>
+            <Dependent Role="LocationCatalog">
+              <PropertyRef Name="LocationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LocationCatalog_Song">
+          <End Type="WeListen.Data.Model.Song" Role="Song" Multiplicity="1" />
+          <End Type="WeListen.Data.Model.LocationCatalog" Role="LocationCatalog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Song">
+              <PropertyRef Name="SongId" />
+            </Principal>
+            <Dependent Role="LocationCatalog">
+              <PropertyRef Name="SongId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LocationPlaylist_LocationCatalog">
+          <End Type="WeListen.Data.Model.LocationCatalog" Role="LocationCatalog" Multiplicity="1" />
+          <End Type="WeListen.Data.Model.LocationPlaylist" Role="LocationPlaylist" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LocationCatalog">
+              <PropertyRef Name="LocationCatalogId" />
+            </Principal>
+            <Dependent Role="LocationPlaylist">
+              <PropertyRef Name="LocationCatalogId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LocationPlaylist_User">
+          <End Type="WeListen.Data.Model.User" Role="User" Multiplicity="1" />
+          <End Type="WeListen.Data.Model.LocationPlaylist" Role="LocationPlaylist" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="LocationPlaylist">
+              <PropertyRef Name="RequestedByUserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserRole_Role">
+          <End Type="WeListen.Data.Model.Role" Role="Role" Multiplicity="1" />
+          <End Type="WeListen.Data.Model.UserRole" Role="UserRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="RoleId" />
+            </Principal>
+            <Dependent Role="UserRole">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Song_User">
+          <End Type="WeListen.Data.Model.User" Role="User" Multiplicity="1" />
+          <End Type="WeListen.Data.Model.Song" Role="Song" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Song">
+              <PropertyRef Name="PurchasedByUserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserRole_User">
+          <End Type="WeListen.Data.Model.User" Role="User" Multiplicity="1" />
+          <End Type="WeListen.Data.Model.UserRole" Role="UserRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="UserRole">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="WeListenModelStoreContainer" CdmEntityContainer="WeListenEntityModel" >
+          <EntitySetMapping Name="Albums">
+            <EntityTypeMapping TypeName="WeListen.Data.Model.Album">
+              <MappingFragment StoreEntitySet="Album">
+                <ScalarProperty Name="ReleaseDate" ColumnName="ReleaseDate" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="AlbumId" ColumnName="AlbumId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Artists">
+            <EntityTypeMapping TypeName="WeListen.Data.Model.Artist">
+              <MappingFragment StoreEntitySet="Artist">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ArtistId" ColumnName="ArtistId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FavoriteSongs">
+            <EntityTypeMapping TypeName="WeListen.Data.Model.FavoriteSong">
+              <MappingFragment StoreEntitySet="FavoriteSong">
+                <ScalarProperty Name="SongId" ColumnName="SongId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="FavoriteSongId" ColumnName="FavoriteSongId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Genres">
+            <EntityTypeMapping TypeName="WeListen.Data.Model.Genre">
+              <MappingFragment StoreEntitySet="Genre">
+                <ScalarProperty Name="Genre1" ColumnName="Genre" />
+                <ScalarProperty Name="GenreId" ColumnName="GenreId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Locations">
+            <EntityTypeMapping TypeName="WeListen.Data.Model.Location">
+              <MappingFragment StoreEntitySet="Location">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="LocationId" ColumnName="LocationId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LocationCatalogs">
+            <EntityTypeMapping TypeName="WeListen.Data.Model.LocationCatalog">
+              <MappingFragment StoreEntitySet="LocationCatalog">
+                <ScalarProperty Name="LocationId" ColumnName="LocationId" />
+                <ScalarProperty Name="SongId" ColumnName="SongId" />
+                <ScalarProperty Name="LocationCatalogId" ColumnName="LocationCatalogId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LocationPlaylists">
+            <EntityTypeMapping TypeName="WeListen.Data.Model.LocationPlaylist">
+              <MappingFragment StoreEntitySet="LocationPlaylist">
+                <ScalarProperty Name="RequestedByUserId" ColumnName="RequestedByUserId" />
+                <ScalarProperty Name="PlayedDateTime" ColumnName="PlayedDateTime" />
+                <ScalarProperty Name="RequestedDateTime" ColumnName="RequestedDateTime" />
+                <ScalarProperty Name="LocationCatalogId" ColumnName="LocationCatalogId" />
+                <ScalarProperty Name="LocationPlaylistId" ColumnName="LocationPlaylistId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Roles">
+            <EntityTypeMapping TypeName="WeListen.Data.Model.Role">
+              <MappingFragment StoreEntitySet="Role">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Songs">
+            <EntityTypeMapping TypeName="WeListen.Data.Model.Song">
+              <MappingFragment StoreEntitySet="Song">
+                <ScalarProperty Name="PurchasedByUserId" ColumnName="PurchasedByUserId" />
+                <ScalarProperty Name="FilePath" ColumnName="FilePath" />
+                <ScalarProperty Name="AlbumId" ColumnName="AlbumId" />
+                <ScalarProperty Name="ArtistId" ColumnName="ArtistId" />
+                <ScalarProperty Name="GenreId" ColumnName="GenreId" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="SongId" ColumnName="SongId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="WeListen.Data.Model.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserRoles">
+            <EntityTypeMapping TypeName="WeListen.Data.Model.UserRole">
+              <MappingFragment StoreEntitySet="UserRole">
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="UserRoleId" ColumnName="UserRoleId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
