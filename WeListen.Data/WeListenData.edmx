@@ -139,6 +139,7 @@
           <Property Name="AlbumId" Type="int" Nullable="false" />
           <Property Name="FilePath" Type="varchar" Nullable="false" MaxLength="255" />
           <Property Name="PurchasedByUserId" Type="int" Nullable="false" />
+          <Property Name="Duration" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -459,6 +460,7 @@
           <NavigationProperty Name="Genre" Relationship="WeListen.Data.Model.FK_Song_Genre" FromRole="Song" ToRole="Genre" />
           <NavigationProperty Name="LocationCatalogs" Relationship="WeListen.Data.Model.FK_LocationCatalog_Song" FromRole="Song" ToRole="LocationCatalog" />
           <NavigationProperty Name="User" Relationship="WeListen.Data.Model.FK_Song_User" FromRole="Song" ToRole="User" />
+          <Property Type="Int32" Name="Duration" Nullable="false" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -708,6 +710,7 @@
           <EntitySetMapping Name="Songs">
             <EntityTypeMapping TypeName="WeListen.Data.Model.Song">
               <MappingFragment StoreEntitySet="Song">
+                <ScalarProperty Name="Duration" ColumnName="Duration" />
                 <ScalarProperty Name="PurchasedByUserId" ColumnName="PurchasedByUserId" />
                 <ScalarProperty Name="FilePath" ColumnName="FilePath" />
                 <ScalarProperty Name="AlbumId" ColumnName="AlbumId" />

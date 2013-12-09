@@ -27,6 +27,7 @@ namespace WeListen.Data
         public int AlbumId { get; set; }
         public string FilePath { get; set; }
         public int PurchasedByUserId { get; set; }
+        public int Duration { get; set; }
     
         public virtual Album Album { get; set; }
         public virtual Artist Artist { get; set; }
