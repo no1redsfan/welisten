@@ -40,6 +40,7 @@ namespace WeListen.Data
             return (from u in _context.Users where u.UserName == userName select u).Single().FavoriteSongs;
         }
 
+        
         /// <summary>
         /// Saves the user.
         /// </summary>
@@ -48,6 +49,25 @@ namespace WeListen.Data
         public bool SaveUser(User user)
         {
             this._context.Entry(user).State = user.UserId == 0 ? EntityState.Added : EntityState.Modified;
+            try
+            {
+                this._context.SaveChanges();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Saves the song.
+        /// </summary>
+        /// <param name="song">The song to save.</param>
+        /// <returns><c>true</c> if the save was successful; otherwise, <c>false</c>.</returns>
+        public bool SaveSong(Song song)
+        {
+            this._context.Entry(song).State = song.SongId == 0 ? EntityState.Added : EntityState.Modified;
             try
             {
                 this._context.SaveChanges();
