@@ -30,6 +30,28 @@ namespace WeListen.Trial
                 });
             }*/
 
+            /*using (var dataService = new Service())
+            {
+                var songsAvailableInUHall = dataService.GetSongsByLocation(1);
+                foreach (var song in songsAvailableInUHall)
+                {
+                    Console.WriteLine("{0} by {1}", song.Title, song.Artist.Name);
+                }
+
+                // dataService.AddSongToPlaylist(1, 1, 1); // this is how you add a song to a playlist (one way anyway)
+
+                Console.WriteLine("This is the playlist for U-Hall at the moment:");
+                var requestedSongs = dataService.GetPlaylistByLocation(1); // get the playlist for U-Hall
+                foreach (var song in requestedSongs)
+                {
+                    Console.WriteLine("{0} by {1}", song.LocationCatalog.Song.Title, song.LocationCatalog.Song.Artist.Name);
+                }
+
+                dataService.UpdateSongInPlaylist(1, 1); // this is how you would mark a song as played in a playlist
+            }*/
+
+
+
             Console.ReadLine();
 
         }

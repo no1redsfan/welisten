@@ -9,9 +9,9 @@
         <EntityTypeShape EntityType="WeListen.Data.Model.Artist" Width="1.5" PointX="1.7815471504728992" PointY="16.646921135786418" />
         <EntityTypeShape EntityType="WeListen.Data.Model.FavoriteSong" Width="1.5" PointX="8.8598868478368438" PointY="4.3539846708783809" />
         <EntityTypeShape EntityType="WeListen.Data.Model.Genre" Width="1.5" PointX="9" PointY="7.125" />
-        <EntityTypeShape EntityType="WeListen.Data.Model.Location" Width="1.5" PointX="3.8263363185461312" PointY="11.931087842179037" />
+        <EntityTypeShape EntityType="WeListen.Data.Model.Location" Width="1.5" PointX="3.875" PointY="12.125" />
         <EntityTypeShape EntityType="WeListen.Data.Model.LocationCatalog" Width="1.5" PointX="10.466460154609038" PointY="12.711947819549566" />
-        <EntityTypeShape EntityType="WeListen.Data.Model.LocationPlaylist" Width="1.5" PointX="2.7439066575578912" PointY="26.213734922098805" />
+        <EntityTypeShape EntityType="WeListen.Data.Model.LocationPlaylist" Width="2.375" PointX="2.75" PointY="26.25" />
         <EntityTypeShape EntityType="WeListen.Data.Model.Role" Width="1.5" PointX="2.0608666641921114" PointY="30.216723307136782" />
         <EntityTypeShape EntityType="WeListen.Data.Model.Song" Width="1.5" PointX="7.0313163655955879" PointY="2.8498685820260405" />
         <EntityTypeShape EntityType="WeListen.Data.Model.User" Width="1.5" PointX="6.859007944752932" PointY="6.8809180440757975" />
