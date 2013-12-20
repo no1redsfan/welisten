@@ -28,5 +28,12 @@ namespace WeListen.Web.Controllers
 
             return View();
         }
+
+        public ActionResult SearchSongs()
+        {
+            ViewBag.Message = "Your contact page.";
+
+            return View();
+        }
     }
 }
