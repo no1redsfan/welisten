@@ -1,0 +1,21 @@
+﻿@model WeListen.Web.Viewmodels.Songs.Index
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>All Songs</h2>
+
+<table>
+    <tr>
+        <th>Artist</th>
+        <th>Song Title</th>
+    </tr>
+    @foreach (Song song in Model.Songs)
+    {
+        <tr>
+            <td>@song.Artist.Name</td>
+            <td>@song.Title</td>
+        </tr>
+    }
+</table>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Entity.Validation;
 using System.Linq;
 
 namespace WeListen.Data
@@ -80,6 +81,15 @@ namespace WeListen.Data
         public ICollection<Song> GetSongsByLocation(int locationId)
         {
             return (from c in _context.LocationCatalogs where c.LocationId == locationId select c.Song).ToList();
+        }
+
+        /// <summary>
+        ///     Gets the songs.
+        /// </summary>
+        /// <returns>All songs in the database.</returns>
+        public ICollection<Song> GetSongs()
+        {
+            return (from s in _context.Songs select s).ToList();
         }
 
         /// <summary>
@@ -196,7 +206,11 @@ namespace WeListen.Data
                 _context.SaveChanges();
                 return true;
             }
-            catch (Exception)
+            catch (DbEntityValidationException e)
+            {
+                return false;
+            }
+            catch (Exception e)
             {
                 return false;
             }
@@ -226,6 +240,33 @@ namespace WeListen.Data
             }
 
             _isDisposed = true;
+        }
+
+        /// <summary>
+        /// Gets the artists.
+        /// </summary>
+        /// <returns>All the artists in the database.</returns>
+        public ICollection<Artist> GetArtists()
+        {
+            return (from a in _context.Artists select a).ToList();
+        }
+
+        /// <summary>
+        /// Gets the genres.
+        /// </summary>
+        /// <returns>All the genres in the database.</returns>
+        public ICollection<Genre> GetGenres()
+        {
+            return (from g in _context.Genres orderby  g.Genre1 select g).ToList();
+        }
+
+        /// <summary>
+        /// Gets the albums.
+        /// </summary>
+        /// <returns>All the albums in the database.</returns>
+        public ICollection<Album> GetAlbums()
+        {
+            return (from a in _context.Albums select a).ToList();
         }
     }
 }

@@ -1,0 +1,49 @@
+﻿@model WeListen.Web.Viewmodels.Songs.Create
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+@using (Html.BeginForm("Create", "Songs", FormMethod.Post)) {
+    <table>
+        <tr>
+            <th>Song Title</th>
+            <td><input type="text" name="Title" size="50" maxlength="255" /></td>
+        </tr>
+        <tr>
+            <th>Artist</th>
+            <td><select name="ArtistId">
+                    @foreach (var artist in Model.Artists)
+                    {
+                        <option value="@artist.ArtistId">@artist.Name</option>
+                    }
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <th>Album</th>
+            <td><select name="AlbumId">
+                    @foreach (var album in Model.Albums)
+                    {
+                        <option value="@album.AlbumId">@album.Title</option>
+                    }
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <th>Genre</th>
+            <td><select name="GenreId">
+                    @foreach (var genre in Model.Genres)
+                    {
+                        <option value="@genre.GenreId">@genre.Genre1</option>
+                    }
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>@Html.AntiForgeryToken()</td>
+            <td><input type="submit" value="Submit"/></td>
+        </tr>
+    </table>
+}
