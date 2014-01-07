@@ -1,0 +1,31 @@
+﻿@model WeListen.Web.Viewmodels.Songs.Queue
+
+@{
+    ViewBag.Title = "Queue";
+}
+
+<h2>Queue at (location)</h2>
+
+<table>
+    <tr>
+        <th>Requested Song</th>
+        <th>Requested By</th>
+        <th>Requested Time</th>
+            
+    </tr>
+    @foreach (LocationPlaylist song in Model.PlaylistQueue) 
+    {
+        <tr>
+            <td>@song.LocationCatalog.Song.Title</td>
+            <td>@song.User.FirstName</td>
+            <td>@song.RequestedDateTime</td>
+                
+
+        </tr>
+    }
+</table>
+
+
+<div>
+    @Html.ActionLink("Back to Songs", "Index")
+</div>

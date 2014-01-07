@@ -1,0 +1,26 @@
+﻿@model WeListen.Web.Viewmodels.Locations.Index
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>All Locations</h2>
+
+    
+    <table>
+        <tr>
+            <th>Location</th>
+        </tr>
+
+        @foreach (var location in Model.Locations)
+        {
+            <tr>
+                <td>
+                    @location.Name ---> 
+                    <input type="submit" value="Enter Location" onclick="location.href='@Url.Action("Songs", "Location", new {locationId=@location.LocationId})'" />
+            
+                </td>
+            </tr>
+        }
+
+    </table>

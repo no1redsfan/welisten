@@ -12,7 +12,8 @@
         <header>
             <div class="content-wrapper">
                 <div class="float-left">
-                    <p class="site-title">@Html.ActionLink("your logo here", "Index", "Home")</p>
+                    <p class="site-title">
+                        <img src="~/Images/welisten.png" height="100px" width="350px"/></p>
                 </div>
                 <div class="float-right">
                     <section id="login">
@@ -23,6 +24,8 @@
                             <li>@Html.ActionLink("Home", "Index", "Home")</li>
                             <li>@Html.ActionLink("About", "About", "Home")</li>
                             <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                            <li>@Html.ActionLink("Songs", "Index", "Songs")</li>
+                            <li>@Html.ActionLink("Locations", "Index", "Location")</li>
                         </ul>
                     </nav>
                 </div>

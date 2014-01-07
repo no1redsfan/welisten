@@ -1,0 +1,22 @@
+﻿@model WeListen.Web.Viewmodels.Locations.Songs
+
+@{
+    ViewBag.Title = "Songs";
+}
+
+<h2>Available songs at @ViewBag.Location</h2>
+
+<table>
+    <tr>
+        <th>Song</th>
+    </tr>
+
+@foreach (Song song in Model.Song) {
+    <tr>
+        <td>
+            @song.Title 
+        </td>
+    </tr>
+}
+
+</table>

@@ -73,6 +73,11 @@ namespace WeListen.Data
             return (from l in _context.Locations where l.Name == name select l).Single();
         }
 
+        public Location GetLocationNameWithId(int locationId)
+        {
+            return (from l in _context.Locations where l.LocationId == locationId select l).Single();
+        }
+
         /// <summary>
         ///     Gets the songs for a location.
         /// </summary>
@@ -268,5 +273,27 @@ namespace WeListen.Data
         {
             return (from a in _context.Albums select a).ToList();
         }
+
+        /// <summary>
+        /// Gets the locations.
+        /// </summary>
+        /// <returns>All the locations in the database</returns>
+        public ICollection<Location> GetLocations()
+        {
+            return (from l in _context.Locations select l).ToList();
+        }
+
+        public ICollection<User> GetUsers()
+        {
+            return (from u in _context.Users select u).ToList();
+        }
+
+        public ICollection<User> GetUsersWithUserRole()
+        {
+            return (from c in _context.UserRoles where c.UserId == '3' select c.User).ToList(); //recheck this, i was getting tired
+        }
+
+
+
     }
 }

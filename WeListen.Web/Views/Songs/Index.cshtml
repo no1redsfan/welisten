@@ -6,16 +6,27 @@
 
 <h2>All Songs</h2>
 
-<table>
-    <tr>
-        <th>Artist</th>
-        <th>Song Title</th>
-    </tr>
-    @foreach (Song song in Model.Songs)
-    {
+@using (Html.BeginForm("QueueTest", "Songs", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <table>
         <tr>
-            <td>@song.Artist.Name</td>
-            <td>@song.Title</td>
+            <th>Song Title</th>
+            <th>Artist</th>
+            
         </tr>
-    }
-</table>
+        @foreach (Song song in Model.Songs)
+        {
+            <tr>
+                <td>@song.Title</td>
+                <td>@song.Artist.Name</td>
+                @*<td>@Html.ActionLink("Queue", "Queue", new{locationId = 1})</td>*@
+                @*<td><input type="submit" value="Queue" /></td>*@
+                <td>
+                    <input type="submit" value="Queue" onclick="location.href='@Url.Action("Queue", "Songs", new {locationId=1})'" />
+                </td>
+            </tr>
+        }
+    </table>
+}
