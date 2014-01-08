@@ -6,17 +6,21 @@
 
 <h2>Available songs at @ViewBag.Location</h2>
 
-<table>
-    <tr>
-        <th>Song</th>
-    </tr>
+    <table>
+        <tr>
+            <th>Song</th>
+            <th></th>
+        </tr>
 
-@foreach (Song song in Model.Song) {
-    <tr>
-        <td>
-            @song.Title 
-        </td>
-    </tr>
-}
+        @foreach (Song song in Model.Song)
+        {
+            <tr>
+                <td>
+                    @song.Title
+                    
+                </td>
+                <td><input type="submit" value="Add to Queue" onclick="location.href='@Url.Action("AddToQueue", "Songs", new {locationId=@ViewBag.locationId, songId= @song.SongId, requestedByUserId=song.User.UserId})'" /></td>
+            </tr>
+        }
 
-</table>
+    </table>

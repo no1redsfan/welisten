@@ -48,6 +48,7 @@ namespace WeListen.Web.Controllers
         public ActionResult Songs(int locationId)
         {
             ViewBag.Location = _dataService.GetLocationNameWithId(locationId).Name;
+            ViewBag.LocationId = locationId;
             var model = new Songs { Song = _dataService.GetSongsByLocation(locationId) };
             return View(model);
         }

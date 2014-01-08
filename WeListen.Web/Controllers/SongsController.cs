@@ -101,6 +101,8 @@ namespace WeListen.Web.Controllers
         [HttpGet]
         public ActionResult Queue(int locationId)  //need to find a way to allow the passing of a string location as well
         {
+            ViewBag.Location = _dataService.GetLocationNameWithId(locationId).Name;
+            ViewBag.LocationId = locationId;
             var model = new Queue { PlaylistQueue = _dataService.GetPlaylistByLocation(locationId) };
             return View(model);
         }
@@ -116,23 +118,17 @@ namespace WeListen.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Queue(int locationId, int songId, int requestedByUserId)  //int locationId, int songId, int requestedByUserId
         {
-            _dataService.AddSongToPlaylist(1, songId, requestedByUserId); //fake locationId for now
-            return RedirectToAction("Queue", new {locationId = '1'});
+            _dataService.AddSongToPlaylist(locationId, songId, requestedByUserId); //fake locationId for now
+            return RedirectToAction("Queue", new {locationId = locationId});
         }
 
-        //Created this method because i could not pass parameters to the one above
-        public ActionResult QueueTest()  //int locationId, int songId, int requestedByUserId
+        //couldnt get it to do the post with queue, the method above, so i just copied it and named it different
+        public ActionResult AddToQueue(int locationId, int songId, int requestedByUserId)  //int locationId, int songId, int requestedByUserId
         {
-            _dataService.AddSongToPlaylist(1, 1, 1);
-            return RedirectToAction("Queue");
+            _dataService.AddSongToPlaylist(locationId, songId, requestedByUserId); 
+            return RedirectToAction("Queue", new { locationId = locationId });
         }
-
-        public ActionResult Available(int locationId)
-        {
-            ViewBag.Location = _dataService.GetLocationNameWithId(locationId);
-            var model = new Index { Songs = _dataService.GetSongsByLocation(locationId) };
-            return View(model);
-        }
+       
 
     }
 }

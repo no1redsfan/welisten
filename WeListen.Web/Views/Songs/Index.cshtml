@@ -6,7 +6,7 @@
 
 <h2>All Songs</h2>
 
-@using (Html.BeginForm("QueueTest", "Songs", FormMethod.Post))
+@using (Html.BeginForm("Queue", "Songs", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
 
@@ -23,9 +23,9 @@
                 <td>@song.Artist.Name</td>
                 @*<td>@Html.ActionLink("Queue", "Queue", new{locationId = 1})</td>*@
                 @*<td><input type="submit" value="Queue" /></td>*@
-                <td>
+               @* <td>
                     <input type="submit" value="Queue" onclick="location.href='@Url.Action("Queue", "Songs", new {locationId=1})'" />
-                </td>
+                </td>*@
             </tr>
         }
     </table>
