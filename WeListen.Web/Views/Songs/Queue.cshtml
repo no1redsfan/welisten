@@ -4,7 +4,7 @@
     ViewBag.Title = "Queue";
 }
 
-<h2>Queue at @ViewBag.Location</h2>
+<h2>Queue at @ViewBag.Location @ViewBag.LocationId</h2>
 
 <table>
     <tr>
@@ -27,5 +27,6 @@
 
 
 <div>
-    @Html.ActionLink("Back to Songs", "Index")
+    @Html.ActionLink("Back to All Songs", "Index") | 
+    @Html.ActionLink("Available Songs", "Songs", "Location", null, new {locationId=@ViewBag.LocationId})
 </div>
