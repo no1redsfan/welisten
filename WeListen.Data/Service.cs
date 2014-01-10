@@ -283,17 +283,55 @@ namespace WeListen.Data
             return (from l in _context.Locations select l).ToList();
         }
 
+        /// <summary>
+        /// Gets the users.
+        /// </summary>
+        /// <returns>Collection of users</returns>
         public ICollection<User> GetUsers()
         {
             return (from u in _context.Users select u).ToList();
         }
 
+        /// <summary>
+        /// Gets the users that have the user role.
+        /// </summary>
+        /// <returns>Collection of users who have the user role of 'User'</returns>
         public ICollection<User> GetUsersWithUserRole()
         {
             return (from c in _context.UserRoles where c.UserId == '3' select c.User).ToList(); //recheck this, i was getting tired
         }
 
+        /// <summary>
+        /// Gets the songs queued by user.
+        /// </summary>
+        /// <param name="userId">userId</param>
+        /// <returns>Collection of songs queue by user</returns>
+        public ICollection<Song> GetSongsQueuedByUser(int userId)
+        {
+            return (from c in _context.LocationPlaylists where c.RequestedByUserId == userId select c.LocationCatalog.Song).ToList();
+        }
 
+        /// <summary>
+        /// Gets the songs queued by user.
+        /// </summary>
+        /// <param name="username">The username.</param>
+        /// <returns>Collection of songs queued by user</returns>
+        public ICollection<Song> GetSongsQueuedByUser(string username)
+        {
+            var user = GetUserByUsername(username);
+            
+            return (from c in _context.LocationPlaylists where 
+                        c.RequestedByUserId == user.UserId select c.LocationCatalog.Song).ToList();
+        }
 
+        /// <summary>
+        /// Gets the user by username.
+        /// </summary>
+        /// <param name="username">The username.</param>
+        /// <returns>User object</returns>
+        public User GetUserByUsername(string username)
+        {
+            return (from u in _context.Users where u.UserName == username select u).Single();
+        }
     }
 }
