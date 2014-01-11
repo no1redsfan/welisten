@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity.Validation;
+using System.IO;
 using System.Linq;
 
 namespace WeListen.Data
@@ -333,5 +334,24 @@ namespace WeListen.Data
         {
             return (from u in _context.Users where u.UserName == username select u).Single();
         }
+
+        /*public int GetNumOf()
+        {
+                IQueryable<User> result = (from u in _context. select u);
+                int count = Enumerable.Count(result);
+
+                return count;
+            
+        }*/
+
+        //not a dataservice method but wanted to add this here anyway for now
+        public string GetFileName(string filePath)
+        {
+            string fileName = Path.GetFileName(filePath);
+            return fileName;
+        }
+
+
+
     }
 }
