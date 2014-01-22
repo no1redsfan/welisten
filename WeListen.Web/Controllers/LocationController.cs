@@ -8,7 +8,7 @@ using WeListen.Web.Viewmodels.Locations;
 
 namespace WeListen.Web.Controllers
 {
-    public class LocationController : Controller
+    public class LocationController : BaseController
     {
         //
         // GET: /Location/

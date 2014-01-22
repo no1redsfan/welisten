@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Transactions;
-using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using DotNetOpenAuth.AspNet;
@@ -10,27 +9,30 @@ using Microsoft.Web.WebPages.OAuth;
 using WebMatrix.WebData;
 using WeListen.Data;
 using WeListen.Web.Filters;
+using WeListen.Web.Helpers;
 using WeListen.Web.Models;
 using WeListen.Web.Viewmodels.Account;
 
 namespace WeListen.Web.Controllers
 {
-
     [Authorize]
     [InitializeSimpleMembership]
-    public class AccountController : Controller
+    public class AccountController : BaseController
     {
         private readonly Service _dataService;
-        
+
         public AccountController()
         {
             _dataService = new Service();
         }
 
         /// <summary>
-        /// Releases unmanaged resources and optionally releases managed resources.
+        ///     Releases unmanaged resources and optionally releases managed resources.
         /// </summary>
-        /// <param name="disposing">true to release both managed and unmanaged resources; false to release only unmanaged resources.</param>
+        /// <param name="disposing">
+        ///     true to release both managed and unmanaged resources; false to release only unmanaged
+        ///     resources.
+        /// </param>
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -40,6 +42,7 @@ namespace WeListen.Web.Controllers
 
             base.Dispose(disposing);
         }
+
         //
         // GET: /Account/Login
 
@@ -58,8 +61,10 @@ namespace WeListen.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Login(LoginModel model, string returnUrl)
         {
-            if (ModelState.IsValid && WebSecurity.Login(model.UserName, model.Password, persistCookie: model.RememberMe))
+            if (ModelState.IsValid && _dataService.AuthenticateUser(model.UserName, model.Password))
             {
+                User currentUser = _dataService.GetUserByUsername(model.UserName);
+                Context.WebAccount = currentUser.ToWebAccount();
                 return RedirectToLocal(returnUrl);
             }
 
@@ -75,8 +80,7 @@ namespace WeListen.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
-            WebSecurity.Logout();
-
+            Context.Clear();
             return RedirectToAction("Index", "Home");
         }
 
@@ -88,7 +92,7 @@ namespace WeListen.Web.Controllers
         {
             var model = new Register
             {
-                Roles = _dataService.GetRoles(),
+                Roles = _dataService.GetRoles().Where(r => r.Name != "Administrator"),
                 Account = new WebAccount()
             };
             return View(model);
@@ -102,15 +106,15 @@ namespace WeListen.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Register(Register account, int roleId)
         {
-            
             if (ModelState.IsValid)
             {
                 try
                 {
-                    string rolename = _dataService.GetUserRoleByRoleId(roleId).User.ToString(); // get the role name just because i can. Makes it clearer to read
-                    
+                    string rolename = _dataService.GetUserRoleByRoleId(roleId).User.ToString();
+                        // get the role name just because i can. Makes it clearer to read
+
                     //If role is user or DJ save these credentials otherwise -->
-                    if (rolename == "User" || rolename == "DJ") 
+                    if (rolename == "User" || rolename == "DJ")
                     {
                         _dataService.SaveUser(new User
                         {
@@ -119,12 +123,12 @@ namespace WeListen.Web.Controllers
                             Email = account.Account.Email,
                             UserName = account.Account.UserName,
                             Password = account.Account.Password //TODO: hash the password
-                        
                         });
                         SaveUserRole(0, roleId);
-                        
 
-                        return RedirectToAction(@Url.Action("Index", "Home")); //After a user account is created, take them to ?, home for now
+
+                        return RedirectToAction(@Url.Action("Index", "Home"));
+                            //After a user account is created, take them to ?, home for now
                     }
 
                     // --> save these credentials for a location
@@ -137,19 +141,26 @@ namespace WeListen.Web.Controllers
                             DjPassword = account.Account.DjPassword //TODO: hash the password
                         });
                         SaveUserRole(0, roleId);
-                        return RedirectToAction(@Url.Action("Index", "Home")); //After a Location account is created, take them to ?
+                        return RedirectToAction(@Url.Action("Index", "Home"));
+                            //After a Location account is created, take them to ?
                     }
                 }
                 catch
                 {
-                    return View();
-                }   
+                    
+                }
             }
-            return View();
+
+            var model = new Register
+            {
+                Roles = _dataService.GetRoles().Where(r => r.Name != "Administrator"),
+                Account = new WebAccount()
+            };
+            return View(model);
         }
 
         /// <summary>
-        /// Saves the user role.
+        ///     Saves the user role.
         /// </summary>
         /// <param name="userId">The user identifier.</param>
         /// <param name="roleId">The role identifier.</param>
@@ -178,7 +189,9 @@ namespace WeListen.Web.Controllers
             if (ownerAccount == User.Identity.Name)
             {
                 // Use a transaction to prevent the user from deleting their last login credential
-                using (var scope = new TransactionScope(TransactionScopeOption.Required, new TransactionOptions { IsolationLevel = IsolationLevel.Serializable }))
+                using (
+                    var scope = new TransactionScope(TransactionScopeOption.Required,
+                        new TransactionOptions {IsolationLevel = IsolationLevel.Serializable}))
                 {
                     bool hasLocalAccount = OAuthWebSecurity.HasLocalAccount(WebSecurity.GetUserId(User.Identity.Name));
                     if (hasLocalAccount || OAuthWebSecurity.GetAccountsFromUserName(User.Identity.Name).Count > 1)
@@ -190,7 +203,7 @@ namespace WeListen.Web.Controllers
                 }
             }
 
-            return RedirectToAction("Manage", new { Message = message });
+            return RedirectToAction("Manage", new {Message = message});
         }
 
         //
@@ -199,10 +212,13 @@ namespace WeListen.Web.Controllers
         public ActionResult Manage(ManageMessageId? message)
         {
             ViewBag.StatusMessage =
-                message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
-                : message == ManageMessageId.SetPasswordSuccess ? "Your password has been set."
-                : message == ManageMessageId.RemoveLoginSuccess ? "The external login was removed."
-                : "";
+                message == ManageMessageId.ChangePasswordSuccess
+                    ? "Your password has been changed."
+                    : message == ManageMessageId.SetPasswordSuccess
+                        ? "Your password has been set."
+                        : message == ManageMessageId.RemoveLoginSuccess
+                            ? "The external login was removed."
+                            : "";
             ViewBag.HasLocalPassword = OAuthWebSecurity.HasLocalAccount(WebSecurity.GetUserId(User.Identity.Name));
             ViewBag.ReturnUrl = Url.Action("Manage");
             return View();
@@ -226,7 +242,8 @@ namespace WeListen.Web.Controllers
                     bool changePasswordSucceeded;
                     try
                     {
-                        changePasswordSucceeded = WebSecurity.ChangePassword(User.Identity.Name, model.OldPassword, model.NewPassword);
+                        changePasswordSucceeded = WebSecurity.ChangePassword(User.Identity.Name, model.OldPassword,
+                            model.NewPassword);
                     }
                     catch (Exception)
                     {
@@ -235,12 +252,9 @@ namespace WeListen.Web.Controllers
 
                     if (changePasswordSucceeded)
                     {
-                        return RedirectToAction("Manage", new { Message = ManageMessageId.ChangePasswordSuccess });
+                        return RedirectToAction("Manage", new {Message = ManageMessageId.ChangePasswordSuccess});
                     }
-                    else
-                    {
-                        ModelState.AddModelError("", "The current password is incorrect or the new password is invalid.");
-                    }
+                    ModelState.AddModelError("", "The current password is incorrect or the new password is invalid.");
                 }
             }
             else
@@ -258,11 +272,14 @@ namespace WeListen.Web.Controllers
                     try
                     {
                         WebSecurity.CreateAccount(User.Identity.Name, model.NewPassword);
-                        return RedirectToAction("Manage", new { Message = ManageMessageId.SetPasswordSuccess });
+                        return RedirectToAction("Manage", new {Message = ManageMessageId.SetPasswordSuccess});
                     }
                     catch (Exception)
                     {
-                        ModelState.AddModelError("", String.Format("Unable to create local account. An account with the name \"{0}\" may already exist.", User.Identity.Name));
+                        ModelState.AddModelError("",
+                            String.Format(
+                                "Unable to create local account. An account with the name \"{0}\" may already exist.",
+                                User.Identity.Name));
                     }
                 }
             }
@@ -279,7 +296,7 @@ namespace WeListen.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult ExternalLogin(string provider, string returnUrl)
         {
-            return new ExternalLoginResult(provider, Url.Action("ExternalLoginCallback", new { ReturnUrl = returnUrl }));
+            return new ExternalLoginResult(provider, Url.Action("ExternalLoginCallback", new {ReturnUrl = returnUrl}));
         }
 
         //
@@ -288,13 +305,14 @@ namespace WeListen.Web.Controllers
         [AllowAnonymous]
         public ActionResult ExternalLoginCallback(string returnUrl)
         {
-            AuthenticationResult result = OAuthWebSecurity.VerifyAuthentication(Url.Action("ExternalLoginCallback", new { ReturnUrl = returnUrl }));
+            AuthenticationResult result =
+                OAuthWebSecurity.VerifyAuthentication(Url.Action("ExternalLoginCallback", new {ReturnUrl = returnUrl}));
             if (!result.IsSuccessful)
             {
                 return RedirectToAction("ExternalLoginFailure");
             }
 
-            if (OAuthWebSecurity.Login(result.Provider, result.ProviderUserId, createPersistentCookie: false))
+            if (OAuthWebSecurity.Login(result.Provider, result.ProviderUserId, false))
             {
                 return RedirectToLocal(returnUrl);
             }
@@ -305,14 +323,12 @@ namespace WeListen.Web.Controllers
                 OAuthWebSecurity.CreateOrUpdateAccount(result.Provider, result.ProviderUserId, User.Identity.Name);
                 return RedirectToLocal(returnUrl);
             }
-            else
-            {
-                // User is new, ask for their desired membership name
-                string loginData = OAuthWebSecurity.SerializeProviderUserId(result.Provider, result.ProviderUserId);
-                ViewBag.ProviderDisplayName = OAuthWebSecurity.GetOAuthClientData(result.Provider).DisplayName;
-                ViewBag.ReturnUrl = returnUrl;
-                return View("ExternalLoginConfirmation", new RegisterExternalLoginModel { UserName = result.UserName, ExternalLoginData = loginData });
-            }
+            // User is new, ask for their desired membership name
+            string loginData = OAuthWebSecurity.SerializeProviderUserId(result.Provider, result.ProviderUserId);
+            ViewBag.ProviderDisplayName = OAuthWebSecurity.GetOAuthClientData(result.Provider).DisplayName;
+            ViewBag.ReturnUrl = returnUrl;
+            return View("ExternalLoginConfirmation",
+                new RegisterExternalLoginModel {UserName = result.UserName, ExternalLoginData = loginData});
         }
 
         //
@@ -326,7 +342,8 @@ namespace WeListen.Web.Controllers
             string provider = null;
             string providerUserId = null;
 
-            if (User.Identity.IsAuthenticated || !OAuthWebSecurity.TryDeserializeProviderUserId(model.ExternalLoginData, out provider, out providerUserId))
+            if (User.Identity.IsAuthenticated ||
+                !OAuthWebSecurity.TryDeserializeProviderUserId(model.ExternalLoginData, out provider, out providerUserId))
             {
                 return RedirectToAction("Manage");
             }
@@ -334,25 +351,23 @@ namespace WeListen.Web.Controllers
             if (ModelState.IsValid)
             {
                 // Insert a new user into the database
-                using (UsersContext db = new UsersContext())
+                using (var db = new UsersContext())
                 {
-                    UserProfile user = db.UserProfiles.FirstOrDefault(u => u.UserName.ToLower() == model.UserName.ToLower());
+                    UserProfile user =
+                        db.UserProfiles.FirstOrDefault(u => u.UserName.ToLower() == model.UserName.ToLower());
                     // Check if user already exists
                     if (user == null)
                     {
                         // Insert name into the profile table
-                        db.UserProfiles.Add(new UserProfile { UserName = model.UserName });
+                        db.UserProfiles.Add(new UserProfile {UserName = model.UserName});
                         db.SaveChanges();
 
                         OAuthWebSecurity.CreateOrUpdateAccount(provider, providerUserId, model.UserName);
-                        OAuthWebSecurity.Login(provider, providerUserId, createPersistentCookie: false);
+                        OAuthWebSecurity.Login(provider, providerUserId, false);
 
                         return RedirectToLocal(returnUrl);
                     }
-                    else
-                    {
-                        ModelState.AddModelError("UserName", "User name already exists. Please enter a different user name.");
-                    }
+                    ModelState.AddModelError("UserName", "User name already exists. Please enter a different user name.");
                 }
             }
 
@@ -382,7 +397,7 @@ namespace WeListen.Web.Controllers
         public ActionResult RemoveExternalLogins()
         {
             ICollection<OAuthAccount> accounts = OAuthWebSecurity.GetAccountsFromUserName(User.Identity.Name);
-            List<ExternalLogin> externalLogins = new List<ExternalLogin>();
+            var externalLogins = new List<ExternalLogin>();
             foreach (OAuthAccount account in accounts)
             {
                 AuthenticationClientData clientData = OAuthWebSecurity.GetOAuthClientData(account.Provider);
@@ -395,28 +410,69 @@ namespace WeListen.Web.Controllers
                 });
             }
 
-            ViewBag.ShowRemoveButton = externalLogins.Count > 1 || OAuthWebSecurity.HasLocalAccount(WebSecurity.GetUserId(User.Identity.Name));
+            ViewBag.ShowRemoveButton = externalLogins.Count > 1 ||
+                                       OAuthWebSecurity.HasLocalAccount(WebSecurity.GetUserId(User.Identity.Name));
             return PartialView("_RemoveExternalLoginsPartial", externalLogins);
         }
 
         #region Helpers
-        private ActionResult RedirectToLocal(string returnUrl)
-        {
-            if (Url.IsLocalUrl(returnUrl))
-            {
-                return Redirect(returnUrl);
-            }
-            else
-            {
-                return RedirectToAction("Index", "Home");
-            }
-        }
 
         public enum ManageMessageId
         {
             ChangePasswordSuccess,
             SetPasswordSuccess,
             RemoveLoginSuccess,
+        }
+
+        private ActionResult RedirectToLocal(string returnUrl)
+        {
+            if (Url.IsLocalUrl(returnUrl))
+            {
+                return Redirect(returnUrl);
+            }
+            return RedirectToAction("Index", "Home");
+        }
+
+        private static string ErrorCodeToString(MembershipCreateStatus createStatus)
+        {
+            // See http://go.microsoft.com/fwlink/?LinkID=177550 for
+            // a full list of status codes.
+            switch (createStatus)
+            {
+                case MembershipCreateStatus.DuplicateUserName:
+                    return "User name already exists. Please enter a different user name.";
+
+                case MembershipCreateStatus.DuplicateEmail:
+                    return
+                        "A user name for that e-mail address already exists. Please enter a different e-mail address.";
+
+                case MembershipCreateStatus.InvalidPassword:
+                    return "The password provided is invalid. Please enter a valid password value.";
+
+                case MembershipCreateStatus.InvalidEmail:
+                    return "The e-mail address provided is invalid. Please check the value and try again.";
+
+                case MembershipCreateStatus.InvalidAnswer:
+                    return "The password retrieval answer provided is invalid. Please check the value and try again.";
+
+                case MembershipCreateStatus.InvalidQuestion:
+                    return "The password retrieval question provided is invalid. Please check the value and try again.";
+
+                case MembershipCreateStatus.InvalidUserName:
+                    return "The user name provided is invalid. Please check the value and try again.";
+
+                case MembershipCreateStatus.ProviderError:
+                    return
+                        "The authentication provider returned an error. Please verify your entry and try again. If the problem persists, please contact your system administrator.";
+
+                case MembershipCreateStatus.UserRejected:
+                    return
+                        "The user creation request has been canceled. Please verify your entry and try again. If the problem persists, please contact your system administrator.";
+
+                default:
+                    return
+                        "An unknown error occurred. Please verify your entry and try again. If the problem persists, please contact your system administrator.";
+            }
         }
 
         internal class ExternalLoginResult : ActionResult
@@ -436,43 +492,6 @@ namespace WeListen.Web.Controllers
             }
         }
 
-        private static string ErrorCodeToString(MembershipCreateStatus createStatus)
-        {
-            // See http://go.microsoft.com/fwlink/?LinkID=177550 for
-            // a full list of status codes.
-            switch (createStatus)
-            {
-                case MembershipCreateStatus.DuplicateUserName:
-                    return "User name already exists. Please enter a different user name.";
-
-                case MembershipCreateStatus.DuplicateEmail:
-                    return "A user name for that e-mail address already exists. Please enter a different e-mail address.";
-
-                case MembershipCreateStatus.InvalidPassword:
-                    return "The password provided is invalid. Please enter a valid password value.";
-
-                case MembershipCreateStatus.InvalidEmail:
-                    return "The e-mail address provided is invalid. Please check the value and try again.";
-
-                case MembershipCreateStatus.InvalidAnswer:
-                    return "The password retrieval answer provided is invalid. Please check the value and try again.";
-
-                case MembershipCreateStatus.InvalidQuestion:
-                    return "The password retrieval question provided is invalid. Please check the value and try again.";
-
-                case MembershipCreateStatus.InvalidUserName:
-                    return "The user name provided is invalid. Please check the value and try again.";
-
-                case MembershipCreateStatus.ProviderError:
-                    return "The authentication provider returned an error. Please verify your entry and try again. If the problem persists, please contact your system administrator.";
-
-                case MembershipCreateStatus.UserRejected:
-                    return "The user creation request has been canceled. Please verify your entry and try again. If the problem persists, please contact your system administrator.";
-
-                default:
-                    return "An unknown error occurred. Please verify your entry and try again. If the problem persists, please contact your system administrator.";
-            }
-        }
         #endregion
     }
 }

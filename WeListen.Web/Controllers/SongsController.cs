@@ -12,7 +12,7 @@ namespace WeListen.Web.Controllers
     /// <summary>
     /// The songs controller for the application.
     /// </summary>
-    public class SongsController : Controller
+    public class SongsController : BaseController
     {
         private readonly Service _dataService;
 

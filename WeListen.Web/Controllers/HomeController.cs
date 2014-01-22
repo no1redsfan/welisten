@@ -10,7 +10,7 @@ namespace WeListen.Web.Controllers
     /// <summary>
     /// The home controller for the application.
     /// </summary>
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         private readonly Service _dataService;
 

@@ -185,6 +185,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LocationController.cs" />
     <Compile Include="Controllers\SongsController.cs" />
@@ -194,8 +195,10 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\DataHelpers.cs" />
+    <Compile Include="Helpers\ExtensionMethods.cs" />
     <Compile Include="Helpers\HtmlHelpers.cs" />
     <Compile Include="Infrastructure\Password.cs" />
+    <Compile Include="Infrastructure\Session\SessionContext.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\WebAccount.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -330,7 +333,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Infrastructure\Session\" />
     <Folder Include="Viewmodels\Home\" />
   </ItemGroup>
   <ItemGroup>
