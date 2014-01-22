@@ -28,6 +28,7 @@
         <AssociationConnector Association="WeListen.Data.Model.FK_UserRole_Role" />
         <AssociationConnector Association="WeListen.Data.Model.FK_Song_User" />
         <AssociationConnector Association="WeListen.Data.Model.FK_UserRole_User" />
+        <EntityTypeShape EntityType="WeListen.Data.Model.sysdiagram" Width="1.5" PointX="9.8796268579920881" PointY="23.238091986271595" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

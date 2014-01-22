@@ -1,0 +1,36 @@
+﻿@model WeListen.Web.Viewmodels.Locations.LocationHomeViewModel
+
+@{
+    ViewBag.Title = "Home";
+}
+
+<h2>Home</h2>
+
+<table style="float: left; width: 50%">
+    <tr>
+        <th>Current Queue</th>
+    </tr>
+    @foreach (LocationPlaylist song in Model.PlaylistQueue)
+    {
+        <tr>
+            <td>
+                @song.LocationCatalog.Song.Title by @song.LocationCatalog.Song.Artist
+            </td>
+        </tr>
+    }
+
+</table>
+<table style="float: right; width: 50%">
+    <tr>
+        <th>Available Songs</th>
+    </tr>
+
+    @foreach (Song song in Model.Song)
+    {
+        <tr>
+            <td>
+                @song.Title by @song.Artist
+            </td>
+       </tr>
+    }
+</table>

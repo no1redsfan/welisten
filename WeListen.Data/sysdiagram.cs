@@ -12,18 +12,12 @@ namespace WeListen.Data
     using System;
     using System.Collections.Generic;
     
-    public partial class Location
+    public partial class sysdiagram
     {
-        public Location()
-        {
-            this.LocationCatalogs = new HashSet<LocationCatalog>();
-        }
-    
-        public int LocationId { get; set; }
-        public string Name { get; set; }
-        public string Zipcode { get; set; }
-        public string DjPassword { get; set; }
-    
-        public virtual ICollection<LocationCatalog> LocationCatalogs { get; set; }
+        public string name { get; set; }
+        public int principal_id { get; set; }
+        public int diagram_id { get; set; }
+        public Nullable<int> version { get; set; }
+        public byte[] definition { get; set; }
     }
 }

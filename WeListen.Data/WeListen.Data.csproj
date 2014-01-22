@@ -78,6 +78,9 @@
     <Compile Include="Song.cs">
       <DependentUpon>WeListenData.tt</DependentUpon>
     </Compile>
+    <Compile Include="sysdiagram.cs">
+      <DependentUpon>WeListenData.tt</DependentUpon>
+    </Compile>
     <Compile Include="User.cs">
       <DependentUpon>WeListenData.tt</DependentUpon>
     </Compile>

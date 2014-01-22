@@ -36,5 +36,6 @@ namespace WeListen.Data
         public DbSet<Song> Songs { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<UserRole> UserRoles { get; set; }
+        public DbSet<sysdiagram> sysdiagrams { get; set; }
     }
 }

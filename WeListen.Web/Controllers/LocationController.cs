@@ -45,11 +45,34 @@ namespace WeListen.Web.Controllers
         }
 
 
+        /// <summary>
+        /// All available songs at a location
+        /// </summary>
+        /// <param name="locationId">The location id.</param>
+        /// <returns>View</returns>
         public ActionResult Songs(int locationId)
         {
             ViewBag.Location = _dataService.GetLocationNameWithId(locationId).Name;
             ViewBag.LocationId = locationId;
             var model = new Songs { Song = _dataService.GetSongsByLocation(locationId) };
+            return View(model);
+        }
+
+
+        /// <summary>
+        /// Home page for a location. 
+        /// </summary>
+        /// <param name="locationId">The location identifier.</param>
+        /// <returns>Playqueue and available songs. View.</returns>
+        public ActionResult Home(int locationId)
+        {
+            ViewBag.Location = _dataService.GetLocationNameWithId(locationId).Name;
+            ViewBag.LocationId = locationId;
+            var model = new LocationHomeViewModel
+            {
+                Song = _dataService.GetSongsByLocation(locationId),
+                PlaylistQueue = _dataService.GetPlaylistByLocation(locationId)
+            };
             return View(model);
         }
 

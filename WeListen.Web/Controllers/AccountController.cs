@@ -8,15 +8,38 @@ using System.Web.Security;
 using DotNetOpenAuth.AspNet;
 using Microsoft.Web.WebPages.OAuth;
 using WebMatrix.WebData;
+using WeListen.Data;
 using WeListen.Web.Filters;
 using WeListen.Web.Models;
+using WeListen.Web.Viewmodels.Account;
 
 namespace WeListen.Web.Controllers
 {
+
     [Authorize]
     [InitializeSimpleMembership]
     public class AccountController : Controller
     {
+        private readonly Service _dataService;
+        
+        public AccountController()
+        {
+            _dataService = new Service();
+        }
+
+        /// <summary>
+        /// Releases unmanaged resources and optionally releases managed resources.
+        /// </summary>
+        /// <param name="disposing">true to release both managed and unmanaged resources; false to release only unmanaged resources.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _dataService.Dispose();
+            }
+
+            base.Dispose(disposing);
+        }
         //
         // GET: /Account/Login
 
@@ -63,7 +86,12 @@ namespace WeListen.Web.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
-            return View();
+            var model = new Register
+            {
+                Roles = _dataService.GetRoles(),
+                Account = new WebAccount()
+            };
+            return View(model);
         }
 
         //
@@ -72,25 +100,68 @@ namespace WeListen.Web.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public ActionResult Register(RegisterModel model)
+        public ActionResult Register(Register account, int roleId)
         {
+            
             if (ModelState.IsValid)
             {
-                // Attempt to register the user
                 try
                 {
-                    WebSecurity.CreateUserAndAccount(model.UserName, model.Password);
-                    WebSecurity.Login(model.UserName, model.Password);
-                    return RedirectToAction("Index", "Home");
-                }
-                catch (MembershipCreateUserException e)
-                {
-                    ModelState.AddModelError("", ErrorCodeToString(e.StatusCode));
-                }
-            }
+                    string rolename = _dataService.GetUserRoleByRoleId(roleId).User.ToString(); // get the role name just because i can. Makes it clearer to read
+                    
+                    //If role is user or DJ save these credentials otherwise -->
+                    if (rolename == "User" || rolename == "DJ") 
+                    {
+                        _dataService.SaveUser(new User
+                        {
+                            FirstName = account.Account.FirstName,
+                            LastName = account.Account.LastName,
+                            Email = account.Account.Email,
+                            UserName = account.Account.UserName,
+                            Password = account.Account.Password //TODO: hash the password
+                        
+                        });
+                        SaveUserRole(0, roleId);
+                        
 
-            // If we got this far, something failed, redisplay form
-            return View(model);
+                        return RedirectToAction(@Url.Action("Index", "Home")); //After a user account is created, take them to ?, home for now
+                    }
+
+                    // --> save these credentials for a location
+                    if (rolename == "Location")
+                    {
+                        _dataService.SaveLocation(new Location
+                        {
+                            Name = account.Account.UserName,
+                            Zipcode = account.Account.Zipcode,
+                            DjPassword = account.Account.DjPassword //TODO: hash the password
+                        });
+                        SaveUserRole(0, roleId);
+                        return RedirectToAction(@Url.Action("Index", "Home")); //After a Location account is created, take them to ?
+                    }
+                }
+                catch
+                {
+                    return View();
+                }   
+            }
+            return View();
+        }
+
+        /// <summary>
+        /// Saves the user role.
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <param name="roleId">The role identifier.</param>
+        /// <returns></returns>
+        private bool SaveUserRole(int userId, int roleId)
+        {
+            _dataService.SaveUserRole(new UserRole
+            {
+                UserId = userId,
+                RoleId = roleId
+            });
+            return true;
         }
 
         //

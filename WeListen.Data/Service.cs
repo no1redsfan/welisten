@@ -8,7 +8,7 @@ using System.Linq;
 namespace WeListen.Data
 {
     /// <summary>
-    ///     A utility class for data access.
+    /// A utility class for data access.
     /// </summary>
     public class Service : IDisposable
     {
@@ -98,6 +98,13 @@ namespace WeListen.Data
             return (from s in _context.Songs select s).ToList();
         }
 
+         public ICollection<Song> GetTopPlayedSongs()
+        {
+           return
+                (from p in _context.LocationPlaylists where p.PlayedDateTime != null select p.LocationCatalog.Song).ToList(); 
+        }
+        
+
         /// <summary>
         ///     Gets the songs for a location.
         /// </summary>
@@ -156,6 +163,40 @@ namespace WeListen.Data
         public bool SaveUser(User user)
         {
             _context.Entry(user).State = user.UserId == 0 ? EntityState.Added : EntityState.Modified;
+            try
+            {
+                _context.SaveChanges();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public bool SaveUserRole(UserRole userRole)
+        {
+            _context.Entry(userRole).State = userRole.UserId == 0 ? EntityState.Added : EntityState.Modified;
+            try
+            {
+                _context.SaveChanges();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+
+        /// <summary>
+        /// Saves the location.
+        /// </summary>
+        /// <param name="location">The location.</param>
+        /// <returns><c>true</c> if the save was successful; otherwise, <c>false</c>.</returns>
+        public bool SaveLocation(Location location)
+        {
+            _context.Entry(location).State = location.LocationId == 0 ? EntityState.Added : EntityState.Modified;
             try
             {
                 _context.SaveChanges();
@@ -293,6 +334,11 @@ namespace WeListen.Data
             return (from u in _context.Users select u).ToList();
         }
 
+        public ICollection<Role> GetRoles()
+        {
+            return (from r in _context.Roles select r).ToList();
+        }
+
         /// <summary>
         /// Gets the users that have the user role.
         /// </summary>
@@ -333,6 +379,17 @@ namespace WeListen.Data
         public User GetUserByUsername(string username)
         {
             return (from u in _context.Users where u.UserName == username select u).Single();
+        }
+
+
+        /// <summary>
+        /// Gets the user role by role identifier.
+        /// </summary>
+        /// <param name="roleId">The role identifier.</param>
+        /// <returns>The userrole</returns>
+        public UserRole GetUserRoleByRoleId(int roleId)
+        {
+            return (from u in _context.UserRoles where u.RoleId == roleId select u).Single();
         }
 
         /*public int GetNumOf()
