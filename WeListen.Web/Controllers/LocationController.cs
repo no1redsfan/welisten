@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using WeListen.Data;
+using WeListen.Web.Infrastructure.Session;
 using WeListen.Web.Viewmodels.Locations;
 
 namespace WeListen.Web.Controllers

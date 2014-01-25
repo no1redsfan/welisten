@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="6d5d04a8da5849d19b9e3807911bba63" Name="Diagram1" >
+      <Diagram DiagramId="6d5d04a8da5849d19b9e3807911bba63" Name="Diagram1" ZoomLevel="71" >
         <EntityTypeShape EntityType="WeListen.Data.Model.Album" Width="1.5" PointX="1.1901096800296147" PointY="5.7551550444938036" />
         <EntityTypeShape EntityType="WeListen.Data.Model.Artist" Width="1.5" PointX="1.7815471504728992" PointY="16.646921135786418" />
         <EntityTypeShape EntityType="WeListen.Data.Model.FavoriteSong" Width="1.5" PointX="8.8598868478368438" PointY="4.3539846708783809" />
@@ -29,6 +29,9 @@
         <AssociationConnector Association="WeListen.Data.Model.FK_Song_User" />
         <AssociationConnector Association="WeListen.Data.Model.FK_UserRole_User" />
         <EntityTypeShape EntityType="WeListen.Data.Model.sysdiagram" Width="1.5" PointX="9.8796268579920881" PointY="23.238091986271595" />
+        <EntityTypeShape EntityType="WeListen.Data.Model.LocationDj" Width="1.5" PointX="3.06748381027369" PointY="29.059572456897968" />
+        <AssociationConnector Association="WeListen.Data.Model.FK_LocationDj_Location" />
+        <AssociationConnector Association="WeListen.Data.Model.FK_LocationDj_User" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

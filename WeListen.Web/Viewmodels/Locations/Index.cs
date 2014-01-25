@@ -25,7 +25,7 @@ namespace WeListen.Web.Viewmodels.Locations
         /// <value>
         /// The account.
         /// </value>
-        public WebAccount Account { get; set; }
+        public WebLocation Location { get; set; }
 
     }
 }

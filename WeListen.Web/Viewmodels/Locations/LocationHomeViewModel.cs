@@ -9,7 +9,7 @@ namespace WeListen.Web.Viewmodels.Locations
 {
     public class LocationHomeViewModel
     {
-        public WebAccount Account { get; set; }
+        public WebLocation WebLocation { get; set; }
 
         public IEnumerable<Song> Song { get; set; }
 

@@ -12,6 +12,7 @@
           <EntitySet Name="Genre" EntityType="WeListenModel.Store.Genre" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Location" EntityType="WeListenModel.Store.Location" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="LocationCatalog" EntityType="WeListenModel.Store.LocationCatalog" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="LocationDj" EntityType="WeListenModel.Store.LocationDj" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="LocationPlaylist" EntityType="WeListenModel.Store.LocationPlaylist" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Role" EntityType="WeListenModel.Store.Role" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Song" EntityType="WeListenModel.Store.Song" store:Type="Tables" Schema="dbo" />
@@ -33,6 +34,14 @@
           <AssociationSet Name="FK_LocationCatalog_Song" Association="WeListenModel.Store.FK_LocationCatalog_Song">
             <End Role="Song" EntitySet="Song" />
             <End Role="LocationCatalog" EntitySet="LocationCatalog" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LocationDj_Location" Association="WeListenModel.Store.FK_LocationDj_Location">
+            <End Role="Location" EntitySet="Location" />
+            <End Role="LocationDj" EntitySet="LocationDj" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LocationDj_User" Association="WeListenModel.Store.FK_LocationDj_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="LocationDj" EntitySet="LocationDj" />
           </AssociationSet>
           <AssociationSet Name="FK_LocationPlaylist_LocationCatalog" Association="WeListenModel.Store.FK_LocationPlaylist_LocationCatalog">
             <End Role="LocationCatalog" EntitySet="LocationCatalog" />
@@ -104,7 +113,6 @@
           <Property Name="LocationId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="varchar" Nullable="false" MaxLength="50" />
           <Property Name="Zipcode" Type="varchar" MaxLength="15" />
-          <Property Name="DjPassword" Type="text" />
         </EntityType>
         <EntityType Name="LocationCatalog">
           <Key>
@@ -113,6 +121,14 @@
           <Property Name="LocationCatalogId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="SongId" Type="int" Nullable="false" />
           <Property Name="LocationId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="LocationDj">
+          <Key>
+            <PropertyRef Name="LocationDjId" />
+          </Key>
+          <Property Name="LocationDjId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="LocationId" Type="int" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="LocationPlaylist">
           <Key>
@@ -163,7 +179,7 @@
           <Property Name="FirstName" Type="varchar" MaxLength="50" />
           <Property Name="LastName" Type="varchar" MaxLength="50" />
           <Property Name="Email" Type="varchar" Nullable="false" MaxLength="50" />
-          <Property Name="Password" Type="text" Nullable="false" />
+          <Property Name="Password" Type="varchar" Nullable="false" MaxLength="50" />
         </EntityType>
         <EntityType Name="UserRole">
           <Key>
@@ -218,6 +234,30 @@
             </Principal>
             <Dependent Role="LocationCatalog">
               <PropertyRef Name="SongId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LocationDj_Location">
+          <End Role="Location" Type="WeListenModel.Store.Location" Multiplicity="1" />
+          <End Role="LocationDj" Type="WeListenModel.Store.LocationDj" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="LocationId" />
+            </Principal>
+            <Dependent Role="LocationDj">
+              <PropertyRef Name="LocationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LocationDj_User">
+          <End Role="User" Type="WeListenModel.Store.User" Multiplicity="1" />
+          <End Role="LocationDj" Type="WeListenModel.Store.LocationDj" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="LocationDj">
+              <PropertyRef Name="UserId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -382,6 +422,15 @@
             <End Role="UserRole" EntitySet="UserRoles" />
           </AssociationSet>
           <EntitySet Name="sysdiagrams" EntityType="WeListen.Data.Model.sysdiagram" />
+          <EntitySet Name="LocationDjs" EntityType="WeListen.Data.Model.LocationDj" />
+          <AssociationSet Name="FK_LocationDj_Location" Association="WeListen.Data.Model.FK_LocationDj_Location">
+            <End Role="Location" EntitySet="Locations" />
+            <End Role="LocationDj" EntitySet="LocationDjs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LocationDj_User" Association="WeListen.Data.Model.FK_LocationDj_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="LocationDj" EntitySet="LocationDjs" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Album">
           <Key>
@@ -426,7 +475,7 @@
           <Property Type="String" Name="Name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="LocationCatalogs" Relationship="WeListen.Data.Model.FK_LocationCatalog_Location" FromRole="Location" ToRole="LocationCatalog" />
           <Property Type="String" Name="Zipcode" MaxLength="15" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="DjPassword" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="LocationDjs" Relationship="WeListen.Data.Model.FK_LocationDj_Location" FromRole="Location" ToRole="LocationDj" />
         </EntityType>
         <EntityType Name="LocationCatalog">
           <Key>
@@ -487,11 +536,12 @@
           <Property Type="String" Name="FirstName" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Type="String" Name="LastName" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Type="String" Name="Email" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="Password" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Password" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="FavoriteSongs" Relationship="WeListen.Data.Model.FK_FavoriteSong_User" FromRole="User" ToRole="FavoriteSong" />
           <NavigationProperty Name="LocationPlaylists" Relationship="WeListen.Data.Model.FK_LocationPlaylist_User" FromRole="User" ToRole="LocationPlaylist" />
           <NavigationProperty Name="Songs" Relationship="WeListen.Data.Model.FK_Song_User" FromRole="User" ToRole="Song" />
           <NavigationProperty Name="UserRoles" Relationship="WeListen.Data.Model.FK_UserRole_User" FromRole="User" ToRole="UserRole" />
+          <NavigationProperty Name="LocationDjs" Relationship="WeListen.Data.Model.FK_LocationDj_User" FromRole="User" ToRole="LocationDj" />
         </EntityType>
         <EntityType Name="UserRole">
           <Key>
@@ -657,6 +707,40 @@
           <Property Type="Int32" Name="version" />
           <Property Type="Binary" Name="definition" MaxLength="Max" FixedLength="false" />
         </EntityType>
+        <EntityType Name="LocationDj">
+          <Key>
+            <PropertyRef Name="LocationDjId" />
+          </Key>
+          <Property Type="Int32" Name="LocationDjId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="LocationId" Nullable="false" />
+          <Property Type="Int32" Name="UserId" Nullable="false" />
+          <NavigationProperty Name="Location" Relationship="WeListen.Data.Model.FK_LocationDj_Location" FromRole="LocationDj" ToRole="Location" />
+          <NavigationProperty Name="User" Relationship="WeListen.Data.Model.FK_LocationDj_User" FromRole="LocationDj" ToRole="User" />
+        </EntityType>
+        <Association Name="FK_LocationDj_Location">
+          <End Type="WeListen.Data.Model.Location" Role="Location" Multiplicity="1" />
+          <End Type="WeListen.Data.Model.LocationDj" Role="LocationDj" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="LocationId" />
+            </Principal>
+            <Dependent Role="LocationDj">
+              <PropertyRef Name="LocationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LocationDj_User">
+          <End Type="WeListen.Data.Model.User" Role="User" Multiplicity="1" />
+          <End Type="WeListen.Data.Model.LocationDj" Role="LocationDj" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="LocationDj">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -700,7 +784,6 @@
           <EntitySetMapping Name="Locations">
             <EntityTypeMapping TypeName="WeListen.Data.Model.Location">
               <MappingFragment StoreEntitySet="Location">
-                <ScalarProperty Name="DjPassword" ColumnName="DjPassword" />
                 <ScalarProperty Name="Zipcode" ColumnName="Zipcode" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="LocationId" ColumnName="LocationId" />
@@ -778,6 +861,15 @@
                 <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
                 <ScalarProperty Name="principal_id" ColumnName="principal_id" />
                 <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LocationDjs">
+            <EntityTypeMapping TypeName="WeListen.Data.Model.LocationDj">
+              <MappingFragment StoreEntitySet="LocationDj">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="LocationId" ColumnName="LocationId" />
+                <ScalarProperty Name="LocationDjId" ColumnName="LocationDjId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

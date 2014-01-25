@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using DotNetOpenAuth.OpenId.Extensions.AttributeExchange;
 using WeListen.Data;
+using WeListen.Web.Infrastructure.Session;
 using WeListen.Web.Viewmodels.Songs;
 
 namespace WeListen.Web.Controllers

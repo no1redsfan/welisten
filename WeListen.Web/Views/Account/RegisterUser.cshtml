@@ -1,0 +1,101 @@
+﻿@model WeListen.Web.Viewmodels.Account.RegisterUserViewModel
+
+
+@{
+    ViewBag.Title = "Register";
+    var rolesList = new SelectList(Model.Roles, "RoleId", "Name");
+}
+
+<h2>Create New User</h2>
+<br/>
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+    @Html.AntiForgeryToken()
+    <fieldset>
+        <legend>New User</legend>
+
+        @Html.HiddenFor(model => model.WebUser.UserId)
+        
+        
+        @*<div class="editor-label">
+            @Html.LabelFor(model => model.Account.UserRoles)
+        </div>*@
+        <div class="editor-field">
+            What type of account would you like to create:
+            @Html.DropDownList("roleId", rolesList) &nbsp; <a href="#" onclick="ShowRoleInfo();">Help?</a>
+        </div>
+        
+        <div id="RoleInfo" style="display:none;">
+            <blockquote style="font-style: italic">
+                User- Ability to queue songs at locations. i.e. - ZuckerburgFB717<br/>
+                Location- Ability to receive music to play at their location. i.e. - McDonalds<br/>
+                DJ- Ability to play music for a location. i.e. - DJMadMoney
+            </blockquote>
+        </div>
+        
+        <br/>
+
+        <div class="editor-label all">
+            @Html.LabelFor(model => model.WebUser.UserName)
+        </div>
+        <div class="editor-field all">
+            @Html.EditorFor(model => model.WebUser.UserName)
+            @Html.ValidationMessageFor(model => model.WebUser.UserName)
+        </div>
+        
+        <div class="editor-label all">
+            @Html.LabelFor(model => model.WebUser.Password)
+        </div>
+        <div class="editor-field all">
+            @Html.EditorFor(model => model.WebUser.Password)
+            @Html.ValidationMessageFor(model => model.WebUser.Password)
+        </div>
+ 
+        <div class="editor-label all">
+            @Html.LabelFor(model => model.WebUser.Email)
+        </div>
+        <div class="editor-field all">
+            @Html.EditorFor(model => model.WebUser.Email)
+            @Html.ValidationMessageFor(model => model.WebUser.Email)
+        </div>
+        
+        <div class="editor-label user">
+            @Html.LabelFor(model => model.WebUser.FirstName)
+        </div>
+        <div class="editor-field user">
+            @Html.EditorFor(model => model.WebUser.FirstName)
+            @Html.ValidationMessageFor(model => model.WebUser.FirstName)
+        </div>
+        
+        <div class="editor-label user">
+            @Html.LabelFor(model => model.WebUser.LastName)
+        </div>
+        <div class="editor-field user">
+            @Html.EditorFor(model => model.WebUser.LastName)
+            @Html.ValidationMessageFor(model => model.WebUser.LastName)
+        </div>
+        
+        <br/>
+        <p>
+            <input type="submit" value="Submit" />
+        </p>
+    </fieldset>
+    
+}
+
+<div>
+    @Html.ActionLink("Back to Home", "Index", "Home")
+</div>
+
+<script language="javascript" type="text/javascript">
+    function ShowRoleInfo() {
+        if ($('#RoleInfo').css('display') == 'none') {
+            $('#RoleInfo').show();
+        } else {
+            $('#RoleInfo').css('display', 'none');
+        }
+
+    }
+</script>

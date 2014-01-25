@@ -200,9 +200,11 @@
     <Compile Include="Infrastructure\Password.cs" />
     <Compile Include="Infrastructure\Session\SessionContext.cs" />
     <Compile Include="Models\AccountModels.cs" />
-    <Compile Include="Models\WebAccount.cs" />
+    <Compile Include="Models\WebLocation.cs" />
+    <Compile Include="Models\WebUser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Viewmodels\Account\Register.cs" />
+    <Compile Include="Viewmodels\Account\RegisterLocationViewModel.cs" />
+    <Compile Include="Viewmodels\Account\RegisterUserViewModel.cs" />
     <Compile Include="Viewmodels\Locations\Index.cs" />
     <Compile Include="Viewmodels\Locations\LocationHomeViewModel.cs" />
     <Compile Include="Viewmodels\Locations\Songs.cs" />
@@ -285,7 +287,9 @@
     <Content Include="Scripts\knockout-2.2.0.debug.js" />
     <Content Include="Scripts\knockout-2.2.0.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -330,10 +334,13 @@
     <Content Include="Views\Location\Index.cshtml" />
     <Content Include="Views\Location\Songs.cshtml" />
     <Content Include="Views\Location\Home.cshtml" />
+    <Content Include="Views\Account\RegisterUser.cshtml" />
+    <Content Include="Views\Account\RegisterLocation.cshtml" />
+    <Content Include="Views\User\Index.cshtml" />
+    <Content Include="Views\Account\LogOff.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Viewmodels\Home\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

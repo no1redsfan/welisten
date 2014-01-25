@@ -16,6 +16,8 @@ namespace WeListen.Web.Infrastructure.Session
         /// The key for storing a <see cref="WebAccount"/> in a session.
         /// </summary>
         private const string WebAccountSessionKey = "WebAccount";
+        private const string WebUserSessionKey = "WebUser";
+        private const string WebLocationSessionKey = "WebLocation";
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SessionContext"/> class.
@@ -26,20 +28,20 @@ namespace WeListen.Web.Infrastructure.Session
         }
 
         /// <summary>
-        /// Gets or sets the currently logged in <see cref="WebAccount"/> for the web site.
+        /// Gets or sets the currently logged in <see cref="WebUser"/> for the web site.
         /// </summary>
         /// <value>
         /// The user.
         /// </value>
-        public WebAccount WebAccount
+        public WebUser WebUser
         {
             get
             {
                 // ensure that a valid user object is always returned
-                WebAccount result = HttpContext.Current.Session[WebAccountSessionKey] as WebAccount;
+                WebUser result = HttpContext.Current.Session[WebUserSessionKey] as WebUser;
                 if (result != null) return result;
-                result = new WebAccount();
-                this.WebAccount = result;
+                result = new WebUser();
+                this.WebUser = result;
                 return result;
             }
 
@@ -48,10 +50,35 @@ namespace WeListen.Web.Infrastructure.Session
                 // ensure that a valid user object is always stored
                 if (value == null)
                 {
-                    value = new WebAccount();
+                    value = new WebUser();
                 }
 
-                HttpContext.Current.Session[WebAccountSessionKey] = value;
+                HttpContext.Current.Session[WebUserSessionKey] = value;
+                this.Refresh();
+            }
+        }
+
+        public WebLocation WebLocation
+        {
+            get
+            {
+                // ensure that a valid user object is always returned
+                WebLocation result = HttpContext.Current.Session[WebLocationSessionKey] as WebLocation;
+                if (result != null) return result;
+                result = new WebLocation();
+                this.WebLocation = result;
+                return result;
+            }
+
+            set
+            {
+                // ensure that a valid user object is always stored
+                if (value == null)
+                {
+                    value = new WebLocation();
+                }
+
+                HttpContext.Current.Session[WebLocationSessionKey] = value;
                 this.Refresh();
             }
         }
@@ -61,7 +88,8 @@ namespace WeListen.Web.Infrastructure.Session
         /// </summary>
         public void Clear()
         {
-            this.WebAccount = new WebAccount();
+            this.WebUser = new WebUser();
+            this.WebLocation = new WebLocation();
             // TODO - add any code to clear out what is being stored in the session
         }
 

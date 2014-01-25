@@ -10,6 +10,7 @@ using WebMatrix.WebData;
 using WeListen.Data;
 using WeListen.Web.Filters;
 using WeListen.Web.Helpers;
+using WeListen.Web.Infrastructure.Session;
 using WeListen.Web.Models;
 using WeListen.Web.Viewmodels.Account;
 
@@ -49,6 +50,7 @@ namespace WeListen.Web.Controllers
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
+            Context.Clear(); 
             ViewBag.ReturnUrl = returnUrl;
             return View();
         }
@@ -64,8 +66,9 @@ namespace WeListen.Web.Controllers
             if (ModelState.IsValid && _dataService.AuthenticateUser(model.UserName, model.Password))
             {
                 User currentUser = _dataService.GetUserByUsername(model.UserName);
-                Context.WebAccount = currentUser.ToWebAccount();
-                return RedirectToLocal(returnUrl);
+                Context.WebUser = currentUser.ToWebUser();
+                
+                return RedirectToAction("Index", "Home");
             }
 
             // If we got this far, something failed, redisplay form
@@ -75,86 +78,107 @@ namespace WeListen.Web.Controllers
 
         //
         // POST: /Account/LogOff
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        
         public ActionResult LogOff()
         {
             Context.Clear();
-            return RedirectToAction("Index", "Home");
+            return View();
         }
 
-        //
-        // GET: /Account/Register
+        
 
+        /// <summary>
+        ///     Registers the user.
+        /// </summary>
+        /// <returns>View</returns>
         [AllowAnonymous]
-        public ActionResult Register()
+        [HttpGet]
+        public ActionResult RegisterUser()
         {
-            var model = new Register
+            var model = new RegisterUserViewModel
             {
                 Roles = _dataService.GetRoles().Where(r => r.Name != "Administrator"),
-                Account = new WebAccount()
+                WebUser = new WebUser()
             };
             return View(model);
         }
 
-        //
-        // POST: /Account/Register
+        /// <summary>
+        ///     Registers the location.
+        /// </summary>
+        /// <returns></returns>
+        [AllowAnonymous]
+        [HttpGet]
+        public ActionResult RegisterLocation()
+        {
+            var model = new RegisterLocationViewModel
+            {
+                WebLocation = new WebLocation()
+            };
+            return View(model);
+        }
+
 
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public ActionResult Register(Register account, int roleId)
+        public ActionResult RegisterUser(RegisterUserViewModel user, int roleId)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    string rolename = _dataService.GetUserRoleByRoleId(roleId).User.ToString();
-                        // get the role name just because i can. Makes it clearer to read
-
-                    //If role is user or DJ save these credentials otherwise -->
-                    if (rolename == "User" || rolename == "DJ")
+                    _dataService.SaveUser(new User
                     {
-                        _dataService.SaveUser(new User
-                        {
-                            FirstName = account.Account.FirstName,
-                            LastName = account.Account.LastName,
-                            Email = account.Account.Email,
-                            UserName = account.Account.UserName,
-                            Password = account.Account.Password //TODO: hash the password
-                        });
-                        SaveUserRole(0, roleId);
+                        FirstName = user.WebUser.FirstName,
+                        LastName = user.WebUser.LastName,
+                        Email = user.WebUser.Email,
+                        UserName = user.WebUser.UserName,
+                        Password = user.WebUser.Password //TODO: hash the password
+                    });
+                    SaveUserRole(user.WebUser.UserId, roleId);
 
-
-                        return RedirectToAction(@Url.Action("Index", "Home"));
-                            //After a user account is created, take them to ?, home for now
-                    }
-
-                    // --> save these credentials for a location
-                    if (rolename == "Location")
-                    {
-                        _dataService.SaveLocation(new Location
-                        {
-                            Name = account.Account.UserName,
-                            Zipcode = account.Account.Zipcode,
-                            DjPassword = account.Account.DjPassword //TODO: hash the password
-                        });
-                        SaveUserRole(0, roleId);
-                        return RedirectToAction(@Url.Action("Index", "Home"));
-                            //After a Location account is created, take them to ?
-                    }
+                    return RedirectToAction("Index", "Home");
+                    //After a user account is created, take them to ?, home for now
                 }
                 catch
                 {
-                    
                 }
             }
 
-            var model = new Register
+            var model = new RegisterUserViewModel
             {
                 Roles = _dataService.GetRoles().Where(r => r.Name != "Administrator"),
-                Account = new WebAccount()
+                WebUser = new WebUser()
+            };
+            return View(model);
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public ActionResult RegisterLocation(RegisterLocationViewModel location)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _dataService.SaveLocation(new Location
+                    {
+                        Name = location.WebLocation.Name,
+                        Zipcode = location.WebLocation.Zipcode
+                    });
+                    return RedirectToAction(@Url.Action("Index", "Home"));
+                    //After a user account is created, take them to ?, home for now
+                }
+                catch
+                {
+                }
+            }
+
+            var model = new RegisterLocationViewModel
+            {
+                WebLocation = new WebLocation()
             };
             return View(model);
         }
@@ -413,6 +437,16 @@ namespace WeListen.Web.Controllers
             ViewBag.ShowRemoveButton = externalLogins.Count > 1 ||
                                        OAuthWebSecurity.HasLocalAccount(WebSecurity.GetUserId(User.Identity.Name));
             return PartialView("_RemoveExternalLoginsPartial", externalLogins);
+        }
+
+        [AllowAnonymous]
+        public ActionResult Register()
+        {
+            var model = new RegisterUserViewModel
+            {
+                WebUser = new WebUser()
+            };
+            return View(model);
         }
 
         #region Helpers

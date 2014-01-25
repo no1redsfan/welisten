@@ -28,5 +28,11 @@ namespace WeListen.Web.Controllers
         {
             get { return _context; }
         }
+
+        protected override void OnActionExecuted(ActionExecutedContext filterContext)
+        {
+            base.OnActionExecuted(filterContext);
+            ViewBag.User = this.Context.WebUser;
+        }
     }
 }

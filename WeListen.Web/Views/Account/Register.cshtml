@@ -1,12 +1,12 @@
-﻿@model WeListen.Web.Viewmodels.Account.Register
+﻿@model WeListen.Web.Viewmodels.Account.RegisterUserViewModel
 
 
 @{
     ViewBag.Title = "Register";
-    var rolesList = new SelectList(Model.Roles, "RoleId", "Name");
+    
 }
 
-<h2>Create New Account</h2>
+<h2>Register</h2>
 <br/>
 
 @using (Html.BeginForm())
@@ -16,92 +16,10 @@
     <fieldset>
         <legend>New Account</legend>
 
-        @Html.HiddenFor(model => model.Account.UserId)
-        
-        
-        @*<div class="editor-label">
-            @Html.LabelFor(model => model.Account.UserRoles)
-        </div>*@
-        <div class="editor-field">
-            What type of account would you like to create:
-            @Html.DropDownList("roleId", rolesList, new { onchange="DropDownChange();", id="roledropdown"}) &nbsp; <a href="#" onclick="ShowRoleInfo();">Help?</a>
-        </div>
-        
-        <div id="RoleInfo" style="display:none;">
-            <blockquote style="font-style: italic">
-                User- Ability to queue songs at locations. i.e. - ZuckerburgFB717<br/>
-                Location- Ability to receive music to play at their location. i.e. - McDonalds<br/>
-                DJ- Ability to play music for a location. i.e. - DJMadMoney
-            </blockquote>
-        </div>
-        
-        <br/>
-
-        <div class="editor-label all" style="display: none;">
-            @Html.LabelFor(model => model.Account.UserName)
-        </div>
-        <div class="editor-field all" style="display: none;">
-            @Html.EditorFor(model => model.Account.UserName)
-            @Html.ValidationMessageFor(model => model.Account.UserName)
-        </div>
-        
-        <div class="editor-label all" style="display: none;">
-            @Html.LabelFor(model => model.Account.Password)
-        </div>
-        <div class="editor-field all" style="display: none;">
-            @Html.EditorFor(model => model.Account.Password)
-            @Html.ValidationMessageFor(model => model.Account.Password)
-        </div>
-        
-
-        
-        <div class="editor-label all" style="display: none;">
-            @Html.LabelFor(model => model.Account.Email)
-        </div>
-        <div class="editor-field all" style="display: none;">
-            @Html.EditorFor(model => model.Account.Email)
-            @Html.ValidationMessageFor(model => model.Account.Email)
-        </div>
-        
-        <div class="editor-label user" style="display: none;">
-            @Html.LabelFor(model => model.Account.FirstName)
-        </div>
-        <div class="editor-field user" style="display: none;">
-            @Html.EditorFor(model => model.Account.FirstName)
-            @Html.ValidationMessageFor(model => model.Account.FirstName)
-        </div>
-        
-        <div class="editor-label user" style="display: none;">
-            @Html.LabelFor(model => model.Account.LastName)
-        </div>
-        <div class="editor-field user" style="display: none;">
-            @Html.EditorFor(model => model.Account.LastName)
-            @Html.ValidationMessageFor(model => model.Account.LastName)
-        </div>
-        
-        
-        <div class="editor-label location" style="display: none;">
-            @Html.LabelFor(model => model.Account.Zipcode)
-        </div>
-        <div class="editor-field location" style="display: none;">
-            @Html.EditorFor(model => model.Account.Zipcode)
-            @Html.ValidationMessageFor(model => model.Account.Zipcode)
-        </div>
-        
-        <div class="editor-label location" style="display: none;">
-            @Html.LabelFor(model => model.Account.DjPassword)
-        </div>
-        <div class="editor-field location" style="display: none;">
-            @Html.EditorFor(model => model.Account.DjPassword)
-            @Html.ValidationMessageFor(model => model.Account.DjPassword)
-        </div>
-        
-        
-        
-        
-        <br/>
+       
         <p>
-            <input type="submit" value="Submit" />
+            <li>@Html.ActionLink("Register New User/Dj", "RegisterUser", "Account")</li>
+            <li>@Html.ActionLink("Register New Location/Event", "RegisterLocation", "Account")</li>
         </p>
     </fieldset>
     
@@ -112,33 +30,5 @@
 </div>
 
 <script language="javascript" type="text/javascript">
-    function ShowRoleInfo() {
-        if ($('#RoleInfo').css('display') == 'none') {
-            $('#RoleInfo').show();
-        } else {
-            $('#RoleInfo').css('display', 'none');
-        }
-
-    }
-
-
-    function DropDownChange() {
-        var role = $('#roledropdown :selected').text();
-        if (role == "Location") {
-            $('.location').show();
-            $('.all').show();
-            $('.user').hide();
-        } 
-        
-        if (role == "DJ" || role == "User") {
-            $('.user').show();
-            $('.all').show();
-            $('.location').hide();
-        } 
-        
-        
-        
-    }
-
-
+    
 </script>

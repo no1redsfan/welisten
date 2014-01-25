@@ -12,19 +12,13 @@ namespace WeListen.Data
     using System;
     using System.Collections.Generic;
     
-    public partial class Location
+    public partial class LocationDj
     {
-        public Location()
-        {
-            this.LocationCatalogs = new HashSet<LocationCatalog>();
-            this.LocationDjs = new HashSet<LocationDj>();
-        }
-    
+        public int LocationDjId { get; set; }
         public int LocationId { get; set; }
-        public string Name { get; set; }
-        public string Zipcode { get; set; }
+        public int UserId { get; set; }
     
-        public virtual ICollection<LocationCatalog> LocationCatalogs { get; set; }
-        public virtual ICollection<LocationDj> LocationDjs { get; set; }
+        public virtual Location Location { get; set; }
+        public virtual User User { get; set; }
     }
 }

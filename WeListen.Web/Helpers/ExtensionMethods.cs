@@ -18,9 +18,26 @@ namespace WeListen.Web.Helpers
         /// </summary>
         /// <param name="user">The user object to convert.</param>
         /// <returns>A <see cref="WebAccount"/> object.</returns>
-        public static WebAccount ToWebAccount(this User user)
+        /*public static WebAccount ToWebAccount(this User user)
         {
             WebAccount result = new WebAccount
+            {
+                Email = user.Email,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Password = user.Password,
+                UserId = user.UserId,
+                UserName = user.UserName
+            };
+
+            // TODO - maybe hash the password, and also DjPassword and Zipcode are not being stored...
+
+            return result;
+        }*/
+
+        public static WebUser ToWebUser(this User user)
+        {
+            WebUser result = new WebUser
             {
                 Email = user.Email,
                 FirstName = user.FirstName,
