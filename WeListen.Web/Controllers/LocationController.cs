@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using WeListen.Data;
 using WeListen.Web.Infrastructure.Session;
+using WeListen.Web.Models;
 using WeListen.Web.Viewmodels.Locations;
 
 namespace WeListen.Web.Controllers
@@ -53,10 +54,27 @@ namespace WeListen.Web.Controllers
         /// <returns>View</returns>
         public ActionResult Songs(int locationId)
         {
+            WebUser webUser = ViewBag.User as WebUser;
+            
             ViewBag.Location = _dataService.GetLocationNameWithId(locationId).Name;
             ViewBag.LocationId = locationId;
-            var model = new Songs { Song = _dataService.GetSongsByLocation(locationId) };
-            return View(model);
+            if (webUser != null)
+            {
+                var model = new Songs
+                {
+                    Song = _dataService.GetSongsByLocation(locationId),
+                    Role = _dataService.GetUserRoleByUserId(webUser.UserId),
+                };
+                return View(model);
+            }
+            else
+            {
+                var model = new Songs
+                {
+                    Song = _dataService.GetSongsByLocation(locationId)
+                };
+                return View(model);
+            }
         }
 
 
@@ -72,7 +90,8 @@ namespace WeListen.Web.Controllers
             var model = new LocationHomeViewModel
             {
                 Song = _dataService.GetSongsByLocation(locationId),
-                PlaylistQueue = _dataService.GetPlaylistByLocation(locationId)
+                PlaylistQueue = _dataService.GetPlaylistByLocation(locationId),
+                Djs = _dataService.GetLocationDjs(locationId)
             };
             return View(model);
         }

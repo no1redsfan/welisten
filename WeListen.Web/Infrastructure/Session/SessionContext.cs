@@ -18,6 +18,8 @@ namespace WeListen.Web.Infrastructure.Session
         private const string WebAccountSessionKey = "WebAccount";
         private const string WebUserSessionKey = "WebUser";
         private const string WebLocationSessionKey = "WebLocation";
+        //private const string WebUserRoleSessionKey = "WebUserRole"; not sure if or how to do this
+
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SessionContext"/> class.

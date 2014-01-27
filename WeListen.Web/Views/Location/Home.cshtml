@@ -3,8 +3,11 @@
 @{
     ViewBag.Title = "Home";
 }
-
 <h2>Home</h2>
+
+
+
+<button id="add-dj">Add DJ</button>
 
 <table style="float: left; width: 50%">
     <tr>
@@ -14,7 +17,7 @@
     {
         <tr>
             <td>
-                @song.LocationCatalog.Song.Title by @song.LocationCatalog.Song.Artist
+                @song.LocationCatalog.Song.Title by @song.LocationCatalog.Song.Artist.Name
             </td>
         </tr>
     }
@@ -29,8 +32,8 @@
     {
         <tr>
             <td>
-                @song.Title by @song.Artist
+                @song.Title by @song.Artist.Name
             </td>
-       </tr>
+        </tr>
     }
 </table>

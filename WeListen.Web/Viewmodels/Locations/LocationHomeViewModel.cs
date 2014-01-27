@@ -15,6 +15,7 @@ namespace WeListen.Web.Viewmodels.Locations
 
         public ICollection<LocationPlaylist> PlaylistQueue { get; set; }
 
+        public ICollection<Data.User> Djs { get; set; } 
 
     }
 }

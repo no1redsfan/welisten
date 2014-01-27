@@ -374,6 +374,12 @@ namespace WeListen.Data
                     .ToList();
         }
 
+        public ICollection<User> GetLocationDjs(int locationId)
+        {
+            return
+                (from c in _context.LocationDjs where c.LocationId == locationId select c.User).ToList();
+        }
+
         /// <summary>
         ///     Gets the songs queued by user.
         /// </summary>
@@ -408,6 +414,16 @@ namespace WeListen.Data
         public UserRole GetUserRoleByRoleId(int roleId)
         {
             return (from u in _context.UserRoles where u.RoleId == roleId select u).Single();
+        }
+
+        /// <summary>
+        /// Get the role of the user by the ID of the user
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <returns>Role id</returns>
+        public int GetUserRoleByUserId(int userId)
+        {
+            return (from u in _context.UserRoles where u.UserId == userId select u.RoleId).Single();
         }
 
         /*public int GetNumOf()
