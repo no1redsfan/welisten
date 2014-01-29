@@ -105,7 +105,10 @@ namespace WeListen.Web.Controllers
             return true;
         }
 
-        
 
+        public ActionResult Edit()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

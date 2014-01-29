@@ -1,5 +1,4 @@
-﻿@using WeListen.Web.Models
-@model dynamic
+﻿@model WeListen.Web.Viewmodels.User.UserIndexViewModel
 
 @{
     ViewBag.Title = "title";
@@ -11,4 +10,23 @@
     }
 </style>
 
-<h2>Welcome</h2>
+<h2>Welcome @Model.WebUser.UserName</h2>
+
+@if (Model.Locations != null)
+{
+    <table>
+        <tr>
+            <th>Location/Event</th>
+        </tr>
+
+        @foreach (Location loc in Model.Locations)
+        {
+            <tr>
+                <td>@Html.ActionLink(loc.Name, "Edit", "Location")</td>
+            </tr>
+        }
+
+    </table>
+}
+
+

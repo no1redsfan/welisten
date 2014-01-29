@@ -206,6 +206,7 @@
     <Compile Include="Viewmodels\Account\RegisterLocationViewModel.cs" />
     <Compile Include="Viewmodels\Account\RegisterUserViewModel.cs" />
     <Compile Include="Viewmodels\Locations\Index.cs" />
+    <Compile Include="Viewmodels\Locations\LocationEditViewModel.cs" />
     <Compile Include="Viewmodels\Locations\LocationHomeViewModel.cs" />
     <Compile Include="Viewmodels\Locations\Songs.cs" />
     <Compile Include="Viewmodels\Songs\Create.cs" />
