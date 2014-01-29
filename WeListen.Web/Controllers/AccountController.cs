@@ -114,7 +114,7 @@ namespace WeListen.Web.Controllers
         {
             var model = new RegisterLocationViewModel
             {
-                WebLocation = new WebLocation()
+                Location = new Location()
             };
             return View(model);
         }
@@ -166,8 +166,9 @@ namespace WeListen.Web.Controllers
                 {
                     _dataService.SaveLocation(new Location
                     {
-                        Name = location.WebLocation.Name,
-                        Zipcode = location.WebLocation.Zipcode
+                        Name = location.Location.Name,
+                        Zipcode = location.Location.Zipcode,
+                        CreatedByUserId = Context.WebUser.UserId
                     });
                     return RedirectToAction(@Url.Action("Index", "Home"));
                     //After a user account is created, take them to ?, home for now
@@ -179,7 +180,7 @@ namespace WeListen.Web.Controllers
 
             var model = new RegisterLocationViewModel
             {
-                WebLocation = new WebLocation()
+                Location = new Location()
             };
             return View(model);
         }

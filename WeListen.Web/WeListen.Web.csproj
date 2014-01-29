@@ -200,7 +200,6 @@
     <Compile Include="Infrastructure\Password.cs" />
     <Compile Include="Infrastructure\Session\SessionContext.cs" />
     <Compile Include="Models\AccountModels.cs" />
-    <Compile Include="Models\WebLocation.cs" />
     <Compile Include="Models\WebUser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Viewmodels\Account\RegisterLocationViewModel.cs" />

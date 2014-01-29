@@ -17,7 +17,7 @@ namespace WeListen.Web.Infrastructure.Session
         /// </summary>
         private const string WebAccountSessionKey = "WebAccount";
         private const string WebUserSessionKey = "WebUser";
-        private const string WebLocationSessionKey = "WebLocation";
+        //private const string WebLocationSessionKey = "WebLocation";
         //private const string WebUserRoleSessionKey = "WebUserRole"; not sure if or how to do this
 
 
@@ -60,7 +60,7 @@ namespace WeListen.Web.Infrastructure.Session
             }
         }
 
-        public WebLocation WebLocation
+        /*public WebLocation WebLocation
         {
             get
             {
@@ -83,7 +83,7 @@ namespace WeListen.Web.Infrastructure.Session
                 HttpContext.Current.Session[WebLocationSessionKey] = value;
                 this.Refresh();
             }
-        }
+        }*/
 
         /// <summary>
         /// Clears the 
@@ -91,7 +91,7 @@ namespace WeListen.Web.Infrastructure.Session
         public void Clear()
         {
             this.WebUser = new WebUser();
-            this.WebLocation = new WebLocation();
+            //this.WebLocation = new WebLocation();
             // TODO - add any code to clear out what is being stored in the session
         }
 

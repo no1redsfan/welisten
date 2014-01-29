@@ -19,13 +19,7 @@ namespace WeListen.Web.Viewmodels.Locations
         /// </value>
         public IEnumerable<Location> Locations { get; set; }
 
-        /// <summary>
-        /// Gets or sets the account.
-        /// </summary>
-        /// <value>
-        /// The account.
-        /// </value>
-        public WebLocation Location { get; set; }
+        
 
     }
 }

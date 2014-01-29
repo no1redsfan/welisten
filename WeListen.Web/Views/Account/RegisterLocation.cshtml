@@ -10,22 +10,22 @@
     <fieldset>
         <legend>New Location/Event</legend>
 
-        @Html.HiddenFor(model => model.WebLocation.LocationId)
+        @Html.HiddenFor(model => model.Location.LocationId)
 
         <div class="editor-label all">
-            @Html.LabelFor(model => model.WebLocation.Name)
+            @Html.LabelFor(model => model.Location.Name)
         </div>
         <div class="editor-field all">
-            @Html.EditorFor(model => model.WebLocation.Name)
-            @Html.ValidationMessageFor(model => model.WebLocation.Name)
+            @Html.EditorFor(model => model.Location.Name)
+            @Html.ValidationMessageFor(model => model.Location.Name)
         </div>
         
         <div class="editor-label all">
-            @Html.LabelFor(model => model.WebLocation.Zipcode)
+            @Html.LabelFor(model => model.Location.Zipcode)
         </div>
         <div class="editor-field all">
-            @Html.EditorFor(model => model.WebLocation.Zipcode)
-            @Html.ValidationMessageFor(model => model.WebLocation.Zipcode)
+            @Html.EditorFor(model => model.Location.Zipcode)
+            @Html.ValidationMessageFor(model => model.Location.Zipcode)
         </div>
         
 
