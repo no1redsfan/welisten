@@ -74,7 +74,7 @@ namespace WeListen.Data
             return (from l in _context.Locations where l.Name == name select l).Single();
         }
 
-        public Location GetLocationNameWithId(int locationId)
+        public Location GetLocationWithId(int locationId)
         {
             return (from l in _context.Locations where l.LocationId == locationId select l).Single();
         }
@@ -511,5 +511,7 @@ namespace WeListen.Data
         {
             return (from u in _context.UserRoles where u.UserId == userId select u.Role).Single();
         }
+
+        
     }
 }

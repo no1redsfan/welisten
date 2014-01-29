@@ -102,7 +102,7 @@ namespace WeListen.Web.Controllers
         [HttpGet]
         public ActionResult Queue(int locationId)  //need to find a way to allow the passing of a string location as well
         {
-            ViewBag.Location = _dataService.GetLocationNameWithId(locationId).Name;
+            ViewBag.Location = _dataService.GetLocationWithId(locationId).Name;
             ViewBag.LocationId = locationId;
             var model = new Queue { PlaylistQueue = _dataService.GetPlaylistByLocation(locationId) };
             return View(model);

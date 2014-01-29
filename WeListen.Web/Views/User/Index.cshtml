@@ -14,6 +14,7 @@
 
 @if (Model.Locations != null)
 {
+    <h2>My Locations/Events</h2>
     <table>
         <tr>
             <th>Location/Event</th>
@@ -22,7 +23,7 @@
         @foreach (Location loc in Model.Locations)
         {
             <tr>
-                <td>@Html.ActionLink(loc.Name, "Edit", "Location")</td>
+                <td>@Html.ActionLink(loc.Name, "Edit", "Location", new { locationId = loc.LocationId})</td>
             </tr>
         }
 

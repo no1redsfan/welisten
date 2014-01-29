@@ -56,7 +56,7 @@ namespace WeListen.Web.Controllers
         {
             WebUser webUser = ViewBag.User as WebUser;
             
-            ViewBag.Location = _dataService.GetLocationNameWithId(locationId).Name;
+            ViewBag.Location = _dataService.GetLocationWithId(locationId).Name;
             ViewBag.LocationId = locationId;
             if (webUser != null)
             {
@@ -85,7 +85,7 @@ namespace WeListen.Web.Controllers
         /// <returns>Playqueue and available songs. View.</returns>
         public ActionResult Home(int locationId)
         {
-            ViewBag.Location = _dataService.GetLocationNameWithId(locationId).Name;
+            ViewBag.Location = _dataService.GetLocationWithId(locationId).Name;
             ViewBag.LocationId = locationId;
             var model = new LocationHomeViewModel
             {
@@ -106,9 +106,10 @@ namespace WeListen.Web.Controllers
         }
 
 
-        public ActionResult Edit()
+        public ActionResult Edit(int locationId)
         {
-            throw new NotImplementedException();
+            var model = _dataService.GetLocationWithId(locationId);
+            return View(model);
         }
     }
 }
