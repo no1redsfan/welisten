@@ -63,7 +63,7 @@ namespace WeListen.Web.Controllers
                 var model = new Songs
                 {
                     Song = _dataService.GetSongsByLocation(locationId),
-                    Role = _dataService.GetUserRoleByUserId(webUser.UserId),
+                    Role = _dataService.GetUserRoleIdByUserId(webUser.UserId),
                 };
                 return View(model);
             }
@@ -95,6 +95,17 @@ namespace WeListen.Web.Controllers
             };
             return View(model);
         }
+
+
+        public bool SubmitDj(int locationId, string djname)
+        {
+            var result = _dataService.GetUserByUsername(djname);
+            if (result == null) return false;
+            _dataService.SaveLocationDj(locationId, result.UserId);
+            return true;
+        }
+
+        
 
     }
 }

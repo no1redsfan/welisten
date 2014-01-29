@@ -374,6 +374,11 @@ namespace WeListen.Data
                     .ToList();
         }
 
+        /// <summary>
+        /// Gets the djs for a certain location.
+        /// </summary>
+        /// <param name="locationId">The location identifier.</param>
+        /// <returns></returns>
         public ICollection<User> GetLocationDjs(int locationId)
         {
             return
@@ -421,7 +426,7 @@ namespace WeListen.Data
         /// </summary>
         /// <param name="userId">The user identifier.</param>
         /// <returns>Role id</returns>
-        public int GetUserRoleByUserId(int userId)
+        public int GetUserRoleIdByUserId(int userId)
         {
             return (from u in _context.UserRoles where u.UserId == userId select u.RoleId).Single();
         }
@@ -440,6 +445,71 @@ namespace WeListen.Data
         {
             string fileName = Path.GetFileName(filePath);
             return fileName;
+        }
+
+        public List<User> GetDjsLike(string djname)
+        {
+            return (from u in _context.Users where u.UserName.Contains(djname) select u).ToList();
+        }
+
+        /// <summary>
+        /// Saves the location dj. This allows a DJ to dj at a certain location.
+        /// </summary>
+        /// <param name="locationId">The location identifier.</param>
+        /// <param name="DjId">The dj identifier.</param>
+        /// <returns>True if save was succesfull, false otherwise</returns>
+        public bool SaveLocationDj(int locationId, int DjId)
+        {
+            LocationDj recordToInsert = new LocationDj
+            {
+                LocationId = locationId, 
+                UserId = DjId
+            };
+
+            
+            try
+            {
+                _context.LocationDjs.Add(recordToInsert);
+                _context.SaveChanges();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+
+        /// <summary>
+        /// Gets the locations/events that a user created.
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <returns>A list of locations/events that a certain user created.</returns>
+        public ICollection<Location> GetLocationsForUser(int userId)
+        {
+            return (from c in _context.Locations where c.CreatedByUserId == userId
+                    select c).ToList();
+        }
+
+
+        /// <summary>
+        /// Gets the user by user identifier.
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <returns>User object</returns>
+        public User GetUserByUserId(int userId)
+        {
+            return (from u in _context.Users where u.UserId == userId select u).SingleOrDefault();
+        }
+
+        /// <summary>
+        /// Gets the user role by user identifier.
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <returns>A Role object</returns>
+        public Role GetUserRoleByUserId(int userId)
+        {
+            return (from u in _context.UserRoles where u.UserId == userId select u.Role).Single();
         }
     }
 }

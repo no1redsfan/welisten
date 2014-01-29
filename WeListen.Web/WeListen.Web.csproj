@@ -211,7 +211,7 @@
     <Compile Include="Viewmodels\Songs\Create.cs" />
     <Compile Include="Viewmodels\Songs\Index.cs" />
     <Compile Include="Viewmodels\Songs\Queue.cs" />
-    <Compile Include="Viewmodels\User\Index.cs" />
+    <Compile Include="Viewmodels\User\UserIndexViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
@@ -355,6 +355,9 @@
       <Project>{bffffcaa-a1f6-425b-a951-7c9ccbe6bb10}</Project>
       <Name>WeListen.Data</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

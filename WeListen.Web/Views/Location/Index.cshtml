@@ -4,23 +4,24 @@
     ViewBag.Title = "Index";
 }
 
-<h2>All Locations</h2>
+<h2>All Locations/Events</h2>
 
+<p>Enter a location to begin requesting songs.</p>
     
-    <table>
+<table>
         <tr>
-            <th>Location</th>
+            <th>Location/Event</th>
+            <th>&nbsp;</th>
         </tr>
-
         @foreach (var location in Model.Locations)
         {
             <tr>
                 <td>
-                    @location.Name ---> 
+                    @location.Name 
+                </td>
+                <td>
                     <input type="submit" value="Enter Location" onclick="location.href='@Url.Action("Songs", "Location", new {locationId=@location.LocationId})'" />
-                    
                 </td>
             </tr>
         }
-
-    </table>
+</table>

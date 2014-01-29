@@ -11,7 +11,8 @@ namespace WeListen.Web.Models
     {
         public int UserId { get; set; }
 
-        [DisplayName("User Name*")]
+        [DisplayName("Username*")]
+        [StringLength(50, ErrorMessage = "The username cannot exceed 50 characters.")]
         [Required]
         public string UserName { get; set; }
 
@@ -26,6 +27,7 @@ namespace WeListen.Web.Models
         public string Email { get; set; }
 
         [DisplayName("Password*")]
+        [DataType(DataType.Password)]
         [Required]
         public string Password { get; set; }
 

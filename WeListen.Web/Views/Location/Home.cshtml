@@ -3,11 +3,10 @@
 @{
     ViewBag.Title = "Home";
 }
-<h2>Home</h2>
+<h2>Location Home</h2>
 
-
-
-<button id="add-dj">Add DJ</button>
+<input type="text" id="djusername"/>
+<input type="button" onclick="AddDj();" value="Add"/>
 
 <table style="float: left; width: 50%">
     <tr>
@@ -37,3 +36,34 @@
         </tr>
     }
 </table>
+
+
+<script type="text/javascript">
+    function OnAddDjTextChange() {
+        
+    }
+   
+    function AddDj() {
+        var data = {
+            locationId: 1,
+            djname: $('#djusername').val()
+        };
+        
+        $.ajax({
+            url: '/Location/SubmitDj',
+            type: 'POST',
+            data: JSON.stringify(data),
+            dataType: 'json',
+            contentType: 'application/json; charset=utf-8',
+            error: function (xhr) {
+                alert('Error: ' + xhr.statusText);
+            },
+            success: function (result) {
+                alert("yayayayyay!");
+            },
+            async: true,
+            processData: false
+        });
+    }
+    
+</script>

@@ -32,6 +32,7 @@
         <EntityTypeShape EntityType="WeListen.Data.Model.LocationDj" Width="1.5" PointX="3.06748381027369" PointY="29.059572456897968" />
         <AssociationConnector Association="WeListen.Data.Model.FK_LocationDj_Location" />
         <AssociationConnector Association="WeListen.Data.Model.FK_LocationDj_User" />
+        <AssociationConnector Association="WeListen.Data.Model.FK_Location_User" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

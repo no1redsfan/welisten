@@ -21,6 +21,7 @@ namespace WeListen.Data
             this.Songs = new HashSet<Song>();
             this.UserRoles = new HashSet<UserRole>();
             this.LocationDjs = new HashSet<LocationDj>();
+            this.Locations = new HashSet<Location>();
         }
     
         public int UserId { get; set; }
@@ -35,5 +36,6 @@ namespace WeListen.Data
         public virtual ICollection<Song> Songs { get; set; }
         public virtual ICollection<UserRole> UserRoles { get; set; }
         public virtual ICollection<LocationDj> LocationDjs { get; set; }
+        public virtual ICollection<Location> Locations { get; set; }
     }
 }
