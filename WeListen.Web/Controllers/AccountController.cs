@@ -67,7 +67,6 @@ namespace WeListen.Web.Controllers
             {
                 User currentUser = _dataService.GetUserByUsername(model.UserName);
                 Context.WebUser = currentUser.ToWebUser();
-                
                 return RedirectToAction("Index", "Home");
             }
 
