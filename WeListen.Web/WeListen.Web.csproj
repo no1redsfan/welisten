@@ -363,10 +363,6 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\WeListen.Data.WebServices\WeListen.Data.WebServices.csproj">
-      <Project>{44395ce6-adbe-4a5a-b93c-666bdcc21df8}</Project>
-      <Name>WeListen.Data.WebServices</Name>
-    </ProjectReference>
     <ProjectReference Include="..\WeListen.Data\WeListen.Data.csproj">
       <Project>{bffffcaa-a1f6-425b-a951-7c9ccbe6bb10}</Project>
       <Name>WeListen.Data</Name>
