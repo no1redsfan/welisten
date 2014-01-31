@@ -30,6 +30,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Elmah">
+      <HintPath>..\packages\elmah.corelibrary.1.2.2\lib\Elmah.dll</HintPath>
+    </Reference>
+    <Reference Include="Elmah.Mvc">
+      <HintPath>..\packages\Elmah.MVC.2.1.1\lib\net40\Elmah.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework">
       <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -67,6 +73,9 @@
     <Compile Include="LocationCatalog.cs">
       <DependentUpon>WeListenData.tt</DependentUpon>
     </Compile>
+    <Compile Include="LocationDj.cs">
+      <DependentUpon>WeListenData.tt</DependentUpon>
+    </Compile>
     <Compile Include="LocationPlaylist.cs">
       <DependentUpon>WeListenData.tt</DependentUpon>
     </Compile>
@@ -76,6 +85,9 @@
     </Compile>
     <Compile Include="Service.cs" />
     <Compile Include="Song.cs">
+      <DependentUpon>WeListenData.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sysdiagram.cs">
       <DependentUpon>WeListenData.tt</DependentUpon>
     </Compile>
     <Compile Include="User.cs">
@@ -101,7 +113,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
     <EntityDeploy Include="WeListenData.edmx">
       <Generator>EntityModelCodeGenerator</Generator>

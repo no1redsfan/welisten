@@ -1,0 +1,33 @@
+﻿@model WeListen.Web.Viewmodels.User.UserIndexViewModel
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+<style>
+    table, th, td {
+        border: 1px solid black;
+    }
+</style>
+
+<h2>Welcome @Model.WebUser.UserName</h2>
+
+@if (Model.Locations != null)
+{
+    <h2>My Locations/Events</h2>
+    <table>
+        <tr>
+            <th>Location/Event</th>
+        </tr>
+
+        @foreach (Location loc in Model.Locations)
+        {
+            <tr>
+                <td>@Html.ActionLink(loc.Name, "Edit", "Location", new { locationId = loc.LocationId})</td>
+            </tr>
+        }
+
+    </table>
+}
+
+

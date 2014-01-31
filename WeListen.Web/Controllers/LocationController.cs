@@ -4,11 +4,13 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using WeListen.Data;
+using WeListen.Web.Infrastructure.Session;
+using WeListen.Web.Models;
 using WeListen.Web.Viewmodels.Locations;
 
 namespace WeListen.Web.Controllers
 {
-    public class LocationController : Controller
+    public class LocationController : BaseController
     {
         //
         // GET: /Location/
@@ -45,13 +47,69 @@ namespace WeListen.Web.Controllers
         }
 
 
+        /// <summary>
+        /// All available songs at a location
+        /// </summary>
+        /// <param name="locationId">The location id.</param>
+        /// <returns>View</returns>
         public ActionResult Songs(int locationId)
         {
-            ViewBag.Location = _dataService.GetLocationNameWithId(locationId).Name;
+            WebUser webUser = ViewBag.User as WebUser;
+            
+            ViewBag.Location = _dataService.GetLocationWithId(locationId).Name;
             ViewBag.LocationId = locationId;
-            var model = new Songs { Song = _dataService.GetSongsByLocation(locationId) };
+            if (webUser != null)
+            {
+                var model = new Songs
+                {
+                    Song = _dataService.GetSongsByLocation(locationId),
+                    Role = _dataService.GetUserRoleIdByUserId(webUser.UserId),
+                };
+                return View(model);
+            }
+            else
+            {
+                var model = new Songs
+                {
+                    Song = _dataService.GetSongsByLocation(locationId)
+                };
+                return View(model);
+            }
+        }
+
+
+        /// <summary>
+        /// Home page for a location. 
+        /// </summary>
+        /// <param name="locationId">The location identifier.</param>
+        /// <returns>Playqueue and available songs. View.</returns>
+        public ActionResult Home(int locationId)
+        {
+            ViewBag.Location = _dataService.GetLocationWithId(locationId).Name;
+            ViewBag.LocationId = locationId;
+            var model = new LocationHomeViewModel
+            {
+                Song = _dataService.GetSongsByLocation(locationId),
+                PlaylistQueue = _dataService.GetPlaylistByLocation(locationId),
+                Djs = _dataService.GetLocationDjs(locationId)
+            };
             return View(model);
         }
 
+
+        public bool SubmitDj(int locationId, string djname)
+        {
+            var result = _dataService.GetUserByUsername(djname);
+            if (result == null) return false;
+            _dataService.SaveLocationDj(locationId, result.UserId);
+            return true;
+        }
+
+
+        public ActionResult Edit(int locationId)
+        {
+            var model = _dataService.GetLocationWithId(locationId);
+            return View(model);
+        }
     }
 }

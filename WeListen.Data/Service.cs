@@ -60,21 +60,21 @@ namespace WeListen.Data
         /// <returns>The playlist for the location name.</returns>
         public ICollection<LocationPlaylist> GetPlaylistByLocation(string locationName)
         {
-            var location = GetLocation(locationName);
+            Location location = GetLocation(locationName);
             return GetPlaylistByLocation(location.LocationId);
         }
 
         /// <summary>
-        /// Gets a location.
+        ///     Gets a location.
         /// </summary>
         /// <param name="name">The name of the location.</param>
-        /// <returns>A <see cref="Location"/> object, or it throws an exception.</returns>
+        /// <returns>A <see cref="Location" /> object, or it throws an exception.</returns>
         public Location GetLocation(string name)
         {
             return (from l in _context.Locations where l.Name == name select l).Single();
         }
 
-        public Location GetLocationNameWithId(int locationId)
+        public Location GetLocationWithId(int locationId)
         {
             return (from l in _context.Locations where l.LocationId == locationId select l).Single();
         }
@@ -98,6 +98,14 @@ namespace WeListen.Data
             return (from s in _context.Songs select s).ToList();
         }
 
+        public ICollection<Song> GetTopPlayedSongs()
+        {
+            return
+                (from p in _context.LocationPlaylists where p.PlayedDateTime != null select p.LocationCatalog.Song)
+                    .ToList();
+        }
+
+
         /// <summary>
         ///     Gets the songs for a location.
         /// </summary>
@@ -105,7 +113,7 @@ namespace WeListen.Data
         /// <returns>The songs available for a location.</returns>
         public ICollection<Song> GetSongsByLocation(string locationName)
         {
-            var location = GetLocation(locationName);
+            Location location = GetLocation(locationName);
             return GetSongsByLocation(location.LocationId);
         }
 
@@ -168,14 +176,61 @@ namespace WeListen.Data
         }
 
         /// <summary>
-        /// Updates the song in a playlist when it has been played.
+        ///     Authenticates the user.
+        /// </summary>
+        /// <param name="userName">The user name.</param>
+        /// <param name="password">The password.</param>
+        /// <returns><c>true</c> if the credentials are valid; otherwise, <c>false</c>.</returns>
+        public bool AuthenticateUser(string userName, string password)
+        {
+            return
+                ((from u in _context.Users where u.UserName == userName && u.Password == password select u)
+                    .FirstOrDefault() != null);
+        }
+
+        public bool SaveUserRole(UserRole userRole)
+        {
+            _context.Entry(userRole).State = userRole.UserId == 0 ? EntityState.Added : EntityState.Modified;
+            try
+            {
+                _context.SaveChanges();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+
+        /// <summary>
+        ///     Saves the location.
+        /// </summary>
+        /// <param name="location">The location.</param>
+        /// <returns><c>true</c> if the save was successful; otherwise, <c>false</c>.</returns>
+        public bool SaveLocation(Location location)
+        {
+            _context.Entry(location).State = location.LocationId == 0 ? EntityState.Added : EntityState.Modified;
+            try
+            {
+                _context.SaveChanges();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        ///     Updates the song in a playlist when it has been played.
         /// </summary>
         /// <param name="locationId">The location id.</param>
         /// <param name="songId">The song id.</param>
         /// <returns><c>true</c> if the save was successful; otherwise, <c>false</c>.</returns>
         public bool UpdateSongInPlaylist(int locationId, int songId)
         {
-            var recordToUpdate = (from p in _context.LocationPlaylists
+            LocationPlaylist recordToUpdate = (from p in _context.LocationPlaylists
                 where
                     p.LocationCatalog.LocationId == locationId && p.LocationCatalog.SongId == songId &&
                     p.PlayedDateTime == null
@@ -191,7 +246,6 @@ namespace WeListen.Data
                 recordToUpdate.PlayedDateTime = DateTime.Now;
                 _context.SaveChanges();
                 return true;
-
             }
             catch (Exception)
             {
@@ -249,7 +303,7 @@ namespace WeListen.Data
         }
 
         /// <summary>
-        /// Gets the artists.
+        ///     Gets the artists.
         /// </summary>
         /// <returns>All the artists in the database.</returns>
         public ICollection<Artist> GetArtists()
@@ -258,16 +312,16 @@ namespace WeListen.Data
         }
 
         /// <summary>
-        /// Gets the genres.
+        ///     Gets the genres.
         /// </summary>
         /// <returns>All the genres in the database.</returns>
         public ICollection<Genre> GetGenres()
         {
-            return (from g in _context.Genres orderby  g.Genre1 select g).ToList();
+            return (from g in _context.Genres orderby g.Genre1 select g).ToList();
         }
 
         /// <summary>
-        /// Gets the albums.
+        ///     Gets the albums.
         /// </summary>
         /// <returns>All the albums in the database.</returns>
         public ICollection<Album> GetAlbums()
@@ -276,7 +330,7 @@ namespace WeListen.Data
         }
 
         /// <summary>
-        /// Gets the locations.
+        ///     Gets the locations.
         /// </summary>
         /// <returns>All the locations in the database</returns>
         public ICollection<Location> GetLocations()
@@ -285,7 +339,7 @@ namespace WeListen.Data
         }
 
         /// <summary>
-        /// Gets the users.
+        ///     Gets the users.
         /// </summary>
         /// <returns>Collection of users</returns>
         public ICollection<User> GetUsers()
@@ -293,46 +347,88 @@ namespace WeListen.Data
             return (from u in _context.Users select u).ToList();
         }
 
+        public ICollection<Role> GetRoles()
+        {
+            return (from r in _context.Roles select r).ToList();
+        }
+
         /// <summary>
-        /// Gets the users that have the user role.
+        ///     Gets the users that have the user role.
         /// </summary>
         /// <returns>Collection of users who have the user role of 'User'</returns>
         public ICollection<User> GetUsersWithUserRole()
         {
-            return (from c in _context.UserRoles where c.UserId == '3' select c.User).ToList(); //recheck this, i was getting tired
+            return (from c in _context.UserRoles where c.UserId == '3' select c.User).ToList();
+                //recheck this, i was getting tired
         }
 
         /// <summary>
-        /// Gets the songs queued by user.
+        ///     Gets the songs queued by user.
         /// </summary>
         /// <param name="userId">userId</param>
         /// <returns>Collection of songs queue by user</returns>
         public ICollection<Song> GetSongsQueuedByUser(int userId)
         {
-            return (from c in _context.LocationPlaylists where c.RequestedByUserId == userId select c.LocationCatalog.Song).ToList();
+            return
+                (from c in _context.LocationPlaylists where c.RequestedByUserId == userId select c.LocationCatalog.Song)
+                    .ToList();
         }
 
         /// <summary>
-        /// Gets the songs queued by user.
+        /// Gets the djs for a certain location.
+        /// </summary>
+        /// <param name="locationId">The location identifier.</param>
+        /// <returns></returns>
+        public ICollection<User> GetLocationDjs(int locationId)
+        {
+            return
+                (from c in _context.LocationDjs where c.LocationId == locationId select c.User).ToList();
+        }
+
+        /// <summary>
+        ///     Gets the songs queued by user.
         /// </summary>
         /// <param name="username">The username.</param>
         /// <returns>Collection of songs queued by user</returns>
         public ICollection<Song> GetSongsQueuedByUser(string username)
         {
-            var user = GetUserByUsername(username);
-            
-            return (from c in _context.LocationPlaylists where 
-                        c.RequestedByUserId == user.UserId select c.LocationCatalog.Song).ToList();
+            User user = GetUserByUsername(username);
+
+            return (from c in _context.LocationPlaylists
+                where
+                    c.RequestedByUserId == user.UserId
+                select c.LocationCatalog.Song).ToList();
         }
 
         /// <summary>
-        /// Gets the user by username.
+        ///     Gets the user by username.
         /// </summary>
         /// <param name="username">The username.</param>
         /// <returns>User object</returns>
         public User GetUserByUsername(string username)
         {
-            return (from u in _context.Users where u.UserName == username select u).Single();
+            return (from u in _context.Users where u.UserName == username select u).SingleOrDefault();
+        }
+
+
+        /// <summary>
+        ///     Gets the user role by role identifier.
+        /// </summary>
+        /// <param name="roleId">The role identifier.</param>
+        /// <returns>The userrole</returns>
+        public UserRole GetUserRoleByRoleId(int roleId)
+        {
+            return (from u in _context.UserRoles where u.RoleId == roleId select u).Single();
+        }
+
+        /// <summary>
+        /// Get the role of the user by the ID of the user
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <returns>Role id</returns>
+        public int GetUserRoleIdByUserId(int userId)
+        {
+            return (from u in _context.UserRoles where u.UserId == userId select u.RoleId).Single();
         }
 
         /*public int GetNumOf()
@@ -351,7 +447,71 @@ namespace WeListen.Data
             return fileName;
         }
 
+        public List<User> GetDjsLike(string djname)
+        {
+            return (from u in _context.Users where u.UserName.Contains(djname) select u).ToList();
+        }
+
+        /// <summary>
+        /// Saves the location dj. This allows a DJ to dj at a certain location.
+        /// </summary>
+        /// <param name="locationId">The location identifier.</param>
+        /// <param name="DjId">The dj identifier.</param>
+        /// <returns>True if save was succesfull, false otherwise</returns>
+        public bool SaveLocationDj(int locationId, int DjId)
+        {
+            LocationDj recordToInsert = new LocationDj
+            {
+                LocationId = locationId, 
+                UserId = DjId
+            };
+
+            
+            try
+            {
+                _context.LocationDjs.Add(recordToInsert);
+                _context.SaveChanges();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
 
 
+        /// <summary>
+        /// Gets the locations/events that a user created.
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <returns>A list of locations/events that a certain user created.</returns>
+        public ICollection<Location> GetLocationsForUser(int userId)
+        {
+            return (from c in _context.Locations where c.CreatedByUserId == userId
+                    select c).ToList();
+        }
+
+
+        /// <summary>
+        /// Gets the user by user identifier.
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <returns>User object</returns>
+        public User GetUserByUserId(int userId)
+        {
+            return (from u in _context.Users where u.UserId == userId select u).SingleOrDefault();
+        }
+
+        /// <summary>
+        /// Gets the user role by user identifier.
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <returns>A Role object</returns>
+        public Role GetUserRoleByUserId(int userId)
+        {
+            return (from u in _context.UserRoles where u.UserId == userId select u.Role).Single();
+        }
+
+        
     }
 }

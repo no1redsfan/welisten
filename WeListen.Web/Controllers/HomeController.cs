@@ -4,27 +4,29 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using WeListen.Data;
+using WeListen.Web.Infrastructure.Session;
 
 namespace WeListen.Web.Controllers
 {
     /// <summary>
     /// The home controller for the application.
     /// </summary>
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         private readonly Service _dataService;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="HomeController"/> class.
+        /// Initializes a new instance of the <see cref="HomeController" /> class.
         /// </summary>
+        /// <param name="context">The storage context.</param>
         public HomeController()
         {
             _dataService = new Service();
         }
-
+        
         public ActionResult Index()
         {
-            ViewBag.Message = "Modify this template to jump-start your ASP.NET MVC application.";
+            ViewBag.Message = "WeListen";
 
             return View();
         }
@@ -37,13 +39,6 @@ namespace WeListen.Web.Controllers
         }
 
         public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
-        }
-
-        public ActionResult SearchSongs()
         {
             ViewBag.Message = "Your contact page.";
 

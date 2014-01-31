@@ -1,0 +1,69 @@
+﻿@model WeListen.Web.Viewmodels.Locations.LocationHomeViewModel
+
+@{
+    ViewBag.Title = "Home";
+}
+<h2>Location Home</h2>
+
+<input type="text" id="djusername"/>
+<input type="button" onclick="AddDj();" value="Add"/>
+
+<table style="float: left; width: 50%">
+    <tr>
+        <th>Current Queue</th>
+    </tr>
+    @foreach (LocationPlaylist song in Model.PlaylistQueue)
+    {
+        <tr>
+            <td>
+                @song.LocationCatalog.Song.Title by @song.LocationCatalog.Song.Artist.Name
+            </td>
+        </tr>
+    }
+
+</table>
+<table style="float: right; width: 50%">
+    <tr>
+        <th>Available Songs</th>
+    </tr>
+
+    @foreach (Song song in Model.Song)
+    {
+        <tr>
+            <td>
+                @song.Title by @song.Artist.Name
+            </td>
+        </tr>
+    }
+</table>
+
+
+<script type="text/javascript">
+    function OnAddDjTextChange() {
+        
+    }
+   
+    function AddDj() {
+        var data = {
+            locationId: 1,
+            djname: $('#djusername').val()
+        };
+        
+        $.ajax({
+            url: '/Location/SubmitDj',
+            type: 'POST',
+            data: JSON.stringify(data),
+            dataType: 'json',
+            contentType: 'application/json; charset=utf-8',
+            error: function (xhr) {
+                alert('Error: ' + xhr.statusText);
+            },
+            success: function (result) {
+                alert("yayayayyay!");
+            },
+            async: true,
+            processData: false
+        });
+    }
+    
+</script>

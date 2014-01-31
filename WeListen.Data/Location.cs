@@ -17,11 +17,16 @@ namespace WeListen.Data
         public Location()
         {
             this.LocationCatalogs = new HashSet<LocationCatalog>();
+            this.LocationDjs = new HashSet<LocationDj>();
         }
     
         public int LocationId { get; set; }
         public string Name { get; set; }
+        public string Zipcode { get; set; }
+        public Nullable<int> CreatedByUserId { get; set; }
     
         public virtual ICollection<LocationCatalog> LocationCatalogs { get; set; }
+        public virtual ICollection<LocationDj> LocationDjs { get; set; }
+        public virtual User User { get; set; }
     }
 }

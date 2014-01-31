@@ -1,0 +1,46 @@
+﻿@model WeListen.Web.Viewmodels.Account.RegisterLocationViewModel
+
+<h2>Create New Location/Event</h2>
+<br/>
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+    @Html.AntiForgeryToken()
+    <fieldset>
+        <legend>New Location/Event</legend>
+
+        @Html.HiddenFor(model => model.Location.LocationId)
+
+        <div class="editor-label all">
+            @Html.LabelFor(model => model.Location.Name)
+        </div>
+        <div class="editor-field all">
+            @Html.EditorFor(model => model.Location.Name)
+            @Html.ValidationMessageFor(model => model.Location.Name)
+        </div>
+        
+        <div class="editor-label all">
+            @Html.LabelFor(model => model.Location.Zipcode)
+        </div>
+        <div class="editor-field all">
+            @Html.EditorFor(model => model.Location.Zipcode)
+            @Html.ValidationMessageFor(model => model.Location.Zipcode)
+        </div>
+        
+
+        <br/>
+        <p>
+            <input type="submit" value="Submit" />
+        </p>
+    </fieldset>
+    
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index", "Songs")
+</div>
+
+<script language="javascript" type="text/javascript">
+   
+</script>
