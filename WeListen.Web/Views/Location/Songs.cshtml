@@ -1,11 +1,14 @@
 ﻿@model WeListen.Web.Viewmodels.Locations.Songs
 
 @{
-    ViewBag.Title = "Songs";
-    
+    ViewBag.Title = "View1";
 }
 
 <h2>Available songs at @ViewBag.Location</h2>
+
+@using (Html.BeginForm("Queue", "Location", FormMethod.Post)) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
 
     <table>
         <tr>
@@ -20,8 +23,17 @@
                     @song.Title
                     
                 </td>
-                <td><input type="submit" value="Add to Queue" onclick="location.href='@Url.Action("AddToQueue", "Songs", new {locationId=@ViewBag.locationId, songId= @song.SongId, requestedByUserId=song.User.UserId})'" /></td>
+                <td>
+                    @*<input type="submit" value="Add to Queue"/>
+                    @Html.ActionLink("Add to Queue", "Queue", "Location", new {})*@
+                    <input type="submit" value="Add to Queue" onclick="location.href='@Url.Action("Queue", "Location", new {locationId=@ViewBag.LocationId, songId=@song.SongId, requestedByUserId=@song.User.UserId})'" />
+                </td>
             </tr>
         }
 
     </table>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

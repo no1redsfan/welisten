@@ -7,6 +7,8 @@ using WeListen.Data;
 using WeListen.Web.Infrastructure.Session;
 using WeListen.Web.Models;
 using WeListen.Web.Viewmodels.Locations;
+using WeListen.Web.Viewmodels.Songs;
+using Index = WeListen.Web.Viewmodels.Locations.Index;
 
 namespace WeListen.Web.Controllers
 {
@@ -109,6 +111,39 @@ namespace WeListen.Web.Controllers
         public ActionResult Edit(int locationId)
         {
             var model = _dataService.GetLocationWithId(locationId);
+
+            return View(model);
+        }
+
+        /// <summary>
+        /// Add song to the queue/playlist for a specific location
+        /// </summary>
+        /// <param name="locationId">The location identifier.</param>
+        /// <param name="songId"></param>
+        /// <param name="requestedByUserId"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Queue(int locationId, int songId, int requestedByUserId)  //int locationId, int songId, int requestedByUserId
+        {
+            try
+            {
+                _dataService.AddSongToPlaylist(locationId, songId, requestedByUserId);
+            }
+            catch
+            {
+            }
+
+
+            return RedirectToAction("Queue", new { locationId = locationId });
+        }
+
+        [HttpGet]
+        public ActionResult Queue(int locationId)  //need to find a way to allow the passing of a string location as well
+        {
+            ViewBag.Location = _dataService.GetLocationWithId(locationId).Name;
+            ViewBag.LocationId = locationId;
+            var model = new LocationQueueViewModel { PlaylistQueue = _dataService.GetPlaylistByLocation(locationId) };
             return View(model);
         }
     }

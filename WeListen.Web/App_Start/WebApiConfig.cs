@@ -10,9 +10,9 @@ namespace WeListen.Web
         public static void Register(HttpConfiguration config)
         {
             config.Routes.MapHttpRoute(
-                name: "Location",
-                routeTemplate: "api/Location/{id}",
-                defaults: new { controller = "Location", id = RouteParameter.Optional }
+                name: "DefaultApi",
+                routeTemplate: "api/{controller}/{id}",
+                defaults: new { id = RouteParameter.Optional }
             );
 
             // Uncomment the following line of code to enable query support for actions with an IQueryable or IQueryable<T> return type.

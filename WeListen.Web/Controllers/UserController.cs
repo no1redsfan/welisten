@@ -21,7 +21,25 @@ namespace WeListen.Web.Controllers
             _dataService = new Service();
         }
 
+        /// <summary>
+        /// Releases unmanaged resources and optionally releases managed resources.
+        /// </summary>
+        /// <param name="disposing">true to release both managed and unmanaged resources; false to release only unmanaged resources.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _dataService.Dispose();
+            }
 
+            base.Dispose(disposing);
+        }
+
+
+        /// <summary>
+        /// Indexes this instance.
+        /// </summary>
+        /// <returns>User index view model with the webuser and their locations/events</returns>
         public ActionResult Index()
         {
             if (Context.WebUser != null)

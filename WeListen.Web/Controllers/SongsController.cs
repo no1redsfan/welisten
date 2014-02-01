@@ -115,21 +115,13 @@ namespace WeListen.Web.Controllers
         /// <param name="songId"></param>
         /// <param name="requestedByUserId"></param>
         /// <returns></returns>
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        /*[HttpPost]
+        [ValidateAntiForgeryToken]*/
         public ActionResult Queue(int locationId, int songId, int requestedByUserId)  //int locationId, int songId, int requestedByUserId
         {
-            _dataService.AddSongToPlaylist(locationId, songId, requestedByUserId); //fake locationId for now
-            return RedirectToAction("Queue", new {locationId = locationId});
-        }
-
-        //couldnt get it to do the post with queue, the method above, so i just copied it and named it different
-        public ActionResult AddToQueue(int locationId, int songId, int requestedByUserId)  //int locationId, int songId, int requestedByUserId
-        {
             _dataService.AddSongToPlaylist(locationId, songId, requestedByUserId); 
-            return RedirectToAction("Queue", new { locationId = locationId });
-        }
-       
+            return RedirectToAction("Queue", new {locationId = locationId});
+        }      
 
     }
 }

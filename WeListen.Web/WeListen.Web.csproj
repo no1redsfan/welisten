@@ -186,6 +186,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="API Controllers\LocationsController.cs" />
+    <Compile Include="API Controllers\UsersController.cs" />
     <Compile Include="App_Start\AuthConfig.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -217,8 +218,10 @@
     <Compile Include="Viewmodels\Account\RegisterLocationViewModel.cs" />
     <Compile Include="Viewmodels\Account\RegisterUserViewModel.cs" />
     <Compile Include="Viewmodels\Locations\Index.cs" />
+    <Compile Include="Viewmodels\Locations\LocationCreateViewModel.cs" />
     <Compile Include="Viewmodels\Locations\LocationEditViewModel.cs" />
     <Compile Include="Viewmodels\Locations\LocationHomeViewModel.cs" />
+    <Compile Include="Viewmodels\Locations\LocationQueueViewModel.cs" />
     <Compile Include="Viewmodels\Locations\Songs.cs" />
     <Compile Include="Viewmodels\Songs\Create.cs" />
     <Compile Include="Viewmodels\Songs\Index.cs" />
@@ -349,13 +352,16 @@
     <Content Include="Views\Songs\Create.cshtml" />
     <Content Include="Views\Songs\Queue.cshtml" />
     <Content Include="Views\Location\Index.cshtml" />
-    <Content Include="Views\Location\Songs.cshtml" />
+    <Content Include="Views\Location\Songs2.cshtml" />
     <Content Include="Views\Location\Home.cshtml" />
     <Content Include="Views\Account\RegisterUser.cshtml" />
     <Content Include="Views\Account\RegisterLocation.cshtml" />
     <Content Include="Views\User\Index.cshtml" />
     <Content Include="Views\Account\LogOff.cshtml" />
     <Content Include="Views\Location\Edit.cshtml" />
+    <Content Include="Views\Location\Create.cshtml" />
+    <Content Include="Views\Location\Queue.cshtml" />
+    <Content Include="Views\Location\Songs.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

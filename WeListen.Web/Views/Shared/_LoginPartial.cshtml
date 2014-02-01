@@ -10,7 +10,8 @@
 @if (webUser.UserName != null) {
     <ul>
         <li>
-            Hello, @webUser.UserName  @Html.ActionLink("Home", "index", "home") 
+            Hello, @Html.ActionLink(@webUser.UserName, "Index", "User")
+            @Html.ActionLink("Home", "index", "home") 
         </li>
         <li>
             @Html.ActionLink("Logout", "LogOff", "Account") 
@@ -19,7 +20,7 @@
 } else {
     <ul>
         @*<li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>*@
-        (Logged in as Guest)
+        (Acting as Guest)
         <li>@Html.ActionLink("Register", "RegisterUser", "Account")</li>
         <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
     </ul>
