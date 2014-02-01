@@ -20,7 +20,7 @@ namespace WeListen.Web.API_Controllers
             return new string[] { "value1", "value2" };
         }
 
-        [Route("{username}")]
+        
         public bool GetAuthenticatedUser(string username, string password)
         {
             return (_dataService.AuthenticateUser(username, password));

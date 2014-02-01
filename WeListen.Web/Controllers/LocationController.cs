@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using WeListen.Data;
+using WeListen.Web.Helpers;
 using WeListen.Web.Infrastructure.Session;
 using WeListen.Web.Models;
 using WeListen.Web.Viewmodels.Locations;
@@ -41,21 +42,47 @@ namespace WeListen.Web.Controllers
             base.Dispose(disposing);
         }
 
-        
+        [HttpGet]
         public ActionResult Index()
         {
             var model = new Index { Locations = _dataService.GetLocations() };
             return View(model);
         }
 
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public ActionResult Index(int locationId)
+        {
+            if (ModelState.IsValid)
+            {
+                Location currentLocation = _dataService.GetLocationWithId(locationId);
+                //is there a webuser or not
+                if (Context.WebUser != null)
+                {
+                    Context.WebLocation = currentLocation.ToWebLocation(Context.WebUser.UserId);
+                }
+                else
+                {
+                    Context.WebLocation = currentLocation.ToWebLocation(1); 
+                }
+                
+                return RedirectToAction("Home", "Location");
+            }
+
+            // If we got this far, something failed, redisplay form
+            return View();
+        }
 
         /// <summary>
         /// All available songs at a location
         /// </summary>
         /// <param name="locationId">The location id.</param>
         /// <returns>View</returns>
-        public ActionResult Songs(int locationId)
+        public ActionResult Songs()
         {
+            var locationId = Context.WebLocation.LocationId;
+            
             WebUser webUser = ViewBag.User as WebUser;
             
             ViewBag.Location = _dataService.GetLocationWithId(locationId).Name;
@@ -83,10 +110,10 @@ namespace WeListen.Web.Controllers
         /// <summary>
         /// Home page for a location. 
         /// </summary>
-        /// <param name="locationId">The location identifier.</param>
         /// <returns>Playqueue and available songs. View.</returns>
-        public ActionResult Home(int locationId)
+        public ActionResult Home()
         {
+            var locationId = Context.WebLocation.LocationId;
             ViewBag.Location = _dataService.GetLocationWithId(locationId).Name;
             ViewBag.LocationId = locationId;
             var model = new LocationHomeViewModel

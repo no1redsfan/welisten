@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using Microsoft.Ajax.Utilities;
 using WeListen.Data;
 using WeListen.Web.Models;
 
@@ -45,6 +46,21 @@ namespace WeListen.Web.Helpers
                 Password = user.Password,
                 UserId = user.UserId,
                 UserName = user.UserName
+            };
+
+            // TODO - maybe hash the password, and also DjPassword and Zipcode are not being stored...
+
+            return result;
+        }
+
+        public static WebLocation ToWebLocation(this Location location, int userId)
+        {
+            WebLocation result = new WebLocation
+            {
+                CreatedByUserId = userId,
+                UserName = location.Name,
+                Zipcode = location.Zipcode,
+                LocationId = location.LocationId
             };
 
             // TODO - maybe hash the password, and also DjPassword and Zipcode are not being stored...

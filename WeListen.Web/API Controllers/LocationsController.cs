@@ -22,8 +22,7 @@ namespace WeListen.Web.API_Controllers
         }
 
         // GET api/locations/5
-        
-        public ICollection<LocationPlaylist> Get(int id)
+        public ICollection<LocationPlaylist> GetLocationPlaylists(int id)
         {
             return (_dataService.GetPlaylistByLocation(id));
         }

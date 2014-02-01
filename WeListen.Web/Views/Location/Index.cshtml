@@ -8,7 +8,7 @@
 
 <p>Enter a location to begin requesting songs.</p>
     
-<table>
+@*<table>
         <tr>
             <th>Location/Event</th>
             <th>&nbsp;</th>
@@ -20,8 +20,32 @@
                     @location.Name 
                 </td>
                 <td>
-                    <input type="submit" value="Enter Location" onclick="location.href='@Url.Action("Songs", "Location", new {locationId=@location.LocationId})'" />
+                    <input type="submit" value="Enter Location" onclick="location.href='@Url.Action("Songs", "Location", new { locationId = @location.LocationId })'" />
+                </td>
+            </tr>
+        }
+</table>*@
+
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+    @Html.AntiForgeryToken()
+    <table>
+        <tr>
+            <th>Location/Event</th>
+            <th>&nbsp;</th>
+        </tr>
+        @foreach (var location in Model.Locations)
+        {
+            <tr>
+                <td>
+                    @location.Name 
+                </td>
+                <td>
+                    @Html.ActionLink("Enter Location", "Index", new { locationId = location.LocationId })
                 </td>
             </tr>
         }
 </table>
+}
