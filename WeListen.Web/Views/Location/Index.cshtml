@@ -1,51 +1,27 @@
 ﻿@model WeListen.Web.Viewmodels.Locations.Index
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "View1";
 }
 
-<h2>All Locations/Events</h2>
+<h2>View1</h2>
 
-<p>Enter a location to begin requesting songs.</p>
+<p>
     
-@*<table>
-        <tr>
-            <th>Location/Event</th>
-            <th>&nbsp;</th>
-        </tr>
-        @foreach (var location in Model.Locations)
-        {
-            <tr>
-                <td>
-                    @location.Name 
-                </td>
-                <td>
-                    <input type="submit" value="Enter Location" onclick="location.href='@Url.Action("Songs", "Location", new { locationId = @location.LocationId })'" />
-                </td>
-            </tr>
-        }
-</table>*@
+</p>
+<table>
+    <tr>
+        <th></th>
+    </tr>
 
-
-@using (Html.BeginForm())
-{
-    @Html.ValidationSummary(true)
-    @Html.AntiForgeryToken()
-    <table>
-        <tr>
-            <th>Location/Event</th>
-            <th>&nbsp;</th>
-        </tr>
-        @foreach (var location in Model.Locations)
-        {
-            <tr>
-                <td>
-                    @location.Name 
-                </td>
-                <td>
-                    @Html.ActionLink("Enter Location", "Index", new { locationId = location.LocationId })
-                </td>
-            </tr>
-        }
-</table>
+@foreach (var item in Model.Locations) {
+    <tr>
+        <td>
+            @item.Name
+            @Html.ActionLink("Enter Location", "Index", new { id=item.LocationId  }) 
+            
+        </td>
+    </tr>
 }
+
+</table>

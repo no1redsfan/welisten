@@ -53,6 +53,12 @@ namespace WeListen.Data
                 (from p in _context.LocationPlaylists where p.LocationCatalog.LocationId == locationId select p).ToList();
         }
 
+        public List<LocationPlaylist> GetPlaylistByLocationId(int locationId)
+        {
+            return
+                (from p in _context.LocationPlaylists where p.LocationCatalog.LocationId == locationId select p).ToList();
+        }
+
 
         /// <summary>
         ///     Gets the playlist for a location using the location name.

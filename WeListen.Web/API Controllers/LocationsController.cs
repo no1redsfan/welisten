@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Runtime.Serialization;
 using System.Security.Policy;
 using System.Web.Http;
 using System.Web.Routing;
+using Newtonsoft.Json;
 using WeListen.Data;
 
 namespace WeListen.Web.API_Controllers
@@ -22,9 +24,18 @@ namespace WeListen.Web.API_Controllers
         }
 
         // GET api/locations/5
-        public ICollection<LocationPlaylist> GetLocationPlaylists(int id)
+        /*public ICollection<LocationPlaylist> GetLocationPlaylists(int id)
         {
-            return (_dataService.GetPlaylistByLocation(id));
+            var item = _dataService.GetPlaylistByLocation(id);
+            
+            return (item);
+        }*/
+
+        public Location GetLocation(int id)
+        {
+            var item = _dataService.GetLocationWithId(id);
+
+            return (item);
         }
 
         // POST api/locations
@@ -35,6 +46,7 @@ namespace WeListen.Web.API_Controllers
         // PUT api/locations/5
         public void Put(int id, [FromBody]string value)
         {
+
         }
 
         // DELETE api/locations/5

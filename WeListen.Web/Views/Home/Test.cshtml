@@ -1,0 +1,64 @@
+﻿
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head id="Head1" runat="server">
+
+    <script type="text/javascript" src="Scripts/jquery-1.7.1.min.js"></script>
+
+    <script>
+
+        $(document).ready(function () {
+
+
+
+            $("#click").click(function () {
+
+                $.ajax({
+
+                    url: 'http://localhost:1703/api/Locations/30',
+
+                    type: 'GET',
+
+                    dataType: 'xml',
+
+                    ContentType: "application/rss+xml",
+
+                    success: function (data, textStatus, xhr) {
+
+                        alert(data);
+
+                    },
+
+                    error: function (xhr, textStatus, errorThrown) {
+
+                        alert('a' + textStatus);
+
+                    }
+
+                }).done(function () {
+
+
+
+                });
+
+
+
+            });
+
+        });
+
+    </script>
+
+</head>
+
+<body>
+
+    <form id="form1" runat="server">
+
+    <input type="button" id="click" value="click me" />
+
+    </form>
+
+</body>
+
+</html>

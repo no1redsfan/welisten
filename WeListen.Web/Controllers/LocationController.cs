@@ -42,20 +42,43 @@ namespace WeListen.Web.Controllers
             base.Dispose(disposing);
         }
 
-        [HttpGet]
+
+        /// <summary>
+        /// Indexes this instance.
+        /// </summary>
+        /// <returns></returns>
+        /// 
         public ActionResult Index()
         {
-            var model = new Index { Locations = _dataService.GetLocations() };
+            Index model = new Index { Locations = _dataService.GetLocations() };
             return View(model);
         }
 
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public ActionResult Index(int locationId)
+
+        
+        /*public ActionResult Index(int locationId) // cant name it index for some reason
         {
-            if (ModelState.IsValid)
+
+            Location currentLocation = _dataService.GetLocationWithId(locationId);
+            //is there a webuser or not
+            if (Context.WebUser != null)
             {
+                Context.WebLocation = currentLocation.ToWebLocation(Context.WebUser.UserId);
+                RedirectToAction("Home", "Location");
+            }
+            else
+            {
+                Context.WebLocation = currentLocation.ToWebLocation(1);
+                RedirectToAction("Home", "Location");
+            }
+
+            return RedirectToAction("Index");
+
+        }*/
+        
+        private bool SetWebLocation(int locationId) // cant name it index for some reason
+        {
+           
                 Location currentLocation = _dataService.GetLocationWithId(locationId);
                 //is there a webuser or not
                 if (Context.WebUser != null)
@@ -66,12 +89,9 @@ namespace WeListen.Web.Controllers
                 {
                     Context.WebLocation = currentLocation.ToWebLocation(1); 
                 }
-                
-                return RedirectToAction("Home", "Location");
-            }
 
-            // If we got this far, something failed, redisplay form
-            return View();
+            return true;
+
         }
 
         /// <summary>
@@ -111,9 +131,10 @@ namespace WeListen.Web.Controllers
         /// Home page for a location. 
         /// </summary>
         /// <returns>Playqueue and available songs. View.</returns>
-        public ActionResult Home()
+        public ActionResult Home(int locationId)
         {
-            var locationId = Context.WebLocation.LocationId;
+            SetWebLocation(locationId);
+            //var locationId = Context.WebLocation.LocationId;
             ViewBag.Location = _dataService.GetLocationWithId(locationId).Name;
             ViewBag.LocationId = locationId;
             var model = new LocationHomeViewModel
@@ -137,7 +158,10 @@ namespace WeListen.Web.Controllers
 
         public ActionResult Edit(int locationId)
         {
-            var model = _dataService.GetLocationWithId(locationId);
+            LocationEditViewModel model = new LocationEditViewModel
+            {
+                Location = _dataService.GetLocationWithId(locationId)
+            };
 
             return View(model);
         }

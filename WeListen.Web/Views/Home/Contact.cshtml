@@ -48,3 +48,47 @@
         Redmond, WA 98052-6399
     </p>
 </section>
+
+<script>
+
+        $(document).ready(function () {
+
+
+
+            
+
+                $.ajax({
+
+                    url: 'http://localhost:1703/api/Locations/30',
+
+                    type: 'GET',
+
+                    dataType: 'xml',
+
+                    ContentType: "application/rss+xml",
+
+                    success: function (data, textStatus, xhr) {
+
+                        alert(data);
+
+                    },
+
+                    error: function (xhr, textStatus, errorThrown) {
+
+                        alert('a' + textStatus);
+
+                    }
+
+                }).done(function () {
+
+
+
+                });
+
+
+
+            });
+
+    
+
+    </script>

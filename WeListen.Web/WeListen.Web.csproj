@@ -67,6 +67,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Entity" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -205,7 +206,6 @@
   <ItemGroup>
     <Compile Include="API Controllers\LocationsController.cs" />
     <Compile Include="API Controllers\UsersController.cs" />
-    <Compile Include="App_Start\AttributeRoutingHttpConfig.cs" />
     <Compile Include="App_Start\AuthConfig.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -381,6 +381,8 @@
     <Content Include="Views\Location\Create.cshtml" />
     <Content Include="Views\Location\Queue.cshtml" />
     <Content Include="Views\Location\Songs.cshtml" />
+    <Content Include="Views\Location\View1.cshtml" />
+    <Content Include="Views\Home\Test.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
