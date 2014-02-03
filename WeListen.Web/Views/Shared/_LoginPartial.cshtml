@@ -10,7 +10,7 @@
 @if (webUser.UserName != null) {
     <ul>
         <li>
-            Hello, @Html.ActionLink(@webUser.UserName, "Index", "User")
+            Hello, <span>@Html.ActionLink(@webUser.UserName, "Index", "User")</span>
             @Html.ActionLink("Home", "index", "home") 
         </li>
         <li>

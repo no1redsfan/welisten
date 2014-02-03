@@ -12,6 +12,10 @@ namespace WeListen.Data
     using System;
     using System.Collections.Generic;
     
+    using System.Runtime.Serialization;
+    
+    
+            [KnownType(typeof(Song))]
     public partial class Genre
     {
         public Genre()

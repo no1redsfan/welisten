@@ -12,6 +12,9 @@ namespace WeListen.Data
     using System;
     using System.Collections.Generic;
     
+    using System.Runtime.Serialization;
+    
+    
     public partial class sysdiagram
     {
         public string name { get; set; }

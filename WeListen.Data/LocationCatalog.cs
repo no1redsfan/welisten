@@ -12,6 +12,12 @@ namespace WeListen.Data
     using System;
     using System.Collections.Generic;
     
+    using System.Runtime.Serialization;
+    
+    
+            [KnownType(typeof(Location))]
+            [KnownType(typeof(Song))]
+            [KnownType(typeof(LocationPlaylist))]
     public partial class LocationCatalog
     {
         public LocationCatalog()

@@ -11,13 +11,14 @@
         <legend>New Location/Event</legend>
 
         @Html.HiddenFor(model => model.Location.LocationId)
+        
 
         <div class="editor-label all">
-            @Html.LabelFor(model => model.Location.Name)
+            @Html.LabelFor(model => model.Location.UserName)
         </div>
         <div class="editor-field all">
-            @Html.EditorFor(model => model.Location.Name)
-            @Html.ValidationMessageFor(model => model.Location.Name)
+            @Html.EditorFor(model => model.Location.UserName)
+            @Html.ValidationMessageFor(model => model.Location.UserName)
         </div>
         
         <div class="editor-label all">
@@ -27,8 +28,6 @@
             @Html.EditorFor(model => model.Location.Zipcode)
             @Html.ValidationMessageFor(model => model.Location.Zipcode)
         </div>
-        
-
         <br/>
         <p>
             <input type="submit" value="Submit" />
@@ -38,9 +37,5 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index", "Songs")
+    @Html.ActionLink("Back to Home", "Index", "Songs")
 </div>
-
-<script language="javascript" type="text/javascript">
-   
-</script>

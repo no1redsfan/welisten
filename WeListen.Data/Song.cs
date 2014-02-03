@@ -12,6 +12,15 @@ namespace WeListen.Data
     using System;
     using System.Collections.Generic;
     
+    using System.Runtime.Serialization;
+    
+    
+            [KnownType(typeof(Album))]
+            [KnownType(typeof(Artist))]
+            [KnownType(typeof(FavoriteSong))]
+            [KnownType(typeof(Genre))]
+            [KnownType(typeof(LocationCatalog))]
+            [KnownType(typeof(User))]
     public partial class Song
     {
         public Song()

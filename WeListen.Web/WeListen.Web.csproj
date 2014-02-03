@@ -306,6 +306,8 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <None Include="Properties\PublishProfiles\Welisten.pubxml" />
+    <Content Include="Scripts\app.js" />
+    <Content Include="Scripts\exampleCtrl.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

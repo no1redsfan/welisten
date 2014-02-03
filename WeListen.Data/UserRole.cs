@@ -12,6 +12,11 @@ namespace WeListen.Data
     using System;
     using System.Collections.Generic;
     
+    using System.Runtime.Serialization;
+    
+    
+            [KnownType(typeof(Role))]
+            [KnownType(typeof(User))]
     public partial class UserRole
     {
         public int UserRoleId { get; set; }

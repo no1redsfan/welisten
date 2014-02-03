@@ -24,12 +24,27 @@ foreach (var entity in typeMapper.GetItemsToGenerate<EntityType>(itemCollection)
     BeginNamespace(code);
 #>
 <#=codeStringGenerator.UsingDirectives(inHeader: false)#>
+using System.Runtime.Serialization;
+
+
+<#
+var collectionNavigationProperties = typeMapper.GetCollectionNavigationProperties(entity);
+var complexProperties = typeMapper.GetComplexProperties(entity);
+var navigationProperties = typeMapper.GetNavigationProperties(entity);
+
+#>
+<#
+foreach (var navigationProperty in navigationProperties)
+        {
+#>
+        [KnownType(typeof(<#=typeMapper.GetTypeName(navigationProperty.ToEndMember.GetEntityType())#>))]
+<#
+        }
+#>
 <#=codeStringGenerator.EntityClassOpening(entity)#>
 {
 <#
     var propertiesWithDefaultValues = typeMapper.GetPropertiesWithDefaultValues(entity);
-    var collectionNavigationProperties = typeMapper.GetCollectionNavigationProperties(entity);
-    var complexProperties = typeMapper.GetComplexProperties(entity);
 
     if (propertiesWithDefaultValues.Any() || collectionNavigationProperties.Any() || complexProperties.Any())
     {
@@ -87,7 +102,7 @@ foreach (var entity in typeMapper.GetItemsToGenerate<EntityType>(itemCollection)
         }
     }
 
-    var navigationProperties = typeMapper.GetNavigationProperties(entity);
+    
     if (navigationProperties.Any())
     {
 #>

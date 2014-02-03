@@ -12,10 +12,10 @@ namespace WeListen.Web
 
             /*var json = config.Formatters.JsonFormatter;
             json.SerializerSettings.PreserveReferencesHandling = Newtonsoft.Json.PreserveReferencesHandling.Objects;
-            config.Formatters.Remove(config.Formatters.XmlFormatter);
-            */
-            //GlobalConfiguration.Configuration.Formatters.XmlFormatter.UseXmlSerializer = true;
-            //config.Formatters.Remove(config.Formatters.JsonFormatter);
+            config.Formatters.Remove(config.Formatters.XmlFormatter);*/
+
+            GlobalConfiguration.Configuration.Formatters.XmlFormatter.UseXmlSerializer = true;
+            config.Formatters.Remove(config.Formatters.JsonFormatter);
    
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",

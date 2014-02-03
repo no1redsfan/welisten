@@ -2,7 +2,6 @@
 
 @{
     ViewBag.Title = "title";
-    Layout = "_Layout";
 }
 <style>
     table, th, td {
@@ -15,7 +14,7 @@
 @if (Model.Locations != null)
 {
     <h2>My Locations/Events</h2>
-    @Html.ActionLink("Create new Location/Event", "Create", "Location")
+    @Html.ActionLink("Create new Location/Event", "RegisterLocation", "Account")
     <table>
         <tr>
             <th>Location/Event</th>

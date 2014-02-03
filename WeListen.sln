@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{612831BD-6783-42D1-8835-060C75386564}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Windows", "Windows", "{CF194F59-A933-42C1-9648-7A863086D2A5}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{E5AE03E0-35A8-4208-9D70-FC5AB98A9078}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeListen.Data", "WeListen.Data\WeListen.Data.csproj", "{BFFFFCAA-A1F6-425B-A951-7C9CCBE6BB10}"

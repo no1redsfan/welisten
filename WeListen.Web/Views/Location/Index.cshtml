@@ -18,7 +18,8 @@
     <tr>
         <td>
             @item.Name
-            @Html.ActionLink("Enter Location", "Index", new { id=item.LocationId  }) 
+            @*@Html.ActionLink("Enter Location", "Index", new { id=item.LocationId  }) *@
+            <input type="submit" value="Enter Location" onclick="location.href='@Url.Action("Index", "Location", new {location=@item})'" />
             
         </td>
     </tr>

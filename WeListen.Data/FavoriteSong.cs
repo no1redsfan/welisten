@@ -12,6 +12,11 @@ namespace WeListen.Data
     using System;
     using System.Collections.Generic;
     
+    using System.Runtime.Serialization;
+    
+    
+            [KnownType(typeof(Song))]
+            [KnownType(typeof(User))]
     public partial class FavoriteSong
     {
         public int FavoriteSongId { get; set; }

@@ -48,6 +48,7 @@ namespace WeListen.Web.Controllers
         /// </summary>
         /// <returns></returns>
         /// 
+        [HttpGet]
         public ActionResult Index()
         {
             Index model = new Index { Locations = _dataService.GetLocations() };
@@ -55,11 +56,12 @@ namespace WeListen.Web.Controllers
         }
 
 
-        
-        /*public ActionResult Index(int locationId) // cant name it index for some reason
+        /*[HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Index(Index location) // cant name it index for some reason
         {
-
-            Location currentLocation = _dataService.GetLocationWithId(locationId);
+            
+            Location currentLocation = _dataService.GetLocationWithId(location.LocationId);
             //is there a webuser or not
             if (Context.WebUser != null)
             {
@@ -76,7 +78,7 @@ namespace WeListen.Web.Controllers
 
         }*/
         
-        private bool SetWebLocation(int locationId) // cant name it index for some reason
+        private bool SetWebLocation(int locationId) 
         {
            
                 Location currentLocation = _dataService.GetLocationWithId(locationId);
@@ -126,6 +128,24 @@ namespace WeListen.Web.Controllers
             }
         }
 
+        /*[HttpGet]
+        public ActionResult Create()
+        {
+            var model = new LocationCreateViewModel
+            {
+                Location = new Location()
+            };
+            
+            return View(model);
+        }*/
+
+        /*[HttpPost]
+        public ActionResult Create(LocationCreateViewModel location)
+        {
+
+
+            return View();
+        }*/
 
         /// <summary>
         /// Home page for a location. 
@@ -135,6 +155,21 @@ namespace WeListen.Web.Controllers
         {
             SetWebLocation(locationId);
             //var locationId = Context.WebLocation.LocationId;
+            ViewBag.Location = _dataService.GetLocationWithId(locationId).Name;
+            ViewBag.LocationId = locationId;
+            var model = new LocationHomeViewModel
+            {
+                Song = _dataService.GetSongsByLocation(locationId),
+                PlaylistQueue = _dataService.GetPlaylistByLocation(locationId),
+                Djs = _dataService.GetLocationDjs(locationId)
+            };
+            return View(model);
+        }
+
+        public ActionResult Home()
+        {
+            var locationId = Context.WebLocation.LocationId;
+
             ViewBag.Location = _dataService.GetLocationWithId(locationId).Name;
             ViewBag.LocationId = locationId;
             var model = new LocationHomeViewModel

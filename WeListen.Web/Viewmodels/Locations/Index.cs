@@ -17,7 +17,7 @@ namespace WeListen.Web.Viewmodels.Locations
         /// <value>
         /// The locations.
         /// </value>
-        public ICollection<Location> Locations { get; set; }
+        public IEnumerable<Location> Locations { get; set; }
 
     }
 }

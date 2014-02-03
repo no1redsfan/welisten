@@ -113,7 +113,7 @@ namespace WeListen.Web.Controllers
         {
             var model = new RegisterLocationViewModel
             {
-                Location = new Location()
+                Location = new WebLocation()            
             };
             return View(model);
         }
@@ -163,14 +163,34 @@ namespace WeListen.Web.Controllers
             {
                 try
                 {
+                    //If zipcode from the form is null assign it to null so we don't get exception
+                    //string zip = location.Location.Zipcode ?? "";
+                    string zip;
+                    if (location.Location.Zipcode == null)
+                    {
+                        zip = "";
+                    }
+                    else zip = location.Location.Zipcode;
+
+                    //if the username is blank return them back to the form
+                    if (location.Location.UserName == null)
+                    {
+                        var model2 = new RegisterLocationViewModel
+                        {
+                            Location = new WebLocation()
+                        };
+                        return View(model2);
+                    }
+
+                    // try to save the location
                     _dataService.SaveLocation(new Location
                     {
-                        Name = location.Location.Name,
-                        Zipcode = location.Location.Zipcode,
+                        Name = location.Location.UserName,
+                        Zipcode = zip,
                         CreatedByUserId = Context.WebUser.UserId
                     });
                     return RedirectToAction(@Url.Action("Index", "Home"));
-                    //After a user account is created, take them to ?, home for now
+                    
                 }
                 catch
                 {
@@ -179,7 +199,7 @@ namespace WeListen.Web.Controllers
 
             var model = new RegisterLocationViewModel
             {
-                Location = new Location()
+                Location = new WebLocation()
             };
             return View(model);
         }
