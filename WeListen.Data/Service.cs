@@ -15,6 +15,9 @@ namespace WeListen.Data
         private readonly WeListenEntityModel _context;
         private bool _isDisposed;
 
+        
+        
+
         /// <summary>
         ///     Creates a new instance of the <see cref="Service" /> class.
         /// </summary>
@@ -52,14 +55,15 @@ namespace WeListen.Data
             return
                 (from p in _context.LocationPlaylists where p.LocationCatalog.LocationId == locationId select p).ToList();
         }
-
-        public List<LocationPlaylist> GetPlaylistByLocationId(int locationId)
+        
+        //Testing with IEnumerable
+        public IEnumerable<LocationPlaylist> GetPlaylistByLocation2(int locationId)
         {
             return
-                (from p in _context.LocationPlaylists where p.LocationCatalog.LocationId == locationId select p).ToList();
+                (_context.LocationPlaylists.Where(p => p.LocationCatalog.LocationId == locationId)).ToList();
         }
 
-
+    
         /// <summary>
         ///     Gets the playlist for a location using the location name.
         /// </summary>
@@ -70,6 +74,8 @@ namespace WeListen.Data
             Location location = GetLocation(locationName);
             return GetPlaylistByLocation(location.LocationId);
         }
+
+       
 
         /// <summary>
         ///     Gets a location.
