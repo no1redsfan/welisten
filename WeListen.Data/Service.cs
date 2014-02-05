@@ -530,5 +530,16 @@ namespace WeListen.Data
         {
             return (from u in _context.LocationCatalogs where u.LocationId == locationId select u.Song.FilePath).Single();
         }
+
+        /// <summary>
+        /// Deletes the location.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns></returns>
+        public bool DeleteLocation(int id)
+        {
+            
+            return true;
+        }
     }
 }

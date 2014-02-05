@@ -56,5 +56,14 @@ namespace WeListen.Web.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        /// <summary>
+        /// Send user to location edit
+        /// </summary>
+        /// <param name="locationid">The locationid.</param>
+        /// <returns></returns>
+        public ActionResult EditLocation(int locationid)
+        {
+            return RedirectToAction("Edit", "Location", new {locationId = locationid});
+        }
     }
 }

@@ -4,5 +4,46 @@
     ViewBag.Title = "title";
 }
 
-<h2>@Model.Location.Name</h2>
+<h2>Edit @Model.Location.Name</h2>
+<div>
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+    @Html.AntiForgeryToken()
+    <fieldset>
+        <legend>DownTime</legend>
+        @Html.HiddenFor(model => model.Location.LocationId)
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Location.Name)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Location.Name)
+            @Html.ValidationMessageFor(model => model.Location.Name)
+        </div>
 
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Location.Zipcode)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Location.Zipcode)
+            @Html.ValidationMessageFor(model => model.Location.Zipcode)
+        </div>
+
+        <br/>
+        <p>
+            <input type="submit" value="Save" id="btnDelete"/>
+        </p>
+    </fieldset>
+}
+<br/>
+@using(Html.BeginForm("Delete", "DownTime", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.Hidden("id", Model.Downtime.DownTimeId)
+    <input type="submit" value="Delete" id="btnDeleteDownTime" onclick="return confirm('Confirm Delete?');"/>
+}
+</div>
+<br/>
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

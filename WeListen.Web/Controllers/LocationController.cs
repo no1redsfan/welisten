@@ -202,6 +202,22 @@ namespace WeListen.Web.Controllers
         }
 
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Delete(int id)
+        {
+            try
+            {
+                _dataService.DeleteLocation(id);
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return RedirectToAction("Edit", new {locationId=id});
+            }
+        }
+
+
 
         /// <summary>
         /// Queues the specified location identifier.

@@ -1,4 +1,5 @@
-﻿@model WeListen.Web.Viewmodels.User.UserIndexViewModel
+﻿@using WeListen.Web.Models
+@model WeListen.Web.Viewmodels.User.UserIndexViewModel
 
 @{
     ViewBag.Title = "title";
@@ -9,7 +10,7 @@
     }
 </style>
 
-<h2>Welcome @Model.WebUser.UserName</h2>
+<h2>Welcome @Model.WebUser.UserName!</h2>
 
 @if (Model.Locations != null)
 {
@@ -18,12 +19,20 @@
     <table>
         <tr>
             <th>Location/Event</th>
+            <th>&nbsp;</th>
+           
         </tr>
 
         @foreach (Location loc in Model.Locations)
         {
             <tr>
-                <td>@Html.ActionLink(loc.Name, "Edit", "Location", new { locationId = loc.LocationId})</td>
+                <td>@loc.Name</td>
+                
+                <td>
+                    @Html.ActionLink("Edit", "EditLocation", new { locationId = loc.LocationId})
+                    @*@Html.Label(" ")
+                    @Html.ActionLink("Details", "Details", new {id = item.DownTimeId})*@
+                </td>
             </tr>
         }
 
