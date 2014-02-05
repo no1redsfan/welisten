@@ -528,7 +528,7 @@ namespace WeListen.Data
 
         public string GetSongPathWithLocationId(int locationId)
         {
-            return (from u in _context.LocationCatalogs where u.LocationId == locationId select u.Songs.FilePath).Single();
+            return (from u in _context.LocationCatalogs where u.LocationId == locationId select u.Song.FilePath).Single();
         }
     }
 }

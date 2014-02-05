@@ -3,12 +3,13 @@
 @{
     ViewBag.Title = "Home";
 }
-<h2>@ViewBag.Location</h2>
+<h2>@ViewBag.Location </h2>
+<input type="submit" value="Queue Songs" style="float: right" onclick="location.href='@Url.Action("Queue", "Location", new {locationId=@ViewBag.LocationId})    '" />
 
 @*<input type="text" id="djusername"/>
 <input type="button" onclick="AddDj();" value="Add"/>*@
 
-@Html.ActionLink("Queue Songs", "Queue", "Location", new {locationId = @ViewBag.LocationId})
+@Html.ActionLink("Queue Songs", "Queue", "Location", new {locationId=@ViewBag.LocationId})
 <br/>
 <table style="float: left; width: 50%">
     <tr>
