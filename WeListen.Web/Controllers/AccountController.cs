@@ -113,7 +113,7 @@ namespace WeListen.Web.Controllers
         {
             var model = new RegisterLocationViewModel
             {
-                Location = new WebLocation()            
+                WebLocation = new WebLocation()            
             };
             return View(model);
         }
@@ -155,8 +155,8 @@ namespace WeListen.Web.Controllers
         }
 
         [HttpPost]
-        [AllowAnonymous]
         [ValidateAntiForgeryToken]
+        [AllowAnonymous]
         public ActionResult RegisterLocation(RegisterLocationViewModel location)
         {
             if (ModelState.IsValid)
@@ -166,18 +166,18 @@ namespace WeListen.Web.Controllers
                     //If zipcode from the form is null assign it to null so we don't get exception
                     //string zip = location.Location.Zipcode ?? "";
                     string zip;
-                    if (location.Location.Zipcode == null)
+                    if (location.WebLocation.Zipcode == null)
                     {
                         zip = "";
                     }
-                    else zip = location.Location.Zipcode;
+                    else zip = location.WebLocation.Zipcode;
 
                     //if the username is blank return them back to the form
-                    if (location.Location.UserName == null)
+                    if (location.WebLocation.UserName == null)
                     {
                         var model2 = new RegisterLocationViewModel
                         {
-                            Location = new WebLocation()
+                            WebLocation = new WebLocation()
                         };
                         return View(model2);
                     }
@@ -185,11 +185,11 @@ namespace WeListen.Web.Controllers
                     // try to save the location
                     _dataService.SaveLocation(new Location
                     {
-                        Name = location.Location.UserName,
+                        Name = location.WebLocation.UserName,
                         Zipcode = zip,
                         CreatedByUserId = Context.WebUser.UserId
                     });
-                    return RedirectToAction(@Url.Action("Index", "Home"));
+                    return RedirectToAction("Index", "Home");
                     
                 }
                 catch
@@ -199,7 +199,7 @@ namespace WeListen.Web.Controllers
 
             var model = new RegisterLocationViewModel
             {
-                Location = new WebLocation()
+                WebLocation = new WebLocation()
             };
             return View(model);
         }

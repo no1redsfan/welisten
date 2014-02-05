@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
+using Newtonsoft.Json;
 
 namespace WeListen.Web
 {
@@ -14,8 +15,14 @@ namespace WeListen.Web
             json.SerializerSettings.PreserveReferencesHandling = Newtonsoft.Json.PreserveReferencesHandling.Objects;
             config.Formatters.Remove(config.Formatters.XmlFormatter);*/
 
-            GlobalConfiguration.Configuration.Formatters.XmlFormatter.UseXmlSerializer = true;
+            GlobalConfiguration.Configuration.Formatters.XmlFormatter.UseXmlSerializer = false;
             config.Formatters.Remove(config.Formatters.JsonFormatter);
+
+            /*JsonConvert.SerializeObject(config, Formatting.Indented,
+new JsonSerializerSettings()
+{
+    ReferenceLoopHandling = ReferenceLoopHandling.Serialize
+});*/
    
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
