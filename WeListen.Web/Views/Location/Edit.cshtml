@@ -31,16 +31,16 @@
 
         <br/>
         <p>
-            <input type="submit" value="Save" id="btnDelete"/>
+            <input type="submit" value="Save" id="btnSave"/>
         </p>
     </fieldset>
 }
 <br/>
-@using(Html.BeginForm("Delete", "DownTime", FormMethod.Post))
+@using(Html.BeginForm("Delete", "Location", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
-    @Html.Hidden("id", Model.Downtime.DownTimeId)
-    <input type="submit" value="Delete" id="btnDeleteDownTime" onclick="return confirm('Confirm Delete?');"/>
+    @Html.Hidden("id", Model.Location.LocationId)
+    <input type="submit" value="Delete" id="btnDeleteLocation" onclick="return confirm('Confirm Delete?');"/>
 }
 </div>
 <br/>

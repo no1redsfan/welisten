@@ -538,8 +538,20 @@ namespace WeListen.Data
         /// <returns></returns>
         public bool DeleteLocation(int id)
         {
-            
-            return true;
+            Location record = (from u in _context.Locations where u.LocationId == id select u).SingleOrDefault();
+
+            if (record == null){return false;}
+
+            try
+            {
+                _context.Locations.Remove(record);
+                _context.SaveChanges();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿@model WeListen.Web.Viewmodels.Locations.LocationHomeViewModel
+﻿@using WeListen.Web.Models
+@model WeListen.Web.Viewmodels.Locations.LocationHomeViewModel
 
 @{
     ViewBag.Title = "Home";
@@ -35,7 +36,8 @@
     {
         <tr>
             <td>
-                @song.Title by @song.Artist.Name
+                @song.Title by @song.Artist.Name 
+                <input type="button" value="Queue" onclick="QueueSong(@ViewBag.LocationId, @song.SongId, @song.User.UserId)" /> 
             </td>
         </tr>
     }
@@ -64,6 +66,30 @@
             },
             success: function (result) {
                 alert("yayayayyay!");
+            },
+            async: true,
+            processData: false
+        });
+    }
+    
+    function QueueSong(locationId, songId, requestedByUserId) {
+        var data = {
+            locationId: locationId,
+            songId: songId,
+            requestedByUserId: requestedByUserId
+        };
+
+        $.ajax({
+            url: '/Location/QueueSong',
+            type: 'POST',
+            data: JSON.stringify(data),
+            dataType: 'json',
+            contentType: 'application/json; charset=utf-8',
+            error: function (xhr) {
+                alert('Error: ' + xhr.statusText);
+            },
+            success: function (result) {
+                alert(result);
             },
             async: true,
             processData: false

@@ -11,18 +11,18 @@ namespace WeListen.Web
         public static void Register(HttpConfiguration config)
         {
 
-            /*var json = config.Formatters.JsonFormatter;
+            var json = config.Formatters.JsonFormatter;
             json.SerializerSettings.PreserveReferencesHandling = Newtonsoft.Json.PreserveReferencesHandling.Objects;
-            config.Formatters.Remove(config.Formatters.XmlFormatter);*/
+            config.Formatters.Remove(config.Formatters.XmlFormatter);
 
-            GlobalConfiguration.Configuration.Formatters.XmlFormatter.UseXmlSerializer = false;
-            config.Formatters.Remove(config.Formatters.JsonFormatter);
+            /*GlobalConfiguration.Configuration.Formatters.XmlFormatter.UseXmlSerializer = false;
+            config.Formatters.Remove(config.Formatters.JsonFormatter);*/
 
-            /*JsonConvert.SerializeObject(config, Formatting.Indented,
+            JsonConvert.SerializeObject(config, Formatting.Indented,
 new JsonSerializerSettings()
 {
     ReferenceLoopHandling = ReferenceLoopHandling.Serialize
-});*/
+});
    
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",

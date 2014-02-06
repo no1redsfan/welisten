@@ -201,6 +201,29 @@ namespace WeListen.Web.Controllers
             return View(model);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(WebLocation location)
+        {
+            try
+            {
+                _dataService.SaveLocation(new Location
+                {
+                    LocationId = location.LocationId,
+                    Zipcode = location.Zipcode,
+                    Name = location.UserName,
+                    CreatedByUserId = location.CreatedByUserId
+                });
+
+                return RedirectToAction("Home", "Location", new {locationId=location.LocationId});
+            }
+            catch (Exception)
+            {
+                return View();
+                throw;
+            }
+        }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -252,7 +275,22 @@ namespace WeListen.Web.Controllers
             catch
             {
             }
-            return RedirectToAction("Queue", new { locationId = locationId });
+            return RedirectToAction("Home", new { locationId = locationId });
+        }
+
+        [HttpPost]
+        public ActionResult QueueSong(int locationId, int songId, int requestedByUserId)  //int locationId, int songId, int requestedByUserId
+        {
+            bool result;
+            try
+            {
+                result = _dataService.AddSongToPlaylist(locationId, songId, requestedByUserId);
+            }
+            catch
+            {
+                result = false;
+            }
+            return Json(result, JsonRequestBehavior.AllowGet);  
         }
 
     }
