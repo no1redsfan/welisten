@@ -18,6 +18,9 @@ namespace WeListen.Data
         public WeListenEntityModel()
             : base("name=WeListenEntityModel")
         {
+            this.Configuration.LazyLoadingEnabled = false; 
+
+            this.Configuration.ProxyCreationEnabled = false; 
         }
     
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

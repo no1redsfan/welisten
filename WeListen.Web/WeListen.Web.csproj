@@ -204,7 +204,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="API Controllers\LocationsController.cs" />
+    <Compile Include="Controllers\API\LocationsController.cs" />
     <Compile Include="API Controllers\UsersController.cs" />
     <Compile Include="App_Start\AuthConfig.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
@@ -212,6 +212,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\API\LocalController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LocationController.cs" />
@@ -224,9 +225,12 @@
     <Compile Include="Helpers\DataHelpers.cs" />
     <Compile Include="Helpers\ExtensionMethods.cs" />
     <Compile Include="Helpers\HtmlHelpers.cs" />
+    <Compile Include="Helpers\JsonHelper.cs" />
     <Compile Include="Infrastructure\Password.cs" />
     <Compile Include="Infrastructure\Session\SessionContext.cs" />
     <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\API\PlayListSong.cs" />
+    <Compile Include="Models\LocationsRepository.cs" />
     <Compile Include="Models\WebLocation.cs" />
     <Compile Include="Models\WebUser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Net.Http.Formatting;
 using System.Web.Http;
 using Newtonsoft.Json;
 
@@ -10,25 +8,34 @@ namespace WeListen.Web
     {
         public static void Register(HttpConfiguration config)
         {
+            //Remove xml
+            /*config.Formatters.Remove(config.Formatters.XmlFormatter);
+            
+            //Ignore
+            config.Formatters.JsonFormatter.SerializerSettings.ReferenceLoopHandling =
+                Newtonsoft.Json.ReferenceLoopHandling.Ignore;
 
-            var json = config.Formatters.JsonFormatter;
-            json.SerializerSettings.PreserveReferencesHandling = Newtonsoft.Json.PreserveReferencesHandling.Objects;
-            config.Formatters.Remove(config.Formatters.XmlFormatter);
+            var json = GlobalConfiguration.Configuration.Formatters.JsonFormatter;
+            json.SerializerSettings.PreserveReferencesHandling = Newtonsoft.Json.PreserveReferencesHandling.All;
+            json.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Serialize;
+            
+            
+            //Preserve
+            config.Formatters.JsonFormatter.SerializerSettings.ReferenceLoopHandling
+                = ReferenceLoopHandling.Serialize;
+
+            config.Formatters.JsonFormatter.SerializerSettings.PreserveReferencesHandling
+                = PreserveReferencesHandling.Objects;*/
+            
+            
 
             /*GlobalConfiguration.Configuration.Formatters.XmlFormatter.UseXmlSerializer = false;
             config.Formatters.Remove(config.Formatters.JsonFormatter);*/
 
-            JsonConvert.SerializeObject(config, Formatting.Indented,
-new JsonSerializerSettings()
-{
-    ReferenceLoopHandling = ReferenceLoopHandling.Serialize
-});
-   
-            config.Routes.MapHttpRoute(
-                name: "DefaultApi",
-                routeTemplate: "api/{controller}/{id}",
-                defaults: new { id = RouteParameter.Optional }
-            );
+
+
+            config.Routes.MapHttpRoute("DefaultApi", "api/{controller}/{id}", new {id = RouteParameter.Optional}
+                );
 
             // Uncomment the following line of code to enable query support for actions with an IQueryable or IQueryable<T> return type.
             // To avoid processing unexpected or malicious queries, use the validation settings on QueryableAttribute to validate incoming queries.

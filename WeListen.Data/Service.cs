@@ -1,9 +1,13 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity.Validation;
 using System.IO;
 using System.Linq;
+using System.Web.Script.Serialization;
+using Elmah.ContentSyndication;
+using Newtonsoft.Json;
 
 namespace WeListen.Data
 {
@@ -52,18 +56,22 @@ namespace WeListen.Data
         /// <returns>The playlist for the location id.</returns>
         public ICollection<LocationPlaylist> GetPlaylistByLocation(int locationId)
         {
-            return
+            return                
                 (from p in _context.LocationPlaylists where p.LocationCatalog.LocationId == locationId select p).ToList();
         }
-        
-        //Testing with IEnumerable
-        public IEnumerable<LocationPlaylist> GetPlaylistByLocation2(int locationId)
+       
+       
+        /// <summary>
+        /// Gets the artist name by identifier.
+        /// </summary>
+        /// <param name="artistId">The artist identifier.</param>
+        /// <returns>Artist name</returns>
+        public string GetArtistNameById(int artistId)
         {
-            return
-                (_context.LocationPlaylists.Where(p => p.LocationCatalog.LocationId == locationId)).ToList();
+            return (from a in _context.Artists where a.ArtistId == artistId select a.Name).Single();
         }
 
-    
+
         /// <summary>
         ///     Gets the playlist for a location using the location name.
         /// </summary>
@@ -512,7 +520,33 @@ namespace WeListen.Data
         /// <returns>User object</returns>
         public User GetUserByUserId(int userId)
         {
+            
             return (from u in _context.Users where u.UserId == userId select u).SingleOrDefault();
+        }
+
+
+        public string GetUserByUserId2(int userId)
+        {
+
+            ArrayList list = new ArrayList();
+            
+            var result = (_context.LocationPlaylists.Where(p => p.User.UserId == userId)
+                .Select(p => p.User.UserName)).ToList();
+
+            foreach (var item in result)
+            {
+
+                list.Add(item);
+            }
+            
+
+            var jsonSerialiser = new JavaScriptSerializer();
+            var json = jsonSerialiser.Serialize(list);
+
+
+            return (json);
+
+
         }
 
         /// <summary>
@@ -553,5 +587,9 @@ namespace WeListen.Data
                 return false;
             }
         }
+
+        
     }
+
+   
 }

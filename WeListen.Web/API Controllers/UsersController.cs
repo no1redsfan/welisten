@@ -31,7 +31,7 @@ namespace WeListen.Web.API_Controllers
         // GET api/users/5
         public string Get(int id)
         {
-            return "value";
+            return (_dataService.GetUserByUserId2(id));
         }
 
         // POST api/users

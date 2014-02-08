@@ -17,30 +17,57 @@
     <tr>
         <th>Current Queue</th>
     </tr>
+
     @foreach (LocationPlaylist song in Model.PlaylistQueue)
     {
-        <tr>
-            <td>
-                @song.LocationCatalog.Song.Title by @song.LocationCatalog.Song.Artist.Name
-            </td>
-        </tr>
-    }
+        try
+        {
 
+        
+        if (song == null || song.LocationCatalog.Song.Title == null || song.LocationCatalog.Song.Artist.Name == null)
+        {
+            continue;
+        }
+            <tr>
+                <td>
+                    @song.LocationCatalog.Song.Title by @song.LocationCatalog.Song.Artist.Name
+                </td>
+            </tr>
+    }
+        catch
+        {
+        }
+    }
 </table>
 <table style="float: right; width: 50%">
     <tr>
         <th>Available Songs</th>
     </tr>
-
+   
+        
+   
     @foreach (Song song in Model.Song)
     {
-        <tr>
-            <td>
-                @song.Title by @song.Artist.Name 
-                <input type="button" value="Queue" onclick="QueueSong(@ViewBag.LocationId, @song.SongId, @song.User.UserId)" /> 
-            </td>
-        </tr>
+        try
+        {
+            
+        
+        if (song == null || song.Title == null || song.Artist.Name == null)
+        {
+            continue;
+        }
+            <tr>
+                <td>
+                    @song.Title by @song.Artist.Name 
+                    <input type="button" value="Queue" onclick="QueueSong(@ViewBag.LocationId, @song.SongId, @song.User.UserId)" /> 
+                </td>
+            </tr>
     }
+        catch
+        {
+        }
+    } 
+   
 </table>
 
 
