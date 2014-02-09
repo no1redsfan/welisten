@@ -35,6 +35,14 @@ namespace WeListen.Web.Controllers
             return View(model);
         }
 
+        public JsonResult GetSongs()
+        {
+            ICollection<Song> s = _dataService.GetSongs();
+            //return num;
+            return Json(s, JsonRequestBehavior.AllowGet);
+
+        }
+
         /// <summary>
         /// Releases unmanaged resources and optionally releases managed resources.
         /// </summary>

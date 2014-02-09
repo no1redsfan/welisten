@@ -312,7 +312,6 @@
     <Content Include="Global.asax" />
     <None Include="Properties\PublishProfiles\Welisten.pubxml" />
     <Content Include="Scripts\app.js" />
-    <Content Include="Scripts\exampleCtrl.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -334,6 +333,7 @@
     <Content Include="Scripts\knockout-2.2.0.debug.js" />
     <Content Include="Scripts\knockout-2.2.0.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\SongCtrl.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

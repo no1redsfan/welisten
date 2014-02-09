@@ -27,8 +27,9 @@ namespace WeListen.Web.App_Start
             
             
 
-            /*GlobalConfiguration.Configuration.Formatters.XmlFormatter.UseXmlSerializer = false;
-            config.Formatters.Remove(config.Formatters.JsonFormatter);*/
+            GlobalConfiguration.Configuration.Formatters.XmlFormatter.UseXmlSerializer = false;
+            config.Formatters.Remove(config.Formatters.JsonFormatter);
+            
 
 
 

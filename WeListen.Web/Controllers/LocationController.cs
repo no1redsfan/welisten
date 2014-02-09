@@ -203,7 +203,7 @@ namespace WeListen.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(WebLocation location)
+        public ActionResult Edit(Location location)
         {
             try
             {
@@ -211,7 +211,7 @@ namespace WeListen.Web.Controllers
                 {
                     LocationId = location.LocationId,
                     Zipcode = location.Zipcode,
-                    Name = location.UserName,
+                    Name = location.Name,
                     CreatedByUserId = location.CreatedByUserId
                 });
 

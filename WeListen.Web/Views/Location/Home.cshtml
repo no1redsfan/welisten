@@ -113,10 +113,9 @@
             dataType: 'json',
             contentType: 'application/json; charset=utf-8',
             error: function (xhr) {
-                alert('Error: ' + xhr.statusText);
+                alert('Error adding song to queue: ' + xhr.statusText);
             },
             success: function (result) {
-                alert(result);
             },
             async: true,
             processData: false

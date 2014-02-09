@@ -5,9 +5,16 @@
 }
 
 <h2>All Songs</h2>
-<div align="center">
-    <input type="text" /> <input type="button"/>
+
+<div data-ng-controller="SongCtrl">
+    <h3>Songs</h3>
+    <ul>
+        <li data-ng-repeat="song in songs">
+            {{song.Title}}
+        </li>
+    </ul>
 </div>
+
 
 @*@using (Html.BeginForm("Queue", "Songs", FormMethod.Post))
 {

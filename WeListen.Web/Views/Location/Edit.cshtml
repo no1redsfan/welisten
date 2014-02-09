@@ -13,11 +13,12 @@
     <fieldset>
         <legend>DownTime</legend>
         @Html.HiddenFor(model => model.Location.LocationId)
+        @Html.HiddenFor(model => model.Location.CreatedByUserId)
         <div class="editor-label">
             @Html.LabelFor(model => model.Location.Name)
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.Location.Name)
+            @Html.EditorFor(model => model.Location.Name, new  {data_ng_model="name" })
             @Html.ValidationMessageFor(model => model.Location.Name)
         </div>
 
@@ -25,7 +26,7 @@
             @Html.LabelFor(model => model.Location.Zipcode)
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.Location.Zipcode)
+            @Html.EditorFor(model => model.Location.Zipcode, new  {data_ng_model="zipcode" })
             @Html.ValidationMessageFor(model => model.Location.Zipcode)
         </div>
 
