@@ -1,8 +1,6 @@
-﻿using System.Net.Http.Formatting;
-using System.Web.Http;
-using Newtonsoft.Json;
+﻿using System.Web.Http;
 
-namespace WeListen.Web
+namespace WeListen.Web.App_Start
 {
     public static class WebApiConfig
     {
